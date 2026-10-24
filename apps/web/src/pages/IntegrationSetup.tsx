@@ -55,6 +55,7 @@ export function IntegrationSetupPage() {
         ) : null}
         {ready ? (
           <IntegrationSetup
+            key={botId}
             botId={botId || undefined}
             onDone={() => navigate(bots.length ? "/app" : "/onboarding")}
           />

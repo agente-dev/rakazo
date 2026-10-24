@@ -719,6 +719,33 @@ export function PluginsOverlay({
             </div>
           ) : null}
 
+          {!detailItem ? (
+            <section className="mb-6 space-y-4">
+              <Button
+                type="button"
+                variant="secondary"
+                className="rounded-full"
+                size="sm"
+                aria-expanded={setupOpen}
+                onClick={() => setSetupOpen((current) => !current)}
+              >
+                <Trans>Connect apps</Trans>
+              </Button>
+              {setupOpen ? (
+                <IntegrationSetup
+                  key={activeBotId}
+                  botId={activeBotId}
+                  onDone={() => {
+                    setSetupOpen(false);
+                    void refresh().catch((err: unknown) =>
+                      setCatalogError(errorText(err, t`Could not load integrations`)),
+                    );
+                  }}
+                />
+              ) : null}
+            </section>
+          ) : null}
+
           {!detailItem && (mcpServers.length > 0 || mcpError) ? (
             <section data-testid="registered-mcp-servers" className="mb-6">
               <div className="mb-2 flex items-center justify-between gap-3">
@@ -863,7 +890,6 @@ export function PluginsOverlay({
                 onOpenChange={(open) => {
                   if (!open) {
                     setSourceKind(null);
-                    setSetupOpen(false);
                     setSourceError(null);
                     setSourceHint(null);
                     setSourceName("");
@@ -974,28 +1000,6 @@ export function PluginsOverlay({
                         ))}
                       </CardContent>
                     </Card>
-                  ) : null}
-
-                  <Button
-                    type="button"
-                    variant="secondary"
-                    className="rounded-full"
-                    size="sm"
-                    aria-expanded={setupOpen}
-                    onClick={() => setSetupOpen((current) => !current)}
-                  >
-                    <Trans>Browse MCP servers</Trans>
-                  </Button>
-                  {setupOpen ? (
-                    <IntegrationSetup
-                      botId={activeBotId}
-                      onDone={() => {
-                        setSetupOpen(false);
-                        void refresh().catch((err: unknown) =>
-                          setCatalogError(errorText(err, t`Could not load integrations`)),
-                        );
-                      }}
-                    />
                   ) : null}
 
                   <div data-testid="integrations-advanced-add" className="flex flex-wrap gap-2">

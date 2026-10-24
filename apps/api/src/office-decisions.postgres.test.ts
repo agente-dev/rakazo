@@ -25,6 +25,7 @@ import {
   findOfficeRequest,
   officeDecisionRunReportOnly,
   officeProtectedCallBlocked,
+  recordOfficeRequest,
   requireMembership,
   runAsSystem,
   runAsTenant,
@@ -429,6 +430,74 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
     };
   }
 
+  /** A late validated attestation reaches the real producer after delivery.
+   * Synthetic native rows exercise this permitted source state, not live Office scheduling.
+   */
+  async function conflictAfterDelivery(f: Awaited<ReturnType<typeof fixture>>) {
+    const before = await f.mutate(() =>
+      f.prisma.officeRequestReceipt.findUniqueOrThrow({
+        where: { spaceId_officeId_requestId: { spaceId: f.owner.spaceId, ...f.input } },
+      }),
+    );
+    expect(before.deliveryMessageId).not.toBeNull();
+    const conflict = await f.mutate(() =>
+      f.prisma.run.create({
+        data: {
+          spaceId: f.owner.spaceId,
+          userId: f.owner.userId,
+          botId: f.bot.id,
+          threadId: f.thread.id,
+          taskId: f.task.id,
+          sourceMessageId: f.human!.id,
+          trigger: "user",
+          status: "running",
+        },
+      }),
+    );
+    const recorded = await runAsTenant(f.owner, () =>
+      recordOfficeRequest(f.prisma, {
+        officeId: before.officeId,
+        requestId: before.requestId,
+        spaceId: before.spaceId,
+        userId: before.userId,
+        botId: before.botId,
+        serverId: before.serverId,
+        serverRevision: before.serverRevision,
+        runId: conflict.id,
+        runLeaseFence: conflict.leaseFence,
+        toolExecutionId: "late-conflicting-attestation",
+        toolName: before.toolName,
+      }),
+    );
+    expect(recorded).toBeNull();
+    await f.mutate(() =>
+      f.prisma.run.update({ where: { id: conflict.id }, data: { status: "completed" } }),
+    );
+    const after = await f.mutate(() =>
+      f.prisma.officeRequestReceipt.findUniqueOrThrow({
+        where: { spaceId_officeId_requestId: { spaceId: f.owner.spaceId, ...f.input } },
+      }),
+    );
+    expect(after).toMatchObject({
+      ambiguous: true,
+      decisionId: before.decisionId,
+      deliveryMessageId: before.deliveryMessageId,
+      deliveryRunId: before.deliveryRunId,
+    });
+    expect(await f.receipt()).toBeNull();
+    expect(await f.deliver()).toMatchObject({ state: "activity-only" });
+    const [message] = await f.messages();
+    expect(await f.messages()).toHaveLength(1);
+    expect(message!.id).toBe(before.deliveryMessageId);
+    expect(
+      await f.mutate(() =>
+        f.prisma.message.count({
+          where: { threadId: f.thread.id, role: "user", seq: { gt: message!.seq } },
+        }),
+      ),
+    ).toBe(0);
+  }
+
   it("persists a real marker, event and exact human/run/execution receipt from authenticated MCP result", async () => {
     const f = await fixture();
     await f.execute();
@@ -731,11 +800,12 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
     ).toMatchObject([{ runId: f.run.id, botId: f.bot.id }]);
   });
 
-  it("cannot turn rejection delivery into another protected call until a new human turn", async () => {
+  it.each([false, true])("guards calls after late conflict: %s", async (late) => {
     const f = await fixture();
     await f.execute();
     f.decide();
     await f.deliver();
+    if (late) await conflictAfterDelivery(f);
     expect(
       await runAsTenant(f.owner, () =>
         officeProtectedCallBlocked(f.prisma, f.run.id, f.bot.id, f.input.officeId),
@@ -955,6 +1025,12 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
       return output;
     });
     expect(events).toHaveLength(1);
+    expect(
+      await f.mutate(() =>
+        officeProtectedCallBlocked(f.prisma, f.run.id, f.bot.id, f.input.officeId),
+      ),
+    ).toBe(false);
+    expect(await f.mutate(() => officeDecisionRunReportOnly(f.prisma, f.run))).toBe(false);
     f.decide();
     expect(await f.receipt()).toBeNull();
     expect(await f.deliver()).toMatchObject({ state: "activity-only" });
@@ -989,12 +1065,13 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
     },
   );
 
-  it("keeps an integration-source report run tool-free even when a hostile offline runtime calls a hidden tool", async () => {
+  it.each([false, true])("keeps report-only after late conflict: %s", async (late) => {
     const f = await fixture();
     await f.execute();
     await f.settle();
     f.decide();
     await f.deliver();
+    if (late) await conflictAfterDelivery(f);
     const [message] = await f.messages();
     const run = await f.mutate(() =>
       f.prisma.run.findUniqueOrThrow({ where: { id: message!.runId! } }),
@@ -1076,6 +1153,7 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
     try {
       await f.mutate(() => executor.continueRun(run.id, "synthetic-worker"));
       expect(observed).toEqual([[]]);
+      expect(await f.mutate(() => officeDecisionRunReportOnly(f.prisma, run))).toBe(true);
       const audits = await f.mutate(() =>
         f.prisma.event.findMany({
           where: { runId: run.id, type: "agent.tool.completed" },
@@ -1093,6 +1171,17 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
           f.prisma.run.count({ where: { sourceMessageId: humanMessageId, status: "queued" } }),
         ),
       ).toBe(1);
+      const humanRun = await f.mutate(() =>
+        f.prisma.run.findFirstOrThrow({
+          where: { sourceMessageId: humanMessageId, status: "queued" },
+        }),
+      );
+      expect(await f.mutate(() => officeDecisionRunReportOnly(f.prisma, humanRun))).toBe(false);
+      expect(
+        await f.mutate(() =>
+          officeProtectedCallBlocked(f.prisma, humanRun.id, f.bot.id, f.input.officeId),
+        ),
+      ).toBe(false);
       expect(f.calls.filter((name) => name === "office_client_update")).toHaveLength(1);
     } finally {
       await realtime.close();
@@ -1259,11 +1348,12 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
     expect(await delivery).toMatchObject({ state: "native-send-accepted" });
     expect(await f.messages()).toHaveLength(1);
   });
-  it("does not block another requester bot or Office in the same group", async () => {
+  it.each([false, true])("isolates scope after late conflict: %s", async (late) => {
     const f = await fixture({ group: true });
     await f.execute();
     f.decide();
     await f.deliver();
+    if (late) await conflictAfterDelivery(f);
     const peerRun = await f.mutate(async () => {
       const task = await f.prisma.task.create({
         data: {

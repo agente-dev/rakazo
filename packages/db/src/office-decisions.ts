@@ -488,13 +488,13 @@ export async function officeProtectedCallBlocked(
     select: { threadId: true },
   });
   if (!run) return true;
+  // Ambiguity forbids new routing, not suppression for an already recorded effect.
   const receipts = await prisma.officeRequestReceipt.findMany({
     where: {
       threadId: run.threadId,
       botId,
       officeId,
       deliveryMessageId: { not: null },
-      ambiguous: false,
     },
     select: { deliveryMessageId: true },
   });
@@ -537,6 +537,7 @@ export async function officeDecisionRunReportOnly(
   },
 ) {
   if (!run.sourceMessageId) return false;
+  // The delivered system source stays report-only even if its origin later conflicts.
   const receipt = await prisma.officeRequestReceipt.findFirst({
     where: {
       deliveryMessageId: run.sourceMessageId,
@@ -544,7 +545,6 @@ export async function officeDecisionRunReportOnly(
       botId: run.botId,
       userId: run.userId,
       spaceId: run.spaceId,
-      ambiguous: false,
     },
     select: { decisionId: true },
   });

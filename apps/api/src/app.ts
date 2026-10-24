@@ -353,7 +353,6 @@ async function buildApp(overrides: CreateAppOverrides): Promise<AppHandles> {
       stdioEnabled: env.mcpStdioEnabled,
       allowedCommands: env.mcpStdioAllowedCommands,
       ...env.mcpStdio,
-      trustedNativeAuthority: env.authUrl,
       network: remoteConnectors,
       events,
       allowPrivateEndpoint: env.mcpAllowPrivateEndpoint,

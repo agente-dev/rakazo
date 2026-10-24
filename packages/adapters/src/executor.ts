@@ -127,6 +127,7 @@ import {
   isTooManyDatabaseConnections,
   loadRunHistoryMessages,
   loadRunTurnCheckpoint,
+  officeDecisionRunReportOnly,
   Prisma,
   parseComputerMode,
   RUN_TURN_CHECKPOINT_KIND,
@@ -4253,6 +4254,8 @@ export function createRunExecutor(deps: ExecutorDeps) {
         const sourceClientNonce = sourceMessage?.clientNonce ?? null;
         // A follow-up can be queued by a bot (group handoffs); only the user's own counts.
         const ownerStartedRun = isOwnerStartedRun(run.trigger, sourceMessage?.role === "user");
+        const officeDecisionReportOnly =
+          sourceMessage?.role === "system" && (await officeDecisionRunReportOnly(deps.prisma, run));
         // A hang-up run has no source message: its own nonce carries the call it closes.
         const callEndRun = run.trigger === "call_end";
         const callClientNonceForRun = callEndRun ? run.clientNonce : sourceClientNonce;
@@ -4433,7 +4436,10 @@ export function createRunExecutor(deps: ExecutorDeps) {
         // The intro turn confirms how a bot read its own role before anyone hands it
         // real work — it must not be able to act on that reading (shell, computer,
         // scheduling, spawning another bot, ...) before the user has assigned any task.
-        const tools = run.trigger === "created" ? [] : [...builtins, ...exposedConnectorTools];
+        const tools =
+          run.trigger === "created" || officeDecisionReportOnly
+            ? []
+            : [...builtins, ...exposedConnectorTools];
         const taskCatalogInstruction = tools.some((tool) => tool.name === "task_catalog")
           ? TASK_CATALOG_GUIDANCE
           : undefined;
@@ -4720,6 +4726,11 @@ export function createRunExecutor(deps: ExecutorDeps) {
           }
           if (name === "propose_instructions_update" && approvalPausePending)
             return pauseForApproval();
+          if (officeDecisionReportOnly) {
+            return {
+              error: "Office decision reporting is tool-free; a new human instruction is required.",
+            };
+          }
           if (disabledBuiltinTools.has(name)) {
             return { error: "This tool is disabled for this bot." };
           }

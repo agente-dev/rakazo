@@ -604,6 +604,7 @@ model Thread {
   unread                      Boolean    @default(false)
   /// Highest message seq the user has read; the "New" divider goes after it. -1 = none read.
   lastReadSeq                 Int        @default(-1)
+  officeRequestReceipts        OfficeRequestReceipt[]
   messages                    Message[]
   events                      Event[]
   tasks                       Task[]
@@ -1646,4 +1647,33 @@ model ModelCreditLot {
   @@index([organizationId, expiresAt])
   // Partial indexes for outstanding grants are managed in SQL migrations.
   @@map("model_credit_lots")
+}
+
+// Values-free integration provenance. Source ids remain tombstones after history clear.
+model OfficeRequestReceipt {
+  spaceId String
+  officeId String
+  requestId String
+  userId String
+  botId String
+  serverId String
+  serverRevision Int
+  threadId String
+  thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  groupId String?
+  runId String
+  toolExecutionId String
+  toolName String
+  humanMessageId String
+  messageId String
+  historyGeneration Int
+  decisionId String?
+  ambiguous Boolean @default(false)
+  deliveryMessageId String?
+  deliveryRunId String?
+  createdAt DateTime @default(now())
+
+  @@id([spaceId, officeId, requestId])
+  @@index([threadId])
+  @@map("office_request_receipts")
 }

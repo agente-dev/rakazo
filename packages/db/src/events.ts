@@ -426,113 +426,7 @@ export async function sendUserMessage(
 
   const commit = () =>
     prisma.$transaction(async (tx: Prisma.TransactionClient) => {
-      // Message first: its thread-row lock serializes the whole send against clearThread, so a
-      // concurrent clear either sees the committed run and cancels it, or strictly precedes this
-      // transaction. Created in separate transactions, the run could land inside the clear's
-      // window and later repopulate the cleared conversation, and a clear could strand the
-      // message without its event.
-      const message = await createThreadMessageInTransaction(tx, {
-        threadId: input.threadId,
-        role: "user",
-        blocks: input.blocks,
-        clientNonce: input.clientNonce,
-      });
-      const createRun = input.createRun !== false;
-      // Include the creation intro. It has no tools, so it must not absorb the message, and a
-      // second run would overlap it on a dedicated computer. Pending steering waits for the
-      // continuation that starts when the intro finishes.
-      const activeRuns =
-        createRun && !input.allowParallelRun
-          ? await tx.run.findMany({
-              where: {
-                threadId: input.threadId,
-                botId: input.botId,
-                status: {
-                  in: [...QUEUE_HOLDING_RUN_STATUSES],
-                },
-              },
-              select: { id: true, taskId: true, trigger: true },
-            })
-          : [];
-      // Steer a conversational run when there is one; a routine, webhook, or intro turn only holds the queue.
-      const busy =
-        activeRuns.find((run) => isConversationalRun(run.trigger)) ?? activeRuns[0] ?? null;
-      let task = null;
-      let run = null;
-      if (createRun && !busy) {
-        task = await tx.task.create({
-          data: {
-            spaceId: input.spaceId,
-            botId: input.botId,
-            threadId: input.threadId,
-            userId: input.userId,
-            prompt: input.prompt,
-            status: "queued",
-          },
-        });
-        run = await tx.run.create({
-          data: {
-            spaceId: input.spaceId,
-            botId: input.botId,
-            threadId: input.threadId,
-            taskId: task.id,
-            userId: input.userId,
-            status: "queued",
-            trigger: input.trigger,
-            clientNonce: input.clientNonce ? `send:${message.id}` : undefined,
-            sourceMessageId: message.id,
-            ...(input.modelPin
-              ? {
-                  modelProvider: input.modelPin.modelProvider,
-                  modelId: input.modelPin.modelId,
-                  thinkingLevel: input.modelPin.thinkingLevel,
-                  modelPinned: true,
-                }
-              : {}),
-          },
-        });
-        if (input.linkMessageToRun) {
-          await tx.message.update({ where: { id: message.id }, data: { runId: run.id } });
-        }
-      } else if (createRun && busy) {
-        const held = input.trigger === "webhook" || !isConversationalRun(busy.trigger);
-        await tx.steeringMessage.create({
-          data: {
-            messageId: message.id,
-            botId: input.botId,
-            userId: input.userId,
-            // External deliveries retain their origin and never become app follow-ups.
-            runId: held ? null : busy.id,
-            ...(input.trigger === "messaging" || input.trigger === "webhook"
-              ? { originTrigger: input.trigger }
-              : {}),
-            ...(input.modelPin
-              ? {
-                  modelProvider: input.modelPin.modelProvider,
-                  modelId: input.modelPin.modelId,
-                  thinkingLevel: input.modelPin.thinkingLevel,
-                }
-              : {}),
-          },
-        });
-        await tx.message.update({ where: { id: message.id }, data: { runId: busy.id } });
-      }
-      const event = await appendEventInTransaction(tx, {
-        spaceId: input.spaceId,
-        threadId: input.threadId,
-        botId: input.botId,
-        type: "thread.message.created",
-        runId: run?.id ?? busy?.id,
-        payload: {
-          messageId: message.id,
-          role: "user",
-          blocks: input.blocks,
-          // Carries the call id on the live event so a spoken turn groups into the
-          // call card immediately, instead of after a refetch reads the nonce.
-          callId: callIdFromClientNonce(message.clientNonce),
-        },
-      });
-      return { message, task, run, busy, event };
+      return sendMessageInTransaction(tx, input);
     });
   const committed = await commit().catch(async (error) => {
     const winner = await replay();
@@ -555,6 +449,136 @@ export async function sendUserMessage(
     taskId: committed.task?.id ?? null,
     runId: committed.run?.id ?? committed.busy?.id ?? null,
   };
+}
+
+/** Existing sender transaction shared with bounded server-side integration delivery.
+ * The integration caller must validate its source under the thread lock first.
+ * Never expose attribution or routing overrides as ordinary send input.
+ */
+export async function sendMessageInTransaction(
+  tx: Prisma.TransactionClient,
+  input: SendUserMessageInput,
+  integration?: {
+    replyToMessageId: string;
+    decision: {
+      officeId: string;
+      requestId: string;
+      decisionId: string;
+      byUserId: string;
+      bySpaceId: string;
+    };
+  },
+) {
+  // Message first: its thread-row lock serializes the whole send against clearThread, so a
+  // concurrent clear either sees the committed run and cancels it, or strictly precedes this
+  // transaction. Created in separate transactions, the run could land inside the clear's
+  // window and later repopulate the cleared conversation, and a clear could strand the
+  // message without its event.
+  const message = await createThreadMessageInTransaction(tx, {
+    threadId: input.threadId,
+    role: integration ? "system" : "user",
+    blocks: input.blocks,
+    clientNonce: input.clientNonce,
+    replyToMessageId: integration?.replyToMessageId,
+  });
+  const createRun = input.createRun !== false;
+  // Include the creation intro. It has no tools, so it must not absorb the message, and a
+  // second run would overlap it on a dedicated computer. Pending steering waits for the
+  // continuation that starts when the intro finishes.
+  const activeRuns =
+    createRun && !input.allowParallelRun
+      ? await tx.run.findMany({
+          where: {
+            threadId: input.threadId,
+            botId: input.botId,
+            status: {
+              in: [...QUEUE_HOLDING_RUN_STATUSES],
+            },
+          },
+          select: { id: true, taskId: true, trigger: true },
+        })
+      : [];
+  // Steer a conversational run when there is one; a routine, webhook, or intro turn only holds the queue.
+  const busy = activeRuns.find((run) => isConversationalRun(run.trigger)) ?? activeRuns[0] ?? null;
+  let task = null;
+  let run = null;
+  if (createRun && !busy) {
+    task = await tx.task.create({
+      data: {
+        spaceId: input.spaceId,
+        botId: input.botId,
+        threadId: input.threadId,
+        userId: input.userId,
+        prompt: input.prompt,
+        status: "queued",
+      },
+    });
+    run = await tx.run.create({
+      data: {
+        spaceId: input.spaceId,
+        botId: input.botId,
+        threadId: input.threadId,
+        taskId: task.id,
+        userId: input.userId,
+        status: "queued",
+        trigger: input.trigger,
+        clientNonce: input.clientNonce ? `send:${message.id}` : undefined,
+        sourceMessageId: message.id,
+        ...(input.modelPin
+          ? {
+              modelProvider: input.modelPin.modelProvider,
+              modelId: input.modelPin.modelId,
+              thinkingLevel: input.modelPin.thinkingLevel,
+              modelPinned: true,
+            }
+          : {}),
+      },
+    });
+    if (input.linkMessageToRun) {
+      await tx.message.update({ where: { id: message.id }, data: { runId: run.id } });
+    }
+  } else if (createRun && busy) {
+    const held = input.trigger === "webhook" || !isConversationalRun(busy.trigger);
+    await tx.steeringMessage.create({
+      data: {
+        messageId: message.id,
+        botId: input.botId,
+        userId: input.userId,
+        // External deliveries retain their origin and never become app follow-ups.
+        runId: held ? null : busy.id,
+        ...(input.trigger === "messaging" || input.trigger === "webhook"
+          ? { originTrigger: input.trigger }
+          : {}),
+        ...(input.modelPin
+          ? {
+              modelProvider: input.modelPin.modelProvider,
+              modelId: input.modelPin.modelId,
+              thinkingLevel: input.modelPin.thinkingLevel,
+            }
+          : {}),
+      },
+    });
+    await tx.message.update({ where: { id: message.id }, data: { runId: busy.id } });
+  }
+  const event = await appendEventInTransaction(tx, {
+    spaceId: input.spaceId,
+    threadId: input.threadId,
+    botId: input.botId,
+    type: "thread.message.created",
+    runId: run?.id ?? busy?.id,
+    payload: {
+      messageId: message.id,
+      role: integration ? "system" : "user",
+      blocks: input.blocks,
+      ...(integration
+        ? { officeDecision: integration.decision, replyToMessageId: integration.replyToMessageId }
+        : {}),
+      // Carries the call id on the live event so a spoken turn groups into the
+      // call card immediately, instead of after a refetch reads the nonce.
+      callId: callIdFromClientNonce(message.clientNonce),
+    },
+  });
+  return { message, task, run, busy, event };
 }
 
 export async function claimSteering(

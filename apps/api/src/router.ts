@@ -291,6 +291,7 @@ import {
   serializeSpaceMemoryConfig,
   updateMemoryProviderDefaultScope,
 } from "./memory-provider-config.js";
+import { deliverOfficeRejection } from "./office-decisions.js";
 import {
   chooseFocus,
   dismissFocus,
@@ -686,7 +687,10 @@ export interface RouterDeps {
    * is visible (`mcp.servers.test` and the probe after create/update/OAuth). Without it
    * servers are simply never probed from here.
    */
-  mcp?: Pick<McpConnector, "probe">;
+  mcp?: Pick<McpConnector, "probe"> &
+    Partial<
+      Pick<McpConnector, "officeBindingFor" | "officeBindingsForActor" | "readOfficeDecision">
+    >;
   connectors: ConnectorRegistry;
   remoteConnectors?: RemoteConnectorDependencies;
   artifacts: ArtifactStore;
@@ -2402,6 +2406,28 @@ export function createRouter(deps: RouterDeps) {
       }),
       remove: authed.botSections.remove.handler(async ({ context, input }) =>
         repos.deleteBotSection(context.actor, input),
+      ),
+    },
+    officeDecisions: {
+      deliverRejected: authed.officeDecisions.deliverRejected.handler(
+        async ({ context, input }) => {
+          const mcp =
+            deps.mcp?.officeBindingFor &&
+            deps.mcp.officeBindingsForActor &&
+            deps.mcp.readOfficeDecision
+              ? {
+                  officeBindingFor: deps.mcp.officeBindingFor.bind(deps.mcp),
+                  officeBindingsForActor: deps.mcp.officeBindingsForActor.bind(deps.mcp),
+                  readOfficeDecision: deps.mcp.readOfficeDecision.bind(deps.mcp),
+                }
+              : undefined;
+          return deliverOfficeRejection(
+            { ...deps, mcp },
+            context.actor,
+            input,
+            context.signal ?? new AbortController().signal,
+          );
+        },
       ),
     },
     threads: {

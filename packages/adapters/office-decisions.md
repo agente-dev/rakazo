@@ -45,7 +45,7 @@ and the queried active employee principal. Return no client values, proposed
 fields, history, names or directory. An arbitrary echoed native space is not proof.
 
 A real human-origin native run is required. Native stores the exact source,
-marker, run, execution and history fence in a transaction; background-only runs
+marker, run, executor-issued lease fence, execution and history fence in a transaction; background-only runs
 remain in Activity. A failed native receipt write preserves the already successful
 Office pending response and must not repeat the protected mutation.
 
@@ -69,7 +69,8 @@ Responses contain only `state` and `retryable`. State is `activity-only`,
 not Office approve/reject or a protected write. The receipt effect deduplicates
 concurrent tabs/reload/retry. Native acceptance does not establish model receipt,
 a successful report or later no-retry behavior. Actual semantic acceptance uses
-an opt-in provider-neutral versioned rubric, never prose keyword grading.
+an opt-in provider-neutral versioned rubric, never prose keyword grading. Judge
+costs are reported separately; judge/provider errors remain unqualified.
 
 The decision-source report turn exposes no tools and refuses hidden tool dispatch.
 An existing active conversational run uses native steering and a bound protected-

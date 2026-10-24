@@ -237,6 +237,7 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
     });
     context.botId = rows.bot.id;
     context.runId = rows.run.id;
+    context.runLeaseFence = rows.run.leaseFence;
     let status: OfficeDecisionRead["status"] = "pending";
     let decisionId: string | null = null;
     let authorized = true,
@@ -1136,5 +1137,46 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
         f.prisma.message.findMany({ where: { threadId: f.thread.id } }),
       ),
     ).toEqual([]);
+  });
+  it("preserves pending but refuses a late MCP result from a superseded native run lease", async () => {
+    const f = await fixture();
+    f.onPendingResponse(() =>
+      f.mutate(async () => {
+        await f.prisma.run.update({
+          where: { id: f.run.id },
+          data: { leaseFence: { increment: 1 } },
+        });
+      }),
+    );
+    expect(await f.execute()).toMatchObject([{ type: "result" }]);
+    expect(f.calls.filter((tool) => tool === "office_client_update")).toHaveLength(1);
+    expect(await f.receipt()).toBeNull();
+    expect(
+      await f.mutate(() =>
+        f.prisma.message.count({ where: { threadId: f.thread.id, role: "bot" } }),
+      ),
+    ).toBe(0);
+  });
+
+  it("keeps a context without an executor-issued lease fence in Activity", async () => {
+    const f = await fixture();
+    expect(await f.execute({ runLeaseFence: undefined })).toMatchObject([{ type: "result" }]);
+    expect(await f.receipt()).toBeNull();
+  });
+  it("keeps an identical execution replay idempotent after a valid new native lease", async () => {
+    const f = await fixture();
+    await f.execute();
+    const original = (await f.receipt())!;
+    const resumed = await f.mutate(() =>
+      f.prisma.run.update({ where: { id: f.run.id }, data: { leaseFence: { increment: 1 } } }),
+    );
+    f.context.runLeaseFence = resumed.leaseFence;
+    await f.execute();
+    expect(await f.receipt()).toEqual(original);
+    expect(
+      await f.mutate(() =>
+        f.prisma.message.count({ where: { threadId: f.thread.id, role: "bot" } }),
+      ),
+    ).toBe(1);
   });
 });

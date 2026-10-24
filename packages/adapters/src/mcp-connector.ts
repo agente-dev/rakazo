@@ -664,7 +664,11 @@ export class McpConnector implements ConnectorProvider {
       });
       // Only this real authenticated assigned-server result can create provenance.
       // Persistence/read failure must not repeat a tool that may already have committed.
-      if (officeBinding?.protectedTools.includes(toolName) && context.runId) {
+      if (
+        officeBinding?.protectedTools.includes(toolName) &&
+        context.runId &&
+        context.runLeaseFence !== undefined
+      ) {
         const pending = officeMcpJson(result);
         if (
           pending?.pending === true &&
@@ -688,6 +692,7 @@ export class McpConnector implements ConnectorProvider {
                 serverId: assignment.server.id,
                 serverRevision: assignment.server.revision,
                 runId: context.runId,
+                runLeaseFence: context.runLeaseFence,
                 toolExecutionId: call.executionId,
                 toolName,
               });

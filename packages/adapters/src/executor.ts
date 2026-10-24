@@ -3889,6 +3889,7 @@ export function createRunExecutor(deps: ExecutorDeps) {
           userId: run.userId,
           botId: bot.id,
           runId,
+          runLeaseFence: fence,
           screenLeaseId: screenLeaseIdForRun(computerLease, runId, fence),
           signal: runAbortController.signal,
           ...connectedContext(connectedPlugins),
@@ -4254,8 +4255,11 @@ export function createRunExecutor(deps: ExecutorDeps) {
         const sourceClientNonce = sourceMessage?.clientNonce ?? null;
         // A follow-up can be queued by a bot (group handoffs); only the user's own counts.
         const ownerStartedRun = isOwnerStartedRun(run.trigger, sourceMessage?.role === "user");
+        // Unrelated system follow-ups do not opt into this optional integration.
         const officeDecisionReportOnly =
-          sourceMessage?.role === "system" && (await officeDecisionRunReportOnly(deps.prisma, run));
+          sourceMessage?.role === "system" &&
+          sourceMessage.clientNonce?.startsWith("office-decision:v1:") &&
+          (await officeDecisionRunReportOnly(deps.prisma, run));
         // A hang-up run has no source message: its own nonce carries the call it closes.
         const callEndRun = run.trigger === "call_end";
         const callClientNonceForRun = callEndRun ? run.clientNonce : sourceClientNonce;

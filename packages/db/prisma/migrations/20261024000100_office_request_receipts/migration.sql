@@ -10,6 +10,7 @@ CREATE TABLE "office_request_receipts" (
   "threadId" TEXT NOT NULL REFERENCES "threads"("id") ON DELETE CASCADE,
   "groupId" TEXT,
   "runId" TEXT NOT NULL,
+  "runLeaseFence" INTEGER NOT NULL,
   "toolExecutionId" TEXT NOT NULL,
   "toolName" TEXT NOT NULL,
   "humanMessageId" TEXT NOT NULL,

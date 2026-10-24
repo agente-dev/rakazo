@@ -34,6 +34,7 @@ export const OfficeRequestProvenance = z.object({
   threadId: identity,
   groupId: identity.nullable(),
   runId: identity,
+  runLeaseFence: z.number().int().nonnegative(),
   toolExecutionId: identity,
   toolName: identity,
   humanMessageId: identity,

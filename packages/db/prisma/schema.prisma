@@ -1662,6 +1662,7 @@ model OfficeRequestReceipt {
   thread Thread @relation(fields: [threadId], references: [id], onDelete: Cascade)
   groupId String?
   runId String
+  runLeaseFence Int
   toolExecutionId String
   toolName String
   humanMessageId String

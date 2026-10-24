@@ -32,6 +32,8 @@ export async function recordOfficeRequest(prisma: PrismaClient, source: OfficeRe
   return withTransactionRetry(() =>
     prisma.$transaction(async (tx) => {
       await tx.$queryRaw`SELECT id FROM threads WHERE id = ${hint.threadId} FOR UPDATE`;
+      await tx.$queryRaw`SELECT id FROM runs WHERE id = ${source.runId}
+        AND "spaceId" = ${source.spaceId} AND "userId" = ${source.userId} FOR SHARE`;
       const run = await tx.run.findFirst({
         where: {
           id: source.runId,
@@ -40,6 +42,7 @@ export async function recordOfficeRequest(prisma: PrismaClient, source: OfficeRe
           botId: source.botId,
           threadId: hint.threadId,
           status: "running",
+          leaseFence: source.runLeaseFence,
           trigger: { in: ["user", "follow_up", "reaction"] },
         },
         include: { sourceMessage: true, thread: true },
@@ -73,11 +76,6 @@ export async function recordOfficeRequest(prisma: PrismaClient, source: OfficeRe
         ))
       )
         return null;
-      const key = {
-        spaceId: source.spaceId,
-        officeId: source.officeId,
-        requestId: source.requestId,
-      };
       // The request key serializes separate threads as well as retries of this execution.
       await tx.$queryRaw`SELECT pg_advisory_xact_lock(hashtext(${`office:${source.officeId}:${source.requestId}`}))::text`;
       const existingRows = await runAsSystemInTransaction(
@@ -93,7 +91,11 @@ export async function recordOfficeRequest(prisma: PrismaClient, source: OfficeRe
       if (existing) {
         if (existing.ambiguous) return null;
         const parsed = Provenance.safeParse({ ...existing, version: 1 });
-        if (existingRows.length !== 1 || !parsed.success || !sameSource(parsed.data, candidate)) {
+        if (
+          existingRows.length !== 1 ||
+          !parsed.success ||
+          !sameSource({ ...parsed.data, runLeaseFence: source.runLeaseFence }, candidate)
+        ) {
           await runAsSystemInTransaction(
             tx,
             "Office receipt: reject exact conflicting request",
@@ -186,6 +188,7 @@ function sameSource(a: OfficeRequestProvenance, b: OfficeRequestProvenance) {
     a.threadId === b.threadId &&
     a.groupId === b.groupId &&
     a.runId === b.runId &&
+    a.runLeaseFence === b.runLeaseFence &&
     a.toolExecutionId === b.toolExecutionId &&
     a.toolName === b.toolName &&
     a.humanMessageId === b.humanMessageId &&

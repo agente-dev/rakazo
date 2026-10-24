@@ -737,7 +737,9 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
     f.decide();
     await f.deliver();
     expect(
-      await runAsTenant(f.owner, () => officeProtectedCallBlocked(f.prisma, f.run.id, f.bot.id)),
+      await runAsTenant(f.owner, () =>
+        officeProtectedCallBlocked(f.prisma, f.run.id, f.bot.id, f.input.officeId),
+      ),
     ).toBe(true);
     const blocked = await f.execute();
     expect(blocked).toMatchObject([{ type: "error" }]);
@@ -750,7 +752,9 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
       }),
     );
     expect(
-      await runAsTenant(f.owner, () => officeProtectedCallBlocked(f.prisma, f.run.id, f.bot.id)),
+      await runAsTenant(f.owner, () =>
+        officeProtectedCallBlocked(f.prisma, f.run.id, f.bot.id, f.input.officeId),
+      ),
     ).toBe(false);
   });
 
@@ -1254,5 +1258,50 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
     }
     expect(await delivery).toMatchObject({ state: "native-send-accepted" });
     expect(await f.messages()).toHaveLength(1);
+  });
+  it("does not block another requester bot or Office in the same group", async () => {
+    const f = await fixture({ group: true });
+    await f.execute();
+    f.decide();
+    await f.deliver();
+    const peerRun = await f.mutate(async () => {
+      const task = await f.prisma.task.create({
+        data: {
+          spaceId: f.owner.spaceId,
+          userId: f.owner.userId,
+          botId: f.peer!.id,
+          threadId: f.thread.id,
+          prompt: "Independent synthetic task",
+          status: "running",
+        },
+      });
+      return f.prisma.run.create({
+        data: {
+          spaceId: f.owner.spaceId,
+          userId: f.owner.userId,
+          botId: f.peer!.id,
+          threadId: f.thread.id,
+          taskId: task.id,
+          status: "running",
+          trigger: "user",
+          sourceMessageId: f.human!.id,
+        },
+      });
+    });
+    expect(
+      await f.mutate(() =>
+        officeProtectedCallBlocked(f.prisma, f.run.id, f.bot.id, f.input.officeId),
+      ),
+    ).toBe(true);
+    expect(
+      await f.mutate(() =>
+        officeProtectedCallBlocked(f.prisma, peerRun.id, f.peer!.id, f.input.officeId),
+      ),
+    ).toBe(false);
+    expect(
+      await f.mutate(() =>
+        officeProtectedCallBlocked(f.prisma, f.run.id, f.bot.id, "another-office"),
+      ),
+    ).toBe(false);
   });
 });

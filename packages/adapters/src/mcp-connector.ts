@@ -644,7 +644,12 @@ export class McpConnector implements ConnectorProvider {
     if (
       officeBinding?.protectedTools.includes(call.route.toolName) &&
       context.runId &&
-      (await officeProtectedCallBlocked(this.prisma, context.runId, context.botId))
+      (await officeProtectedCallBlocked(
+        this.prisma,
+        context.runId,
+        context.botId,
+        officeBinding.officeId,
+      ))
     ) {
       yield { type: "error", message: "A rejected Office change requires a new human instruction" };
       return;

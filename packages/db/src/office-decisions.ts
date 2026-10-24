@@ -481,17 +481,33 @@ export async function officeProtectedCallBlocked(
   prisma: PrismaClient,
   runId: string,
   botId: string,
+  officeId: string,
 ) {
   const run = await prisma.run.findFirst({
     where: { id: runId, botId },
     select: { threadId: true },
   });
   if (!run) return true;
+  const receipts = await prisma.officeRequestReceipt.findMany({
+    where: {
+      threadId: run.threadId,
+      botId,
+      officeId,
+      deliveryMessageId: { not: null },
+      ambiguous: false,
+    },
+    select: { deliveryMessageId: true },
+  });
+  if (!receipts.length) return false;
   const decision = await prisma.message.findFirst({
     where: {
       threadId: run.threadId,
       role: "system",
-      clientNonce: { startsWith: "office-decision:v1:" },
+      id: {
+        in: receipts.flatMap((receipt) =>
+          receipt.deliveryMessageId ? [receipt.deliveryMessageId] : [],
+        ),
+      },
     },
     orderBy: { seq: "desc" },
     select: { seq: true },

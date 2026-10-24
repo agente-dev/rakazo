@@ -230,6 +230,7 @@ import { cloudflareGatewayProviderEnv } from "./cloudflare-ai-gateway.js";
 import type { PluginConnectionRow } from "./composio-connector.js";
 import {
   collectLogIds,
+  composioGmailApprovalRequired,
   mergeConnectedPlugins,
   needsLivePluginSync,
   planLiveConnectionSync,
@@ -5038,7 +5039,17 @@ export function createRunExecutor(deps: ExecutorDeps) {
             siteGate === "new" ||
             connectorReadGated ||
             toolRequiresApproval(name, viaConnector, declaredReadOnly);
+          let gmailApprovalRequired: boolean;
+          try {
+            gmailApprovalRequired = composioGmailApprovalRequired(
+              { ...connectorCall, args },
+              deps.connector,
+            );
+          } catch (error) {
+            return { error: sanitizeConnectorError(error) };
+          }
           const requiresMandatoryApproval =
+            gmailApprovalRequired ||
             commandWatch ||
             scheduleNamesNewSite ||
             requiresUnattendedApproval ||

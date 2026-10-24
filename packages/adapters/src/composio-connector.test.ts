@@ -462,9 +462,20 @@ describe("composio tool mapping", () => {
     composioSdkState.sessions.clear();
     composioToolkitDirectory.invalidate();
     const restore = stubActiveAccounts(["ca-work"]);
+    composioSdkState.connectedAccounts.list = async () => ({
+      items: [
+        {
+          id: "ca-work",
+          status: "ACTIVE",
+          isDisabled: false,
+          toolkit: { slug: "gmail" },
+          authConfig: { id: "approved-auth", isDisabled: false },
+        },
+      ],
+    });
 
     try {
-      const connector = new ComposioConnector();
+      const connector = new ComposioConnector({ authConfigs: { gmail: "approved-auth" } });
       await connector.discoverTools({
         operationId: "composio-single-account",
         traceId: "composio-single-account",
@@ -485,6 +496,7 @@ describe("composio tool mapping", () => {
       expect(composioSdkState.created.at(-1)).toEqual({
         userId: "user-1",
         config: {
+          authConfigs: { gmail: "approved-auth" },
           manageConnections: false,
           sandbox: { enable: false },
           toolkits: ["GMAIL"],
@@ -947,7 +959,13 @@ describe("composio tool mapping", () => {
     composioSdkState.sessions.clear();
     composioToolkitDirectory.invalidate();
     composioSdkState.connectedAccounts.list = async () => ({
-      items: [{ id: "ca-personal" }, { id: "ca-work" }],
+      items: ["ca-personal", "ca-work"].map((id) => ({
+        id,
+        status: "ACTIVE",
+        isDisabled: false,
+        toolkit: { slug: "gmail" },
+        authConfig: { id: "approved-auth", isDisabled: false },
+      })),
     });
     composioSdkState.connectedAccounts.waitForConnection = async (id: string) => {
       if (id === "req-work") return { id: "ca-work" };
@@ -955,7 +973,7 @@ describe("composio tool mapping", () => {
       return { id: `resolved-${id}` };
     };
 
-    const connector = new ComposioConnector();
+    const connector = new ComposioConnector({ authConfigs: { gmail: "approved-auth" } });
     await expect(
       connector.resolveConnectedAccountId("user-1", "gmail", "req-work", ["ca-personal"]),
     ).resolves.toBe("ca-work");

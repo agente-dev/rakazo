@@ -61,6 +61,7 @@ type Effect = {
 function fixture({
   name = "demo_get_item",
   catalog = false,
+  connectorId = "demo",
   readOnly = true,
   rules = [] as ActionApprovalRule[],
   autoReview = false,
@@ -105,6 +106,7 @@ function fixture({
   advanceRevisionAfterRead?: boolean;
   name?: string;
   catalog?: boolean;
+  connectorId?: string;
   readOnly?: boolean;
   rules?: ActionApprovalRule[];
   autoReview?: boolean;
@@ -124,7 +126,7 @@ function fixture({
       properties: { id: { type: "string" } },
       required: ["id"],
     },
-    route: { connectorId: "demo", resourceId: "resource-1", toolName: name },
+    route: { connectorId, resourceId: "resource-1", toolName: name },
   };
   const effects: Effect[] = [];
   const results: unknown[] = [];
@@ -337,7 +339,7 @@ function fixture({
       const result = call.name
         ? await request.executeTool!(call.name, call.args, call.executionId)
         : await request.executeTool!(
-            catalog ? "demo_execute_tool" : name,
+            catalog ? `${connectorId}_execute_tool` : name,
             catalog ? { id: `resource-1:${name}`, arguments: call.args } : call.args,
             call.executionId,
           );
@@ -366,10 +368,10 @@ function fixture({
           : catalog
             ? [
                 {
-                  name: "demo_execute_tool",
+                  name: `${connectorId}_execute_tool`,
                   description: "Execute a catalog tool",
                   inputSchema: { type: "object" },
-                  route: { connectorId: "demo", toolName: "__catalog_execute" },
+                  route: { connectorId, toolName: "__catalog_execute" },
                 },
               ]
             : secondResource
@@ -430,6 +432,7 @@ function fixture({
   } as unknown as Parameters<typeof createRunExecutor>[0]);
   return {
     effects,
+    tool,
     web,
     fetchedUrls,
     fleetBots,
@@ -1820,5 +1823,178 @@ describe("Auto Review of new sites", () => {
         error: "Fetching attacker.test needs approval, and a webhook run cannot ask.",
       });
     });
+  });
+});
+
+describe("Composio Gmail mandatory approval floor", () => {
+  beforeEach(() => {
+    reviewMock.mockReset();
+    reviewMock.mockResolvedValue({ decision: "pass", reason: "synthetic pass" });
+  });
+  for (const catalog of [false, true]) {
+    for (const name of ["GMAIL_GET_MESSAGE", "COMPOSIO_MULTI_EXECUTE_TOOL"]) {
+      it(`requires human Gmail approval before ${catalog ? "lazy" : "direct"} ${name} with empty cached rules and confirm`, async () => {
+        const f = fixture({ name, connectorId: "composio", catalog, autoReview: true });
+        const args =
+          name === "GMAIL_GET_MESSAGE"
+            ? { id: "original", confirm: true }
+            : {
+                id: "original",
+                tools: [
+                  {
+                    tool_slug: "GMAIL_SEND_EMAIL",
+                    arguments: { to: "synthetic@example.test", confirm: true },
+                  },
+                  { tool_slug: "GITHUB_GET_REPOS", arguments: {} },
+                ],
+              };
+        f.setCalls([{ args, executionId: "gmail-1" }]);
+        await f.run();
+        expect(f.execute).not.toHaveBeenCalled();
+        expect(f.pauseRunForInput).toHaveBeenCalledOnce();
+        expect(reviewMock).not.toHaveBeenCalled();
+        expect(f.effects).toHaveLength(1);
+        f.effects[0]!.status = "approved";
+        f.setCalls([
+          {
+            args: {
+              id: "substituted",
+              tools: [{ tool_slug: "GMAIL_SEND_EMAIL", arguments: { to: "other@example.test" } }],
+            },
+            executionId: "gmail-2",
+          },
+        ]);
+        await f.run();
+        expect(f.execute).toHaveBeenCalledOnce();
+        expect(f.execute.mock.calls[0]![0].args).toEqual(args);
+        f.setCalls([{ args, executionId: "gmail-3" }]);
+        await f.run();
+        expect(f.execute).toHaveBeenCalledOnce();
+        expect(f.results.at(-1)).toEqual({ item: "original" });
+      });
+    }
+    it(`preserves Gmail denial on ${catalog ? "lazy" : "direct"} dispatch`, async () => {
+      const f = fixture({
+        name: "GMAIL_GET_MESSAGE",
+        connectorId: "composio",
+        catalog,
+        autoReview: true,
+      });
+      f.setCalls([{ args: { id: "item-1", confirm: true }, executionId: "deny-first" }]);
+      await f.run();
+      expect(f.effects).toHaveLength(1);
+      f.effects[0]!.status = "denied";
+      f.setCalls([{ args: { id: "item-1", confirm: true }, executionId: "denied-retry" }]);
+      await f.run();
+      expect(f.execute).not.toHaveBeenCalled();
+      expect(f.results.at(-1)).toMatchObject({ error: expect.stringContaining("denied") });
+    });
+  }
+  it("leaves unrelated Composio reads and namespace collisions ordinary", async () => {
+    for (const [connectorId, name] of [
+      ["composio", "GITHUB_GET_REPOS"],
+      ["demo", "GMAIL_GET_MESSAGE"],
+    ]) {
+      const f = fixture({ connectorId, name, autoReview: true });
+      await f.run();
+      expect(f.execute).toHaveBeenCalledOnce();
+      expect(f.pauseRunForInput).not.toHaveBeenCalled();
+    }
+  });
+  it.each([
+    {},
+    { tools: "opaque-gmail-target" },
+    {
+      tools: [
+        {
+          tool_slug: "COMPOSIO_MULTI_EXECUTE_TOOL",
+          arguments: { tools: [{ tool_slug: "GMAIL_SEND_EMAIL", arguments: {} }] },
+        },
+      ],
+    },
+  ])("refuses opaque nested execution before effects or transport: %j", async (args) => {
+    const f = fixture({
+      connectorId: "composio",
+      name: "COMPOSIO_MULTI_EXECUTE_TOOL",
+      autoReview: true,
+    });
+    f.setCalls([{ args: { id: "original", ...args }, executionId: "opaque" }]);
+    await f.run();
+    expect(f.execute).not.toHaveBeenCalled();
+    expect(f.effects).toHaveLength(0);
+    expect(f.results.at(-1)).toMatchObject({
+      error: expect.stringContaining("explicit tool targets"),
+    });
+  });
+  it("does not broaden Gmail approval to metadata discovery or unrelated multi-execute", async () => {
+    for (const name of ["COMPOSIO_SEARCH_TOOLS", "COMPOSIO_MULTI_EXECUTE_TOOL"]) {
+      const f = fixture({ connectorId: "composio", name, autoReview: true });
+      f.setCalls([
+        {
+          args: { id: "metadata", tools: [{ tool_slug: "GITHUB_GET_REPOS", arguments: {} }] },
+          executionId: "other-app",
+        },
+      ]);
+      await f.run();
+      expect(f.execute).toHaveBeenCalledOnce();
+      expect(f.pauseRunForInput).not.toHaveBeenCalled();
+    }
+  });
+  it("ignores an always-allow rule and mutable read-only hint for Gmail", async () => {
+    const f = fixture({
+      connectorId: "composio",
+      name: "GMAIL_GET_MESSAGE",
+      readOnly: true,
+      autoReview: true,
+      rules: [{ effect: "always_allow", matchKind: "tool", matchValue: "GMAIL_GET_MESSAGE" }],
+    });
+    await f.run();
+    expect(f.execute).not.toHaveBeenCalled();
+    expect(f.pauseRunForInput).toHaveBeenCalledOnce();
+    expect(reviewMock).not.toHaveBeenCalled();
+  });
+  it("enforces Gmail in an already-running attempt after rules were cached empty", async () => {
+    const rules: ActionApprovalRule[] = [];
+    const f = fixture({
+      connectorId: "composio",
+      name: "GMAIL_GET_MESSAGE",
+      secondResource: true,
+      autoReview: true,
+      rules,
+    });
+    f.setCalls([
+      { name: "demo_get_other", args: { id: "warm-rules" }, executionId: "warm" },
+      { args: { id: "gmail", confirm: true }, executionId: "gmail" },
+    ]);
+    await f.run();
+    expect(f.execute.mock.calls.map(([call]) => call.tool)).toEqual(["demo_get_other"]);
+    expect(f.pauseRunForInput).toHaveBeenCalledOnce();
+    expect(reviewMock).not.toHaveBeenCalled();
+  });
+  it("refuses native target substitution before dispatching an approved Gmail effect", async () => {
+    const f = fixture({ connectorId: "composio", name: "GMAIL_GET_MESSAGE" });
+    await f.run();
+    f.effects[0]!.status = "approved";
+    f.tool.route!.resourceRevision = "changed-native-account";
+    f.setCalls([{ args: { id: "item-1" }, executionId: "cancelled-lease-replay" }]);
+    await f.run(true);
+    expect(f.execute).not.toHaveBeenCalled();
+    expect(f.results.at(-1)).toMatchObject({
+      error: expect.stringContaining("different connector resource"),
+    });
+  });
+  it("cancels Gmail before an approved replay can dispatch", async () => {
+    const stop = new AbortController();
+    const f = fixture({
+      connectorId: "composio",
+      name: "GMAIL_GET_MESSAGE",
+      shutdownSignal: stop.signal,
+    });
+    await f.run();
+    f.effects[0]!.status = "approved";
+    stop.abort();
+    f.setCalls([{ args: { id: "item-1" }, executionId: "cancelled-replay" }]);
+    await f.run(true);
+    expect(f.execute).not.toHaveBeenCalled();
   });
 });

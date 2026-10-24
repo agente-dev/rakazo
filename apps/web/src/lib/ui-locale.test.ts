@@ -41,6 +41,12 @@ describe("normalizeUiLocale", () => {
     expect(normalizeUiLocale("ja")).toBe("ja");
     expect(normalizeUiLocale("ja-JP")).toBe("ja");
     expect(normalizeUiLocale("ja_JP")).toBe("ja");
+    expect(normalizeUiLocale("pl")).toBe("pl");
+    expect(normalizeUiLocale("pl-PL")).toBe("pl");
+    expect(normalizeUiLocale("pl_PL")).toBe("pl");
+    expect(normalizeUiLocale("uk")).toBe("uk");
+    expect(normalizeUiLocale("uk-UA")).toBe("uk");
+    expect(normalizeUiLocale("uk_UA")).toBe("uk");
     expect(normalizeUiLocale("iw")).toBe("he");
     expect(normalizeUiLocale("iw-IL")).toBe("he");
     expect(normalizeUiLocale("zh-CN")).toBe("zh-CN");

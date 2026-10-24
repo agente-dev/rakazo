@@ -1,0 +1,5570 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2026-10-24 11:16+0300\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: uk\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: src/pages/shell/sidebar-roster.tsx
+msgid " (unread)"
+msgstr " (непрочитано)"
+
+#. placeholder {0}: pinned.length
+#: src/pages/model-settings/space-bots-model.tsx
+msgid "{0, plural, one {# bot has its own model:} other {# bots have their own model:}}"
+msgstr "{0, plural, one {# бот має власну модель:} few {# боти мають власні моделі:} many {# ботів мають власні моделі:} other {# бота мають власні моделі:}}"
+
+#. placeholder {0}: health.toolCount
+#: src/components/McpServerHealthLine.tsx
+msgid "{0, plural, one {Running · # tool} other {Running · # tools}}"
+msgstr "{0, plural, one {Працює · # інструмент} few {Працює · # інструменти} many {Працює · # інструментів} other {Працює · # інструмента}}"
+
+#. placeholder {0}: pinned.length
+#: src/pages/model-settings/space-bots-model.tsx
+msgid "{0, plural, one {Switch # bot to the space default?} other {Switch # bots to the space default?}}"
+msgstr "{0, plural, one {Перемкнути # бота на типову модель простору?} few {Перемкнути # ботів на типову модель простору?} many {Перемкнути # ботів на типову модель простору?} other {Перемкнути # бота на типову модель простору?}}"
+
+#. placeholder {0}: Math.ceil(oauth.expiresInSeconds / 60)
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "{0, plural, one {Waiting for sign-in — the code expires in about # minute.} other {Waiting for sign-in — the code expires in about # minutes.}}"
+msgstr "{0, plural, one {Очікуємо на вхід — код спливе приблизно за # хвилину.} few {Очікуємо на вхід — код спливе приблизно за # хвилини.} many {Очікуємо на вхід — код спливе приблизно за # хвилин.} other {Очікуємо на вхід — код спливе приблизно за # хвилини.}}"
+
+#. placeholder {0}: Math.ceil(oauth.expiresInSeconds / 60)
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "{0, plural, one {Waiting for sign-in — the link expires in about # minute.} other {Waiting for sign-in — the link expires in about # minutes.}}"
+msgstr "{0, plural, one {Очікуємо на вхід — посилання спливе приблизно за # хвилину.} few {Очікуємо на вхід — посилання спливе приблизно за # хвилини.} many {Очікуємо на вхід — посилання спливе приблизно за # хвилин.} other {Очікуємо на вхід — посилання спливе приблизно за # хвилини.}}"
+
+#. placeholder {0}: file.name
+#: src/pages/Shell.tsx
+msgid "{0} (max {ATTACHMENT_MAX_COUNT} attachments)"
+msgstr "{0} (макс. {ATTACHMENT_MAX_COUNT} вкладень)"
+
+#. placeholder {0}: file.name
+#. placeholder {1}: attachmentSizeLabel(attachmentMaxBytes(bootstrapMe))
+#: src/pages/Shell.tsx
+msgid "{0} (over {1})"
+msgstr "{0} (понад {1})"
+
+#. placeholder {0}: preset.n
+#: src/pages/RoutineSchedule.tsx
+msgid "{0} {unitLabel}"
+msgstr "{0} {unitLabel}"
+
+#. placeholder {0}: block.name
+#: src/pages/shell/message-cards.tsx
+msgid "{0} connection"
+msgstr "Підключення {0}"
+
+#. placeholder {0}: bot.name
+#: src/pages/ExternalConversationSettings.tsx
+msgid "{0} default"
+msgstr "{0} за замовчуванням"
+
+#. placeholder {0}: sender.name
+#: src/pages/ExternalConversationSettings.tsx
+msgid "{0} handling"
+msgstr "Обробка {0}"
+
+#. placeholder {0}: bot.name
+#: src/components/call/IncomingCall.tsx
+msgid "{0} is calling you"
+msgstr "{0} дзвонить вам"
+
+#. placeholder {0}: updated.name
+#: src/pages/McpServersOverlay.tsx
+msgid "{0} is not working"
+msgstr "{0} не працює"
+
+#. placeholder {0}: updated.name
+#: src/pages/McpServersOverlay.tsx
+msgid "{0} is running"
+msgstr "{0} працює"
+
+#. placeholder {0}: format(size / 1024)
+#: src/components/ArtifactFileCard.tsx
+msgid "{0} KB"
+msgstr "{0} КБ"
+
+#. placeholder {0}: format(size / (1024 * 1024))
+#: src/components/ArtifactFileCard.tsx
+msgid "{0} MB"
+msgstr "{0} МБ"
+
+#. placeholder {0}: sender.name
+#: src/pages/ExternalConversationSettings.tsx
+msgid "{0} rollup hours"
+msgstr "{0} год. зведення"
+
+#. placeholder {0}: usage.runs
+#. placeholder {1}: usage.totalTokens ?? "—"
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "{0} runs · {1} tokens"
+msgstr "Запусків: {0} · токенів: {1}"
+
+#. placeholder {0}: bot.name
+#: src/pages/ExternalConversationSettings.tsx
+msgid "{0} will still respond to direct mentions."
+msgstr "{0} все одно відповідатиме на прямі згадки."
+
+#. placeholder {0}: bot.name
+#: src/pages/shell/computer-panel.tsx
+msgid "{0}'s screen"
+msgstr "Екран {0}"
+
+#: src/lib/billing.ts
+msgid "{amount} / {period}"
+msgstr "{amount} / {period}"
+
+#: src/pages/shell/computer-view.tsx
+msgid "{botName}’s computer"
+msgstr "Комп’ютер {botName}"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "{commandVariable} is reserved and cannot be used as a command variable. Choose another name."
+msgstr "{commandVariable} зарезервовано, її не можна використовувати як змінну команди. Виберіть іншу назву."
+
+#: src/lib/billing.ts
+msgid "{count} days"
+msgstr "{count} дн."
+
+#: src/lib/billing.ts
+msgid "{count} months"
+msgstr "{count} міс."
+
+#: src/lib/billing.ts
+msgid "{count} weeks"
+msgstr "{count} тиж."
+
+#: src/lib/billing.ts
+msgid "{count} years"
+msgstr "{count} р."
+
+#: src/lib/relative-time.ts
+msgid "{days}d ago"
+msgstr "{days} дн. тому"
+
+#: src/components/ToolActivityDisclosure.tsx
+msgid "{hidden, plural, one {+# earlier step} other {+# earlier steps}}"
+msgstr "{hidden, plural, one {+# попередній крок} few {+# попередні кроки} many {+# попередніх кроків} other {+# попереднього кроку}}"
+
+#: src/lib/relative-time.ts
+msgid "{hours}h ago"
+msgstr "{hours} год. тому"
+
+#: src/lib/relative-time.ts
+msgid "{minutes}m ago"
+msgstr "{minutes} хв. тому"
+
+#: src/pages/model-settings/space-bots-model.tsx
+msgid "{moved, plural, one {# bot now uses the space default.} other {# bots now use the space default.}}"
+msgstr "{moved, plural, one {Тепер # бот використовує типову модель простору.} few {Тепер # боти використовують типову модель простору.} many {Тепер # ботів використовують типову модель простору.} other {Тепер # бота використовують типову модель простору.}}"
+
+#: src/lib/activity-list-filters.ts
+msgid "{name} asked"
+msgstr "{name} запитує"
+
+#: src/lib/activity-list-filters.ts
+msgid "{name} asked: {text}"
+msgstr "{name} запитує: {text}"
+
+#. js-lingui-explicit-id
+#: src/lib/browser-notifications.ts
+msgid "{name} failed"
+msgstr "{name}: помилка"
+
+#. js-lingui-explicit-id
+#: src/lib/browser-notifications.ts
+msgid "{name} finished"
+msgstr "{name}: завершено"
+
+#. js-lingui-explicit-id
+#: src/lib/browser-notifications.ts
+msgid "{name} stopped"
+msgstr "{name}: зупинено"
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} could not find the requested model."
+msgstr "{provider} не вдалося знайти запитану модель."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} denied access to this model."
+msgstr "{provider} заборонив доступ до цієї моделі."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} is overloaded right now. Try again in a moment."
+msgstr "{provider} зараз перевантажено. Спробуйте ще раз за мить."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} is rate limiting requests. Try again shortly."
+msgstr "{provider} обмежує частоту запитів. Невдовзі спробуйте ще раз."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} key hit its daily limit."
+msgstr "Ключ {provider} вичерпав денний ліміт."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} key hit its limit."
+msgstr "Ключ {provider} вичерпав ліміт."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} key hit its monthly limit."
+msgstr "Ключ {provider} вичерпав місячний ліміт."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} key hit its weekly limit."
+msgstr "Ключ {provider} вичерпав тижневий ліміт."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} reached its credit limit."
+msgstr "{provider} досяг кредитного ліміту."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} reached its daily credit limit."
+msgstr "{provider} досяг денного кредитного ліміту."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} reached its daily spending limit."
+msgstr "{provider} досяг денного ліміту витрат."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} reached its monthly credit limit."
+msgstr "{provider} досяг місячного кредитного ліміту."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} reached its monthly spending limit."
+msgstr "{provider} досяг місячного ліміту витрат."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} reached its spending limit."
+msgstr "{provider} досяг ліміту витрат."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} reached its weekly credit limit."
+msgstr "{provider} досяг тижневого кредитного ліміту."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} reached its weekly spending limit."
+msgstr "{provider} досяг тижневого ліміту витрат."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} rejected the API key. Check your connection settings."
+msgstr "{provider} відхилив API-ключ. Перевірте налаштування підключення."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{provider} took too long to respond. Try again."
+msgstr "{provider} надто довго не відповідав. Спробуйте ще раз."
+
+#: src/components/teach/TeachRecordingChrome.tsx
+msgid "{remaining} left · bot is watching, not acting"
+msgstr "Залишилося: {remaining} · бот спостерігає, але не діє"
+
+#: src/pages/BillingSettingsPanel.tsx
+msgid "{seats, plural, one {# seat} other {# seats}}"
+msgstr "{seats, plural, one {# місце} few {# місця} many {# місць} other {# місця}}"
+
+#: src/components/ArtifactFileCard.tsx
+msgid "{size} B"
+msgstr "{size} Б"
+
+#: src/components/ToolActivityDisclosure.tsx
+msgid "{stepCount, plural, one {Done · # tool} other {Done · # tools}}"
+msgstr "{stepCount, plural, one {Готово · # інструмент} few {Готово · # інструменти} many {Готово · # інструментів} other {Готово · # інструмента}}"
+
+#: src/components/ToolActivityDisclosure.tsx
+msgid "{stepCount, plural, one {Working… · # tool} other {Working… · # tools}}"
+msgstr "{stepCount, plural, one {Працює… · # інструмент} few {Працює… · # інструменти} many {Працює… · # інструментів} other {Працює… · # інструмента}}"
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{summary} Backup models failed or were unavailable for this request."
+msgstr "{summary} Резервні моделі не спрацювали або були недоступні для цього запиту."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{summary} No backup model was usable for this request."
+msgstr "{summary} Жодну резервну модель не вдалося використати для цього запиту."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{summary} Resets {date}."
+msgstr "{summary} Скидається {date}."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "{summary} Your backup models also failed."
+msgstr "{summary} Ваші резервні моделі також не спрацювали."
+
+#: src/pages/ActivityList.tsx
+msgid "{title}, {label}"
+msgstr "{title}, {label}"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "{toolCount, plural, one {# tool} other {# tools}}"
+msgstr "{toolCount, plural, one {# інструмент} few {# інструменти} many {# інструментів} other {# інструмента}}"
+
+#. placeholder {0}: mention.name
+#: src/pages/shell/composer.tsx
+msgid "@{0}"
+msgstr "@{0}"
+
+#. placeholder {0}: amount / 100
+#: src/components/ModelCredits.tsx
+msgid "${0} / month"
+msgstr "${0} / міс."
+
+#. placeholder {0}: amount / 100
+#: src/components/ModelCredits.tsx
+msgid "${0} in monthly model credits. No API key needed."
+msgstr "${0} щомісячних кредитів на моделі. API-ключ не потрібен."
+
+#: src/pages/shell/message-cards.tsx
+msgid "A bit of everything"
+msgstr "Трохи всього"
+
+#: src/pages/RoutineEditor.tsx
+msgid "A command's output"
+msgstr "Вивід команди"
+
+#. placeholder {0}: oauth.verificationUri.replace(/^https:\/\//, "")
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "A sign-in tab opened at <0>{0}</0>. Enter this code there — this window keeps waiting:"
+msgstr "Відкрилася вкладка входу на <0>{0}</0>. Уведіть туди цей код — це вікно продовжує очікувати:"
+
+#: src/pages/model-settings/use-model-settings.ts
+msgid "A subscription credential is stored securely."
+msgstr "Облікові дані підписки надійно збережено."
+
+#: src/components/InfoTooltip.tsx
+msgid "About {label}"
+msgstr "Про {label}"
+
+#: src/pages/shell/bot-picker.tsx
+msgid "About groups"
+msgstr "Про групи"
+
+#: src/pages/shell/bot-picker.tsx
+msgid "About spaces"
+msgstr "Про простори"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Access token (optional)"
+msgstr "Токен доступу (необов’язково)"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Account"
+msgstr "Обліковий запис"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Account default"
+msgstr "Обліковий запис за замовчуванням"
+
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Account ID"
+msgstr "Ідентифікатор облікового запису"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Account label"
+msgstr "Мітка облікового запису"
+
+#: src/components/SidebarFooter.tsx
+msgid "Account menu for {name}"
+msgstr "Меню облікового запису для {name}"
+
+#. placeholder {0}: bot.name
+#. placeholder {0}: group.spaceName
+#. placeholder {0}: section.name
+#: src/pages/BotContextMenu.tsx
+#: src/pages/shell/sidebar-roster.tsx
+msgid "Actions for {0}"
+msgstr "Дії для {0}"
+
+#: src/pages/Shell.tsx
+msgid "Actions for space"
+msgstr "Дії для простору"
+
+#: src/pages/BillingSettingsPanel.tsx
+#: src/pages/RoutineEditor.tsx
+msgid "Active"
+msgstr "Активний"
+
+#: src/pages/ModelSettingsOverlay.tsx
+msgid "Active model"
+msgstr "Активна модель"
+
+#: src/pages/shell/sidebar-header.tsx
+msgid "Activity"
+msgstr "Активність"
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/ScratchpadSection.tsx
+msgid "Add"
+msgstr "Додати"
+
+#. placeholder {0}: bot.name
+#: src/pages/GroupPanel.tsx
+msgid "Add {0} to the group"
+msgstr "Додати {0} до групи"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Add a command to run"
+msgstr "Додати команду для виконання"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Add a file or folder to watch"
+msgstr "Додайте файл або папку для відстеження"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Add a label"
+msgstr "Додати мітку"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Add a model in Settings to use this."
+msgstr "Додайте модель у налаштуваннях, щоб скористатися цим."
+
+#: src/components/PasskeyOffer.tsx
+msgid "Add a passkey for faster sign-in?"
+msgstr "Додати ключ доступу для швидшого входу?"
+
+#: src/pages/shell/use-routine-editor.ts
+msgid "Add a run time for this one-shot."
+msgstr "Додайте час виконання для цього разового запуску."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Add a server name."
+msgstr "Додайте назву сервера."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Add a stdio command."
+msgstr "Додайте команду stdio."
+
+#: src/pages/RoutineEditor.tsx
+#: src/pages/shell/use-routine-editor.ts
+msgid "Add a trigger to run this routine."
+msgstr "Додайте тригер для запуску цієї рутини."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Add an HTTPS server URL."
+msgstr "Додайте HTTPS-адресу сервера."
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Add another"
+msgstr "Додати ще один"
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Add backup model"
+msgstr "Додати резервну модель"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Add credential"
+msgstr "Додати облікові дані"
+
+#: src/components/ModelCredits.tsx
+msgid "Add credits"
+msgstr "Додати кредити"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Add Executor"
+msgstr "Додати Executor"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Add GraphQL"
+msgstr "Додати GraphQL"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Add GraphQL endpoint"
+msgstr "Додати ендпоінт GraphQL"
+
+#: src/components/ModelHeadersEditor.tsx
+msgid "Add header"
+msgstr "Додати заголовок"
+
+#: src/pages/ScratchpadSection.tsx
+msgid "Add item"
+msgstr "Додати елемент"
+
+#: src/components/integrations/IntegrationSetup.tsx
+#: src/pages/PluginsOverlay.tsx
+msgid "Add MCP server"
+msgstr "Додати сервер MCP"
+
+#: src/pages/ScratchpadSection.tsx
+msgid "Add open work"
+msgstr "Додати завдання"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Add OpenAPI"
+msgstr "Додати OpenAPI"
+
+#: src/components/PasskeyOffer.tsx
+#: src/components/PasskeySettings.tsx
+msgid "Add passkey"
+msgstr "Додати ключ доступу"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Add remote MCP server"
+msgstr "Додати віддалений сервер MCP"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Add server"
+msgstr "Додати сервер"
+
+#: src/components/integrations/IntegrationSetup.tsx
+msgid "Add server URL"
+msgstr "Додати URL-адресу сервера"
+
+#: src/components/teach/SkillDraftCard.tsx
+msgid "Add to routine"
+msgstr "Додати до рутини"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Add Treg"
+msgstr "Додати Treg"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Add trigger"
+msgstr "Додати тригер"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Added"
+msgstr "Додано"
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
+msgid "Adding…"
+msgstr "Додавання…"
+
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/model-settings/catalog-model-fields.tsx
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/RoutineEditor.tsx
+#: src/pages/RoutineSchedule.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Advanced"
+msgstr "Розширені"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Advanced..."
+msgstr "Розширені..."
+
+#: src/pages/Shell.tsx
+msgid "Agent computer"
+msgstr "Комп’ютер агента"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Agent connections"
+msgstr "Підключення агента"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Agents:"
+msgstr "Агенти:"
+
+#: src/pages/Artifacts.tsx
+msgid "All bots"
+msgstr "Усі боти"
+
+#: src/pages/model-settings/provider-list.tsx
+msgid "All providers"
+msgstr "Усі провайдери"
+
+#: src/pages/ActivityList.tsx
+msgid "All statuses"
+msgstr "Усі статуси"
+
+#: src/pages/Artifacts.tsx
+msgid "All time"
+msgstr "Весь час"
+
+#. placeholder {0}: rule.matchValue
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Allow {0} actions without asking"
+msgstr "Дозволити дії {0} без запиту"
+
+#. placeholder {0}: rule.matchValue
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Allow {0} connector without asking"
+msgstr "Дозволити з’єднувач {0} без запиту"
+
+#. placeholder {0}: rule.matchValue
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Allow {0} without asking"
+msgstr "Дозволити {0} без запиту"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Allow cross-space bot communication"
+msgstr "Дозволити спілкування ботів між просторами"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Allow email actions without asking"
+msgstr "Дозволити дії з електронною поштою без запиту"
+
+#: src/components/AskCard.tsx
+msgid "Allow once"
+msgstr "Дозволити один раз"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Allow purchase actions without asking"
+msgstr "Дозволити дії з покупками без запиту"
+
+#: src/pages/memory-providers/SerenitySettingsForm.tsx
+msgid "Allow writing"
+msgstr "Дозволити запис"
+
+#: src/components/AskCard.tsx
+msgid "Allowed once"
+msgstr "Дозволено один раз"
+
+#: src/pages/Auth.tsx
+msgid "Already have an account?"
+msgstr "Вже маєте обліковий запис?"
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Always act"
+msgstr "Завжди виконувати"
+
+#: src/components/AskCard.tsx
+msgid "Always allow {site}"
+msgstr "Завжди дозволяти {site}"
+
+#: src/components/AskCard.tsx
+msgid "Always allow this tool"
+msgstr "Завжди дозволяти цей інструмент"
+
+#: src/components/AskCard.tsx
+msgid "Always allowed"
+msgstr "Завжди дозволено"
+
+#: src/lib/model-connection-preflight.ts
+msgid "An API key is stored for this provider, not a subscription sign-in."
+msgstr "Для цього провайдера збережено API-ключ, а не вхід за підпискою."
+
+#: src/pages/memory-providers/HonchoSettingsForm.tsx
+msgid "An existing Honcho peer to read from. Rakazo never writes to it."
+msgstr "Наявний вузол Honcho для читання. Rakazo ніколи не записує до нього."
+
+#: src/pages/RoutineEditor.tsx
+msgid "An integration tool"
+msgstr "Інструмент інтеграції"
+
+#: src/lib/activity-list-filters.ts
+msgid "Another agent"
+msgstr "Інший агент"
+
+#: src/components/AskCard.tsx
+msgid "Answer"
+msgstr "Відповідь"
+
+#: src/components/call/IncomingCall.tsx
+msgctxt "incoming call"
+msgid "Answer"
+msgstr "Відповісти"
+
+#: src/components/AskCard.tsx
+msgid "Answered"
+msgstr "Дано відповідь"
+
+#. placeholder {0}: selectedAskActionLabel(answer, actions)
+#: src/components/AskCard.tsx
+msgid "Answered: {0}"
+msgstr "Відповідь: {0}"
+
+#: src/components/AskCard.tsx
+msgid "Answered: {answer}"
+msgstr "Відповідь: {answer}"
+
+#: src/pages/Onboarding.tsx
+msgid "Anthropic API"
+msgstr "Anthropic API"
+
+#: src/pages/Paywall.tsx
+msgid "Any model, with your own key"
+msgstr "Будь-яка модель, зі своїм ключем"
+
+#: src/components/AskCard.tsx
+#: src/lib/localized-provider-hint.ts
+#: src/pages/memory-providers/HonchoSettingsForm.tsx
+#: src/pages/model-settings/compatible-key-field.tsx
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "API key"
+msgstr "API-ключ"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "API key header"
+msgstr "Заголовок API-ключа"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Appearance"
+msgstr "Зовнішній вигляд"
+
+#: src/components/AskCard.tsx
+msgid "Apply"
+msgstr "Застосувати"
+
+#: src/components/teach/SkillDraftCard.tsx
+msgid "Approval boundaries"
+msgstr "Межі схвалення"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+#: src/pages/shell/message-cards.tsx
+msgid "Approve"
+msgstr "Схвалити"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Approve this server to let your agent use its tools."
+msgstr "Схваліть цей сервер, щоб ваш агент міг використовувати його інструменти."
+
+#: src/pages/BotContextMenu.tsx
+msgid "Archive"
+msgstr "Архівувати"
+
+#: src/pages/shell/message-view.tsx
+msgid "archived"
+msgstr "в архіві"
+
+#: src/pages/shell/archived-chats.tsx
+msgid "Archived"
+msgstr "В архіві"
+
+#: src/pages/shell/message-view.tsx
+msgid "Archived. Chat, memory, and files kept."
+msgstr "В архіві. Чат, пам’ять і файли збережено."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Arguments"
+msgstr "Аргументи"
+
+#: src/components/SidebarFooter.tsx
+#: src/pages/Artifacts.tsx
+msgid "Artifacts"
+msgstr "Артефакти"
+
+#. placeholder {0}: rule.matchValue
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Ask before {0}"
+msgstr "Питати перед {0}"
+
+#. placeholder {0}: rule.matchValue
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Ask before {0} actions"
+msgstr "Питати перед діями {0}"
+
+#. placeholder {0}: rule.matchValue
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Ask before {0} connector"
+msgstr "Питати перед з’єднувачем {0}"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Ask before email actions"
+msgstr "Питати перед діями з електронною поштою"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Ask before purchase actions"
+msgstr "Питати перед діями з покупками"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Ask before purchases"
+msgstr "Питати перед покупками"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Ask before sending external email"
+msgstr "Питати перед надсиланням зовнішніх листів"
+
+#. placeholder {0}: preset.time
+#: src/pages/RoutineSchedule.tsx
+msgid "at {0}"
+msgstr "о {0}"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "at {timeSelect}"
+msgstr "о {timeSelect}"
+
+#: src/pages/shell/composer.tsx
+msgid "Attach file"
+msgstr "Прикріпити файл"
+
+#: src/pages/shell/chat-context.tsx
+#: src/pages/shell/chat-shared.ts
+msgid "Attachment"
+msgstr "Вкладення"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Authentication failed."
+msgstr "Помилка автентифікації."
+
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Authorization code or callback URL"
+msgstr "Код авторизації або URL повернення"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Authorization parameters (optional)"
+msgstr "Параметри авторизації (необов’язково)"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Authorization server"
+msgstr "Сервер авторизації"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Authorization timed out. Please try again."
+msgstr "Час очікування авторизації минув. Спробуйте ще раз."
+
+#: src/pages/shell/message-cards.tsx
+msgid "Authorize"
+msgstr "Авторизувати"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Authorize this server so agents can use its tools. A popup opens."
+msgstr "Авторизуйте цей сервер, щоб агенти могли використовувати його інструменти. Відкриється спливне вікно."
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Automated senders"
+msgstr "Автоматичні відправники"
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Automated senders will appear after they post here."
+msgstr "Автоматичні відправники з’являться після того, як напишуть тут."
+
+#: src/pages/RoutineEditor.tsx
+msgid "Available after the routine is saved"
+msgstr "Доступно після збереження рутини"
+
+#: src/components/ModelCredits.tsx
+msgid "Available credits"
+msgstr "Доступні кредити"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Available to this bot's shell commands as {commandVariable}"
+msgstr "Доступно командам оболонки цього бота як {commandVariable}"
+
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Avatar Studio"
+msgstr "Студія аватарів"
+
+#: src/pages/Auth.tsx
+#: src/pages/Board.tsx
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/RoutineEditor.tsx
+msgid "Back"
+msgstr "Назад"
+
+#: src/pages/Auth.tsx
+msgid "Back to sign in"
+msgstr "Повернутися до входу"
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Backup models"
+msgstr "Резервні моделі"
+
+#: src/pages/memory-providers/ConnectionModeFields.tsx
+msgid "Base URL"
+msgstr "Базова URL-адреса"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Basic auth"
+msgstr "Базова автентифікація"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Basic auth ({username})"
+msgstr "Базова автентифікація ({username})"
+
+#: src/pages/memory-providers/SerenitySettingsForm.tsx
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/shell/bot-credentials.tsx
+msgid "Bearer token"
+msgstr "Токен Bearer"
+
+#: src/pages/SettingsOverlay.tsx
+msgid "Billing"
+msgstr "Платежі"
+
+#: src/lib/ticket-status.ts
+msgid "Blocked"
+msgstr "Заблоковано"
+
+#: src/components/SidebarFooter.tsx
+#: src/pages/Board.tsx
+msgid "Board"
+msgstr "Дошка"
+
+#: src/pages/Shell.tsx
+#: src/pages/shell/computer-view.tsx
+msgid "Booting live desktop…"
+msgstr "Завантаження робочого столу…"
+
+#: src/pages/shell/message-view.tsx
+msgid "bot"
+msgstr "бот"
+
+#: src/lib/identity-display.ts
+#: src/pages/IntegrationSetup.tsx
+#: src/pages/Shell.tsx
+#: src/pages/shell/avatar-studio-popover.tsx
+#: src/pages/shell/message-view.tsx
+msgid "Bot"
+msgstr "Бот"
+
+#. js-lingui-explicit-id
+#: src/lib/browser-notifications.ts
+msgid "Bot"
+msgstr "Бот"
+
+#: src/pages/model-settings/space-bots-model.tsx
+msgid "Bot models"
+msgstr "Моделі ботів"
+
+#: src/pages/shell/computer-overlay.tsx
+msgid "Bot screen"
+msgstr "Екран бота"
+
+#: src/pages/shell/computer-panel.tsx
+msgid "Bot screen preview"
+msgstr "Попередній перегляд екрана бота"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Bot to link"
+msgstr "Бот для прив’язування"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Bot's model"
+msgstr "Модель бота"
+
+#: src/components/SignupSurvey.tsx
+msgid "Both"
+msgstr "Обидва"
+
+#: src/pages/Artifacts.tsx
+msgid "Bots"
+msgstr "Боти"
+
+#: src/components/ModelCredits.tsx
+msgid "Bots and browser automation"
+msgstr "Боти та автоматизація браузера"
+
+#: src/pages/Paywall.tsx
+msgid "Bots with their own computer and browser"
+msgstr "Боти з власним комп’ютером і браузером"
+
+#: src/pages/memory-providers/SerenitySettingsForm.tsx
+msgid "Brain label"
+msgstr "Назва мозку"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Browse MCP servers"
+msgstr "Переглянути сервери MCP"
+
+#: src/pages/KnowledgeSection.tsx
+msgid "Built-in"
+msgstr "Вбудований"
+
+#: src/pages/Shell.tsx
+msgid "Call"
+msgstr "Дзвонити"
+
+#: src/components/call/VoiceChatCard.tsx
+msgid "Call back"
+msgstr "Передзвонити"
+
+#. placeholder {0}: call.botName
+#: src/components/call/CallCard.tsx
+msgid "Call with {0}"
+msgstr "Дзвінок з {0}"
+
+#: src/components/call/VoiceChatCard.tsx
+msgid "Calling you…"
+msgstr "Дзвонить вам…"
+
+#: src/components/call/CallCard.tsx
+msgid "Calling…"
+msgstr "Виклик…"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Can edit and organise bots it creates"
+msgstr "Може редагувати й упорядковувати ботів, яких створює"
+
+#: src/App.tsx
+msgid "Can't reach the server."
+msgstr "Не вдалося зв’язатися із сервером."
+
+#: src/components/TextOnlyMark.tsx
+#: src/pages/model-settings/model-picker.tsx
+#: src/pages/shell/chat-model-picker.tsx
+msgid "Can't read images"
+msgstr "Не може читати зображення"
+
+#: src/components/AskCard.tsx
+#: src/components/ComputerMaintenanceActions.tsx
+#: src/components/markdown-link-prompt.tsx
+#: src/components/PasskeySettings.tsx
+#: src/components/teach/TeachComputerOverlay.tsx
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/Artifacts.tsx
+#: src/pages/KnowledgeSection.tsx
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/model-settings/space-bots-model.tsx
+#: src/pages/ModelSettingsOverlay.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/shell/bot-credentials.tsx
+#: src/pages/shell/create-bot-dialog.tsx
+#: src/pages/shell/dialogs.tsx
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: src/pages/GroupPanel.tsx
+msgid "Cancel new group"
+msgstr "Скасувати нову групу"
+
+#: src/pages/shell/chat-context.tsx
+msgid "Cancel reply"
+msgstr "Скасувати відповідь"
+
+#: src/pages/BillingSettingsPanel.tsx
+msgid "Canceled"
+msgstr "Скасовано"
+
+#: src/components/CloudAgentCard.tsx
+msgid "cancelled"
+msgstr "скасовано"
+
+#: src/components/AskCard.tsx
+#: src/pages/ActivityList.tsx
+msgid "Cancelled"
+msgstr "Скасовано"
+
+#: src/pages/Artifacts.tsx
+msgid "Card view"
+msgstr "Перегляд карток"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Change password"
+msgstr "Змінити пароль"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Changing…"
+msgstr "Зміна…"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Channels"
+msgstr "Канали"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Chart failed to render: {error}"
+msgstr "Не вдалося відобразити діаграму: {error}"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Chat apps"
+msgstr "Застосунки для чату"
+
+#: src/pages/shell/composer-mentions.tsx
+msgid "Chat Settings"
+msgstr "Налаштування чату"
+
+#: src/lib/localized-provider-hint.ts
+msgid "ChatGPT subscription"
+msgstr "Підписка ChatGPT"
+
+#: src/components/ModelCredits.tsx
+msgid "ChatGPT, Claude, or any model provider."
+msgstr "ChatGPT, Claude або будь-який провайдер моделей."
+
+#: src/lib/identity-display.ts
+msgid "Chats"
+msgstr "Чати"
+
+#: src/components/ComputersUnavailableHint.tsx
+#: src/pages/HostComputerPrompt.tsx
+msgid "Check again"
+msgstr "Перевірити ще раз"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Check every"
+msgstr "Перевіряти кожні"
+
+#. placeholder {0}: state.detail ?? ""
+#: src/pages/RoutineEditor.tsx
+msgid "Check failed: {0}"
+msgstr "Перевірка не пройшла: {0}"
+
+#: src/components/DesktopUpdates.tsx
+msgid "Check for updates"
+msgstr "Перевірити оновлення"
+
+#: src/pages/shell/use-routine-editor.ts
+msgid "Check in."
+msgstr "Перевірити."
+
+#: src/lib/model-connection-preflight.ts
+msgid "Check the API key or sign-in, then test again."
+msgstr "Перевірте API-ключ або вхід, а потім повторіть тест."
+
+#: src/lib/model-connection-preflight.ts
+msgid "Check the server URL and network, then test again."
+msgstr "Перевірте URL сервера та мережу, а потім повторіть тест."
+
+#: src/pages/Auth.tsx
+msgid "Check your email"
+msgstr "Перевірте свою електронну пошту"
+
+#: src/components/McpServerHealthLine.tsx
+msgid "Checked {checked}"
+msgstr "Перевірено {checked}"
+
+#: src/components/ComputersUnavailableHint.tsx
+msgid "Checking computer setup…"
+msgstr "Перевірка налаштування комп’ютера…"
+
+#: src/components/McpServerHealthLine.tsx
+msgid "Checking connection…"
+msgstr "Перевірка підключення…"
+
+#: src/components/ComputersUnavailableHint.tsx
+#: src/components/DesktopUpdates.tsx
+#: src/pages/HostComputerPrompt.tsx
+msgid "Checking…"
+msgstr "Перевірка…"
+
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Choose a bot shape, color, or upload an image"
+msgstr "Виберіть форму та колір бота або завантажте зображення"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Choose a bot…"
+msgstr "Вибрати бота…"
+
+#: src/pages/Auth.tsx
+msgid "Choose a new password"
+msgstr "Виберіть новий пароль"
+
+#: src/pages/Onboarding.tsx
+msgid "Choose a provider"
+msgstr "Виберіть провайдера"
+
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Choose file"
+msgstr "Вибрати файл"
+
+#: src/components/ModelCredits.tsx
+msgid "Choose how to use Rakazo"
+msgstr "Виберіть, як використовувати Rakazo"
+
+#: src/lib/localized-provider-hint.ts
+msgid "Claude subscription"
+msgstr "Підписка Claude"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Clear"
+msgstr "Очистити"
+
+#. placeholder {0}: bot.name
+#: src/pages/shell/dialogs.tsx
+msgid "Clear {0}’s conversation?"
+msgstr "Очистити розмову {0}?"
+
+#: src/pages/BotContextMenu.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Clear conversation"
+msgstr "Очистити розмову"
+
+#: src/pages/ActivityList.tsx
+msgid "Clear filter {label}"
+msgstr "Очистити фільтр {label}"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Clearing…"
+msgstr "Очищення…"
+
+#: src/components/ErrorBoundary.tsx
+#: src/pages/KnowledgeSection.tsx
+#: src/pages/MessagingSettingsOverlay.tsx
+#: src/pages/PeerMessagesOverlay.tsx
+#: src/pages/RoutineEditor.tsx
+#: src/pages/shell/avatar-studio-popover.tsx
+#: src/pages/WindowChrome.tsx
+msgid "Close"
+msgstr "Закрити"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Close chart"
+msgstr "Закрити діаграму"
+
+#: src/pages/shell/computer-overlay.tsx
+msgid "Close computer"
+msgstr "Закрити комп’ютер"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Close image preview"
+msgstr "Закрити перегляд зображення"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Close integrations"
+msgstr "Закрити інтеграції"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Close MCP servers"
+msgstr "Закрити сервери MCP"
+
+#: src/pages/MemorySettingsOverlay.tsx
+#: src/pages/SettingsOverlay.tsx
+msgid "Close memory settings"
+msgstr "Закрити налаштування пам’яті"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Close messaging settings"
+msgstr "Закрити налаштування обміну повідомленнями"
+
+#: src/pages/ModelSettingsOverlay.tsx
+#: src/pages/SettingsOverlay.tsx
+msgid "Close model settings"
+msgstr "Закрити налаштування моделей"
+
+#: src/pages/Shell.tsx
+msgid "Close navigation"
+msgstr "Закрити навігацію"
+
+#: src/pages/GroupPanel.tsx
+#: src/pages/Shell.tsx
+msgid "Close panel"
+msgstr "Закрити панель"
+
+#: src/components/ArtifactFileCard.tsx
+msgid "Close preview"
+msgstr "Закрити перегляд"
+
+#: src/pages/SettingsOverlay.tsx
+msgid "Close user settings"
+msgstr "Закрити налаштування користувача"
+
+#: src/pages/SettingsOverlay.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Close voice settings"
+msgstr "Закрити налаштування голосу"
+
+#: src/pages/memory-providers/ConnectionModeFields.tsx
+msgid "Cloud"
+msgstr "Хмара"
+
+#: src/components/AskCard.tsx
+msgid "Code"
+msgstr "Код"
+
+#: src/pages/Auth.tsx
+msgctxt "email sign-in"
+msgid "Code"
+msgstr "Код"
+
+#. placeholder {0}: group.title
+#: src/pages/shell/sidebar-roster.tsx
+msgid "Collapse {0}"
+msgstr "Згорнути {0}"
+
+#: src/pages/shell/message-view.tsx
+msgid "Collapse {label}"
+msgstr "Згорнути {label}"
+
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Color"
+msgstr "Колір"
+
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Color {color}"
+msgstr "Колір {color}"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Comfortable"
+msgstr "Просторий"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Coming soon"
+msgstr "Незабаром"
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/RoutineEditor.tsx
+msgid "Command"
+msgstr "Команда"
+
+#: src/components/AskCard.tsx
+#: src/pages/shell/bot-credentials.tsx
+msgid "Command variable"
+msgstr "Змінна команди"
+
+#: src/pages/Board.tsx
+msgid "Comment"
+msgstr "Коментар"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Compact"
+msgstr "Компактний"
+
+#: src/pages/ScratchpadSection.tsx
+msgid "Complete"
+msgstr "Завершити"
+
+#: src/components/SubagentCard.tsx
+msgid "Completed"
+msgstr "Завершено"
+
+#: src/pages/SettingsOverlay.tsx
+#: src/pages/shell/bot-panel.tsx
+#: src/pages/shell/message-view.tsx
+msgid "Computer"
+msgstr "Комп’ютер"
+
+#: src/pages/Shell.tsx
+#: src/pages/shell/computer-view.tsx
+msgid "Computer failed to boot"
+msgstr "Комп’ютер не зміг завантажитися"
+
+#: src/pages/shell/computer-overlay.tsx
+msgid "Computer is asleep"
+msgstr "Комп’ютер спить"
+
+#: src/pages/shell/computer-view.tsx
+msgid "Computer is asleep. Open it to wake."
+msgstr "Комп’ютер спить. Відкрийте його, щоб розбудити."
+
+#: src/pages/shell/computer-view.tsx
+msgid "Computer is stopped"
+msgstr "Комп’ютер зупинено"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Computers"
+msgstr "Комп’ютери"
+
+#: src/components/ComputersUnavailableHint.tsx
+msgid "Computers are available. Reload or open a bot to continue."
+msgstr "Комп’ютери доступні. Перезавантажте або відкрийте бота, щоб продовжити."
+
+#: src/components/ComputersUnavailableHint.tsx
+msgid "Computers are off. Set SANDBOX_PROVIDER=docker with SANDBOX_SUPERVISOR_TOKEN, or set SANDBOX_PROVIDER to e2b, daytona, or boat with its API key. Recreate the stack after changing .env."
+msgstr "Комп’ютери вимкнено. Установіть SANDBOX_PROVIDER=docker із SANDBOX_SUPERVISOR_TOKEN або задайте SANDBOX_PROVIDER як e2b, daytona чи boat з його API-ключем. Після зміни .env створіть стек заново."
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Configure a plugin catalog on the server to connect apps."
+msgstr "Налаштуйте каталог плагінів на сервері, щоб під’єднати застосунки."
+
+#: src/pages/ModelSettingsOverlay.tsx
+msgid "Configured by deployment"
+msgstr "Налаштовується розгортанням"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Configured servers"
+msgstr "Налаштовані сервери"
+
+#: src/pages/KnowledgeSection.tsx
+#: src/pages/McpServersOverlay.tsx
+msgid "Confirm delete"
+msgstr "Підтвердити видалення"
+
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/Auth.tsx
+msgid "Confirm password"
+msgstr "Підтвердьте пароль"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Confirm the URL is reachable from this browser session, then test again."
+msgstr "Переконайтеся, що URL доступний із цього сеансу браузера, а потім повторіть тест."
+
+#: src/pages/SettingsOverlay.tsx
+msgid "Confirmations"
+msgstr "Підтвердження"
+
+#: src/components/integrations/IntegrationSetup.tsx
+#: src/pages/memory-providers/HonchoSettingsForm.tsx
+#: src/pages/memory-providers/SerenitySettingsForm.tsx
+#: src/pages/memory-providers/SupermemorySettingsForm.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Connect"
+msgstr "Підключити"
+
+#: src/pages/Onboarding.tsx
+msgid "Connect a model"
+msgstr "Підключити модель"
+
+#: src/pages/model-settings/connection-controls.tsx
+msgid "Connect API key"
+msgstr "Підключити API-ключ"
+
+#: src/components/SidebarFooter.tsx
+msgid "Connect apps"
+msgstr "Підключити застосунки"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Connect Executor"
+msgstr "Підключити Executor"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Connect MCP server “{name}”"
+msgstr "Підключити сервер MCP «{name}»"
+
+#: src/components/ModelCredits.tsx
+msgid "Connect my own"
+msgstr "Підключити власний"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Connect OAuth"
+msgstr "Підключити OAuth"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Connect Treg"
+msgstr "Підключити Treg"
+
+#: src/components/integrations/IntegrationSetup.tsx
+#: src/pages/McpOAuthCallback.tsx
+#: src/pages/MemorySettingsOverlay.tsx
+#: src/pages/model-settings/provider-list.tsx
+#: src/pages/shell/message-cards.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Connected"
+msgstr "Підключено"
+
+#. placeholder {0}: selected.name
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Connected {0}."
+msgstr "Підключено {0}."
+
+#: src/pages/shell/message-cards.tsx
+msgid "Connected. Its tools are available from your next message."
+msgstr "Підключено. Його інструменти доступні з вашого наступного повідомлення."
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/memory-providers/HonchoSettingsForm.tsx
+#: src/pages/memory-providers/SerenitySettingsForm.tsx
+#: src/pages/memory-providers/SupermemorySettingsForm.tsx
+#: src/pages/shell/message-cards.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Connecting…"
+msgstr "Підключення…"
+
+#: src/pages/memory-providers/ConnectionModeFields.tsx
+msgid "Connection"
+msgstr "Підключення"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Connection test failed."
+msgstr "Тест підключення не пройшов."
+
+#. placeholder {0}: item.name
+#: src/pages/PluginsOverlay.tsx
+msgid "Connection to {0} is still pending. You can close this and check again."
+msgstr "Підключення до {0} ще встановлюється. Можна закрити це вікно й перевірити пізніше."
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Context limit"
+msgstr "Ліміт контексту"
+
+#: src/components/integrations/IntegrationSetup.tsx
+#: src/components/SignupSurvey.tsx
+#: src/pages/Auth.tsx
+#: src/pages/Onboarding.tsx
+msgid "Continue"
+msgstr "Продовжити"
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Continue in Background"
+msgstr "Продовжити у фоновому режимі"
+
+#: src/components/ModelCredits.tsx
+msgid "Continue to checkout"
+msgstr "Перейти до оформлення"
+
+#. placeholder {0}: reset.sso.name
+#: src/pages/Auth.tsx
+msgid "Continue with {0}"
+msgstr "Продовжити з {0}"
+
+#: src/components/ModelCredits.tsx
+msgid "Continue with credits"
+msgstr "Продовжити з кредитами"
+
+#: src/pages/Auth.tsx
+msgid "Continue with email"
+msgstr "Продовжити з електронною поштою"
+
+#: src/components/ComputersUnavailableHint.tsx
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Copied"
+msgstr "Скопійовано"
+
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/shell/message-hover-actions.tsx
+msgid "Copy"
+msgstr "Копіювати"
+
+#: src/components/ComputersUnavailableHint.tsx
+msgid "Copy .env example"
+msgstr "Копіювати приклад .env"
+
+#: src/pages/ScratchpadSection.tsx
+msgid "Could not add"
+msgstr "Не вдалося додати"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Could not add MCP server"
+msgstr "Не вдалося додати сервер MCP"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Could not approve this server"
+msgstr "Не вдалося схвалити цей сервер"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Could not authorize this app"
+msgstr "Не вдалося авторизувати цей застосунок"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Could not change password"
+msgstr "Не вдалося змінити пароль"
+
+#: src/pages/model-settings/use-model-settings.ts
+msgid "Could not change the default model"
+msgstr "Не вдалося змінити типову модель"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Could not check stored credentials."
+msgstr "Не вдалося перевірити збережені облікові дані."
+
+#: src/components/teach/TeachComputerOverlay.tsx
+msgid "Could not check teaching status. Refresh the view to continue."
+msgstr "Не вдалося перевірити статус навчання. Оновіть подання, щоб продовжити."
+
+#: src/pages/shell/dialogs.tsx
+msgid "Could not clear conversation"
+msgstr "Не вдалося очистити розмову"
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Could not complete action"
+msgstr "Не вдалося виконати дію"
+
+#: src/pages/McpOAuthCallback.tsx
+msgid "Could not complete OAuth"
+msgstr "Не вдалося завершити OAuth"
+
+#: src/components/DesktopUpdates.tsx
+msgid "Could not complete the update. Try again."
+msgstr "Не вдалося завершити оновлення. Спробуйте ще раз."
+
+#: src/components/integrations/IntegrationSetup.tsx
+#: src/pages/PluginsOverlay.tsx
+msgid "Could not connect"
+msgstr "Не вдалося підключити"
+
+#. placeholder {0}: registration.name
+#: src/pages/MemorySettingsOverlay.tsx
+msgid "Could not connect {0}"
+msgstr "Не вдалося підключити {0}"
+
+#: src/pages/model-settings/use-model-settings.ts
+msgid "Could not connect this provider"
+msgstr "Не вдалося підключити цього провайдера"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Could not connect this voice provider"
+msgstr "Не вдалося підключити цього голосового провайдера."
+
+#: src/pages/Shell.tsx
+msgid "Could not connect to the computer screen"
+msgstr "Не вдалося підключитися до екрана комп’ютера"
+
+#: src/components/AccountAccess.tsx
+#: src/components/PasskeyOffer.tsx
+#: src/components/PasskeySettings.tsx
+#: src/lib/account-security.ts
+#: src/lib/sso-flow.ts
+#: src/lib/user-error.ts
+#: src/pages/Auth.tsx
+#: src/pages/Shell.tsx
+msgid "Could not continue"
+msgstr "Не вдалося продовжити"
+
+#: src/pages/shell/create-bot-dialog.tsx
+msgid "Could not create bot"
+msgstr "Не вдалося створити бота"
+
+#: src/pages/GroupPanel.tsx
+msgid "Could not create group"
+msgstr "Не вдалося створити групу"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Could not create section"
+msgstr "Не вдалося створити розділ"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Could not create space"
+msgstr "Не вдалося створити простір"
+
+#: src/pages/Onboarding.tsx
+msgid "Could not create your bot"
+msgstr "Не вдалося створити вашого бота"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Could not delete bot"
+msgstr "Не вдалося видалити бота"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Could not delete group"
+msgstr "Не вдалося видалити групу"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Could not delete MCP server"
+msgstr "Не вдалося видалити сервер MCP"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Could not delete routine"
+msgstr "Не вдалося видалити рутину"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Could not delete section"
+msgstr "Не вдалося видалити розділ"
+
+#: src/pages/KnowledgeSection.tsx
+msgid "Could not delete skill"
+msgstr "Не вдалося видалити навичку"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Could not delete space"
+msgstr "Не вдалося видалити простір"
+
+#: src/pages/Artifacts.tsx
+msgid "Could not delete this artifact."
+msgstr "Не вдалося видалити цей артефакт."
+
+#: src/pages/MemorySettingsOverlay.tsx
+msgid "Could not disconnect memory provider"
+msgstr "Не вдалося відключити провайдера пам’яті."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Could not disconnect OAuth"
+msgstr "Не вдалося відключити OAuth"
+
+#: src/pages/model-settings/use-model-settings.ts
+msgid "Could not disconnect this provider"
+msgstr "Не вдалося відключити цього провайдера"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Could not disconnect this voice provider"
+msgstr "Не вдалося відключити цього голосового провайдера"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Could not dismiss"
+msgstr "Не вдалося закрити"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Could not dismiss this server"
+msgstr "Не вдалося відхилити цей сервер"
+
+#. placeholder {0}: props.name
+#: src/components/ArtifactFileCard.tsx
+msgid "Could not download {0}. Try again."
+msgstr "Не вдалося завантажити {0}. Спробуйте ще раз."
+
+#: src/components/ArtifactFileCard.tsx
+msgid "Could not download {name}. Try again."
+msgstr "Не вдалося завантажити {name}. Спробуйте ще раз."
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Could not install connector"
+msgstr "Не вдалося встановити з’єднувач"
+
+#: src/components/ErrorBoundary.tsx
+#: src/components/PasskeySettings.tsx
+#: src/pages/KnowledgeSection.tsx
+msgid "Could not load"
+msgstr "Не вдалося завантажити"
+
+#: src/pages/ActivityList.tsx
+msgid "Could not load activity"
+msgstr "Не вдалося завантажити активність"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Could not load approval rules"
+msgstr "Не вдалося завантажити правила схвалення"
+
+#: src/pages/Artifacts.tsx
+msgid "Could not load artifacts."
+msgstr "Не вдалося завантажити артефакти."
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Could not load backup models"
+msgstr "Не вдалося завантажити резервні моделі"
+
+#: src/pages/BillingSettingsPanel.tsx
+msgid "Could not load billing"
+msgstr "Не вдалося завантажити платежі"
+
+#: src/pages/IntegrationSetup.tsx
+msgid "Could not load bots. Reload to try again."
+msgstr "Не вдалося завантажити ботів. Перезавантажте, щоб спробувати знову."
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Could not load credentials."
+msgstr "Не вдалося завантажити облікові дані."
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Could not load integrations"
+msgstr "Не вдалося завантажити інтеграції"
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
+msgid "Could not load MCP servers"
+msgstr "Не вдалося завантажити сервери MCP"
+
+#: src/pages/model-settings/use-model-settings.ts
+msgid "Could not load model settings"
+msgstr "Не вдалося завантажити налаштування моделей"
+
+#: src/pages/RoutineRunHistory.tsx
+msgid "Could not load run history"
+msgstr "Не вдалося завантажити історію запусків"
+
+#: src/lib/account-security.ts
+#: src/pages/Auth.tsx
+msgid "Could not load sign-in options"
+msgstr "Не вдалося завантажити варіанти входу"
+
+#: src/pages/KnowledgeSection.tsx
+msgid "Could not load skill"
+msgstr "Не вдалося завантажити навичку"
+
+#: src/pages/Artifacts.tsx
+msgid "Could not load this artifact."
+msgstr "Не вдалося завантажити цей артефакт."
+
+#: src/pages/PeerMessagesOverlay.tsx
+msgid "Could not load this chat."
+msgstr "Не вдалося завантажити цей чат."
+
+#: src/components/ArtifactFileCard.tsx
+msgid "Could not load this file."
+msgstr "Не вдалося завантажити цей файл."
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Could not load voice settings"
+msgstr "Не вдалося завантажити налаштування голосу"
+
+#: src/lib/sign-out.ts
+msgid "Could not log out. Try again."
+msgstr "Не вдалося вийти. Спробуйте ще раз."
+
+#: src/components/ModelCredits.tsx
+#: src/pages/BillingSettingsPanel.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/Paywall.tsx
+msgid "Could not open billing"
+msgstr "Не вдалося відкрити платежі"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Could not play a test clip"
+msgstr "Не вдалося відтворити тестовий кліп"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Could not reach the model server."
+msgstr "Не вдалося зв’язатися із сервером моделі."
+
+#: src/components/PasskeyOffer.tsx
+#: src/components/PasskeySettings.tsx
+#: src/lib/computer-sandbox.ts
+#: src/lib/user-error.ts
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/Auth.tsx
+msgid "Could not reach the server"
+msgstr "Не вдалося зв’язатися із сервером"
+
+#: src/pages/KnowledgeSection.tsx
+#: src/pages/ScratchpadSection.tsx
+msgid "Could not remove"
+msgstr "Не вдалося вилучити"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Could not remove connector"
+msgstr "Не вдалося вилучити з’єднувач"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Could not remove rule"
+msgstr "Не вдалося вилучити правило"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Could not remove the credential"
+msgstr "Не вдалося вилучити облікові дані"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Could not rename connection"
+msgstr "Не вдалося перейменувати підключення"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Could not rename section"
+msgstr "Не вдалося перейменувати розділ"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Could not rename space"
+msgstr "Не вдалося перейменувати простір"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Could not render chart"
+msgstr "Не вдалося відобразити діаграму"
+
+#: src/pages/Auth.tsx
+msgid "Could not reset password"
+msgstr "Не вдалося скинути пароль"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Could not revoke connection"
+msgstr "Не вдалося відкликати підключення"
+
+#: src/pages/shell/use-routine-editor.ts
+msgid "Could not run routine"
+msgstr "Не вдалося запустити рутину"
+
+#: src/pages/ExternalConversationSettings.tsx
+#: src/pages/KnowledgeSection.tsx
+#: src/pages/Shell.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Could not save"
+msgstr "Не вдалося зберегти"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Could not save Auto Review"
+msgstr "Не вдалося зберегти Auto Review"
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Could not save backup models"
+msgstr "Не вдалося зберегти резервні моделі"
+
+#: src/pages/GroupPanel.tsx
+msgid "Could not save group"
+msgstr "Не вдалося зберегти групу"
+
+#: src/pages/Onboarding.tsx
+msgid "Could not save model"
+msgstr "Не вдалося зберегти модель"
+
+#: src/pages/shell/use-routine-editor.ts
+msgid "Could not save routine"
+msgstr "Не вдалося зберегти рутину"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Could not save rule"
+msgstr "Не вдалося зберегти правило"
+
+#: src/pages/KnowledgeSection.tsx
+msgid "Could not save skill"
+msgstr "Не вдалося зберегти навичку"
+
+#: src/pages/HostComputerPrompt.tsx
+msgid "Could not save that choice"
+msgstr "Не вдалося зберегти цей вибір"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Could not save that speech model"
+msgstr "Не вдалося зберегти цю модель мовлення"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Could not save that voice"
+msgstr "Не вдалося зберегти цей голос"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Could not save the credential"
+msgstr "Не вдалося зберегти облікові дані"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Could not save this choice"
+msgstr "Не вдалося зберегти цей вибір"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Could not search catalog"
+msgstr "Не вдалося виконати пошук у каталозі"
+
+#: src/pages/Auth.tsx
+msgid "Could not send reset email"
+msgstr "Не вдалося надіслати лист для скидання пароля"
+
+#: src/components/call/IncomingCall.tsx
+#: src/lib/call-session.ts
+msgid "Could not send that"
+msgstr "Не вдалося надіслати"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Could not start OAuth"
+msgstr "Не вдалося розпочати OAuth"
+
+#: src/components/teach/TeachComputerOverlay.tsx
+msgid "Could not start teaching"
+msgstr "Не вдалося розпочати навчання"
+
+#: src/components/AskCard.tsx
+msgid "Could not submit this answer"
+msgstr "Не вдалося надіслати цю відповідь"
+
+#: src/pages/model-settings/space-bots-model.tsx
+msgid "Could not switch {failedNames}. Try again."
+msgstr "Не вдалося переключити {failedNames}. Спробуйте ще раз."
+
+#: src/pages/Shell.tsx
+msgid "Could not take control"
+msgstr "Не вдалося взяти керування"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Could not test MCP server"
+msgstr "Не вдалося перевірити сервер MCP"
+
+#: src/pages/ScratchpadSection.tsx
+msgid "Could not update"
+msgstr "Не вдалося оновити"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Could not update agent access"
+msgstr "Не вдалося оновити доступ агента"
+
+#: src/components/ModelCredits.tsx
+msgid "Could not update billing"
+msgstr "Не вдалося оновити платежі"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Could not update computer"
+msgstr "Не вдалося оновити комп’ютер"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Could not update name"
+msgstr "Не вдалося оновити ім’я"
+
+#: src/pages/Shell.tsx
+msgid "Could not update reaction"
+msgstr "Не вдалося оновити реакцію"
+
+#: src/pages/MemorySettingsOverlay.tsx
+msgid "Could not update the default memory scope"
+msgstr "Не вдалося оновити типову область пам’яті"
+
+#: src/components/ComputersUnavailableHint.tsx
+msgid "Could not verify computer setup ({failureMessage}). Fix the connection, then check again."
+msgstr "Не вдалося перевірити налаштування комп’ютера ({failureMessage}). Виправте підключення та перевірте ще раз."
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Couldn't load messaging settings"
+msgstr "Не вдалося завантажити налаштування обміну повідомленнями"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Couldn't update messaging settings"
+msgstr "Не вдалося оновити налаштування обміну повідомленнями"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Couldn't update your timezone"
+msgstr "Не вдалося оновити ваш часовий пояс"
+
+#: src/pages/Board.tsx
+#: src/pages/shell/create-bot-dialog.tsx
+#: src/pages/shell/dialogs.tsx
+#: src/pages/shell/sidebar-header.tsx
+msgid "Create"
+msgstr "Створити"
+
+#. placeholder {0}: bot.name
+#: src/pages/shell/dialogs.tsx
+msgid "Create a section and move {0} into it."
+msgstr "Створіть розділ і перемістіть туди {0}."
+
+#: src/pages/Auth.tsx
+msgid "Create account"
+msgstr "Створити обліковий запис"
+
+#: src/pages/GroupPanel.tsx
+msgid "Create group"
+msgstr "Створити групу"
+
+#: src/pages/Shell.tsx
+#: src/pages/shell/bot-picker.tsx
+#: src/pages/shell/create-bot-dialog.tsx
+msgid "Create new Bot"
+msgstr "Створити нового бота"
+
+#: src/pages/shell/bot-picker.tsx
+msgid "Create new Group"
+msgstr "Створити нову групу"
+
+#: src/pages/shell/bot-picker.tsx
+msgid "Create new Space"
+msgstr "Створити новий простір"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Create Routine"
+msgstr "Створити рутину"
+
+#: src/components/AskCard.tsx
+#: src/pages/shell/dialogs.tsx
+msgid "Create space"
+msgstr "Створити простір"
+
+#: src/pages/Auth.tsx
+msgid "Create your Rakazo"
+msgstr "Створіть свій Rakazo"
+
+#: src/components/AskCard.tsx
+msgid "Created"
+msgstr "Створено"
+
+#: src/pages/GroupPanel.tsx
+#: src/pages/shell/dialogs.tsx
+msgid "Creating…"
+msgstr "Створення…"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Credential"
+msgstr "Облікові дані"
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
+msgid "Credential saved"
+msgstr "Облікові дані збережено"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Credentials"
+msgstr "Облікові дані"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Credentials are encrypted and never sent to the model."
+msgstr "Облікові дані шифруються й ніколи не надсилаються моделі."
+
+#: src/components/ModelCredits.tsx
+msgid "Credit amount"
+msgstr "Сума кредитів"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "Cron"
+msgstr "Cron"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "Cron expression"
+msgstr "Вираз Cron"
+
+#: src/components/AccountAccess.tsx
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Current password"
+msgstr "Поточний пароль"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Custom header"
+msgstr "Власний заголовок"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Customer support"
+msgstr "Підтримка клієнтів"
+
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Customize bot avatar"
+msgstr "Налаштуйте аватар бота"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Dark"
+msgstr "Темна"
+
+#: src/lib/billing.ts
+#: src/pages/RoutineSchedule.tsx
+msgid "day"
+msgstr "день"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Day-to-day work"
+msgstr "Щоденна робота"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "days"
+msgstr "днів"
+
+#: src/components/call/IncomingCall.tsx
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Decline"
+msgstr "Відхилити"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Default"
+msgstr "За замовчуванням"
+
+#. placeholder {0}: thinkingLevelLabel(defaultThinkingLevel)
+#: src/pages/RoutineEditor.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Default ({0})"
+msgstr "За замовчуванням ({0})"
+
+#. js-lingui-explicit-id
+#. placeholder {0}: thinkingLevelLabel("medium")
+#: src/pages/model-settings/catalog-model-fields.tsx
+msgid "Default ({0})"
+msgstr "За замовчуванням ({0})"
+
+#: src/pages/MemorySettingsOverlay.tsx
+msgid "Default scope"
+msgstr "Типова область"
+
+#: src/components/PasskeySettings.tsx
+#: src/pages/Artifacts.tsx
+#: src/pages/BotContextMenu.tsx
+#: src/pages/KnowledgeSection.tsx
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/RoutineEditor.tsx
+#: src/pages/shell/archived-chats.tsx
+#: src/pages/shell/dialogs.tsx
+msgid "Delete"
+msgstr "Видалити"
+
+#. placeholder {0}: passkeyLabel(deleting, t`Passkey`)
+#. placeholder {0}: pendingDelete.name
+#: src/components/PasskeySettings.tsx
+#: src/pages/Artifacts.tsx
+msgid "Delete \"{0}\"?"
+msgstr "Видалити «{0}»?"
+
+#. placeholder {0}: artifact.name
+#. placeholder {0}: bot.name
+#. placeholder {0}: group.name
+#: src/pages/Artifacts.tsx
+#: src/pages/shell/archived-chats.tsx
+msgid "Delete {0}"
+msgstr "Видалити {0}"
+
+#. placeholder {0}: bot.name
+#. placeholder {0}: item.name
+#: src/pages/shell/dialogs.tsx
+msgid "Delete {0}?"
+msgstr "Видалити {0}?"
+
+#: src/components/AccountAccess.tsx
+msgid "Delete account"
+msgstr "Видалити обліковий запис"
+
+#: src/pages/GroupPanel.tsx
+msgid "Delete group"
+msgstr "Видалити групу"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Delete memories too"
+msgstr "Видалити також спогади"
+
+#: src/pages/shell/sidebar-roster.tsx
+msgid "Delete section"
+msgstr "Видалити розділ"
+
+#: src/pages/Shell.tsx
+msgid "Delete space"
+msgstr "Видалити простір"
+
+#: src/pages/shell/message-view.tsx
+msgid "deleted"
+msgstr "видалено"
+
+#: src/components/PasskeySettings.tsx
+#: src/pages/Artifacts.tsx
+#: src/pages/shell/dialogs.tsx
+msgid "Deleting…"
+msgstr "Видалення…"
+
+#: src/components/AccountAccess.tsx
+msgid "Deletion code"
+msgstr "Код видалення"
+
+#: src/components/AskCard.tsx
+msgid "Denied"
+msgstr "Відмовлено"
+
+#: src/components/AskCard.tsx
+msgid "Deny"
+msgstr "Відмовити"
+
+#: src/pages/ModelSettingsOverlay.tsx
+msgid "Deployment default"
+msgstr "Типове для розгортання"
+
+#: src/pages/Board.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Description"
+msgstr "Опис"
+
+#: src/components/DesktopUpdates.tsx
+msgid "Desktop app"
+msgstr "Настільний застосунок"
+
+#: src/components/DesktopUpdates.tsx
+msgid "Desktop update"
+msgstr "Оновлення настільного застосунку"
+
+#: src/pages/RoutineRunHistory.tsx
+#: src/pages/shell/composer-error.tsx
+msgid "Details"
+msgstr "Подробиці"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Disable a tool"
+msgstr "Вимкнути інструмент"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Disabled"
+msgstr "Вимкнено"
+
+#: src/components/composer/HoldToTalk.tsx
+msgid "Discard recording"
+msgstr "Видалити запис"
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/MemorySettingsOverlay.tsx
+#: src/pages/ModelSettingsOverlay.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Disconnect"
+msgstr "Відключити"
+
+#: src/pages/ModelSettingsOverlay.tsx
+msgid "Disconnect {disconnectName}?"
+msgstr "Відключити {disconnectName}?"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Disconnect Self-hosted"
+msgstr "Відключити Self-hosted"
+
+#. placeholder {0}: selected.providerName ?? selected.provider
+#: src/pages/model-settings/use-model-settings.ts
+msgid "Disconnected {0}."
+msgstr "Відключено {0}."
+
+#: src/pages/MemorySettingsOverlay.tsx
+#: src/pages/ModelSettingsOverlay.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Disconnecting…"
+msgstr "Відключення…"
+
+#: src/components/AskCard.tsx
+#: src/components/ComputerUpdateProgress.tsx
+#: src/components/PasskeyOffer.tsx
+#: src/components/teach/TeachComputerOverlay.tsx
+#: src/pages/shell/message-cards.tsx
+msgid "Dismiss"
+msgstr "Закрити"
+
+#: src/pages/shell/composer-error.tsx
+msgid "Dismiss error"
+msgstr "Закрити помилку"
+
+#: src/components/AskCard.tsx
+msgid "Dismissed"
+msgstr "Закрито"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Dismissed. Reconnect anytime from MCP settings."
+msgstr "Відхилено. Перепідключіть будь-коли в налаштуваннях MCP."
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Display name"
+msgstr "Ім’я для відображення"
+
+#: src/pages/HostComputerPrompt.tsx
+msgid "Docker"
+msgstr "Docker"
+
+#: src/components/ComputersUnavailableHint.tsx
+msgid "Docker is configured but computers are not responding. Confirm the sandbox supervisor is running, then recreate the stack after changing .env."
+msgstr "Docker налаштовано, але комп’ютери не відповідають. Переконайтеся, що sandbox-супервізор запущено, а після зміни .env створіть стек заново."
+
+#: src/pages/HostComputerPrompt.tsx
+msgid "Docker limits access to your computer for added security. Using {hostLabel} lets bots work with your local files and tools."
+msgstr "Docker обмежує доступ до вашого комп’ютера для додаткової безпеки. Використання {hostLabel} дозволяє ботам працювати з вашими локальними файлами та інструментами."
+
+#: src/components/SidebarFooter.tsx
+msgid "Docs"
+msgstr "Документація"
+
+#: src/pages/KnowledgeSection.tsx
+msgid "Document changed. Reopen to edit the latest version."
+msgstr "Документ змінено. Відкрийте знову, щоб редагувати найновішу версію."
+
+#: src/pages/Auth.tsx
+msgid "Don’t have an account?"
+msgstr "Не маєте облікового запису?"
+
+#: src/lib/ticket-status.ts
+#: src/pages/ActivityList.tsx
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Done"
+msgstr "Готово"
+
+#: src/components/ModelCredits.tsx
+msgid "Downgrade at renewal"
+msgstr "Понизити тариф після поновлення"
+
+#: src/pages/Artifacts.tsx
+#: src/pages/KnowledgeSection.tsx
+msgid "Download"
+msgstr "Завантажити"
+
+#. placeholder {0}: props.name
+#: src/components/ArtifactFileCard.tsx
+msgid "Download {0}"
+msgstr "Завантажити {0}"
+
+#: src/components/ArtifactFileCard.tsx
+msgid "Download {name}"
+msgstr "Завантажити {name}"
+
+#: src/components/DesktopUpdates.tsx
+msgid "Downloading…"
+msgstr "Завантаження…"
+
+#: src/components/teach/SkillDraftCard.tsx
+msgid "Draft skill"
+msgstr "Чернетка навички"
+
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Drag, drop, or paste an image"
+msgstr "Перетягніть, опустіть або вставте зображення"
+
+#: src/pages/BotContextMenu.tsx
+msgid "Duplicate"
+msgstr "Дублювати"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Each name can be used once."
+msgstr "Кожну назву можна використати лише один раз."
+
+#: src/components/AskCard.tsx
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Edit"
+msgstr "Редагувати"
+
+#: src/components/AskCard.tsx
+msgid "Edit first"
+msgstr "Спочатку відредагуйте"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Edit label"
+msgstr "Редагувати мітку"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Edit name"
+msgstr "Редагувати назву"
+
+#: src/pages/BotContextMenu.tsx
+msgid "Edit Profile"
+msgstr "Редагувати профіль"
+
+#: src/pages/Auth.tsx
+msgid "Email"
+msgstr "Електронна пошта"
+
+#: src/lib/user-error.ts
+msgid "Email is not allowed to register"
+msgstr "Ця електронна пошта не дозволена для реєстрації"
+
+#: src/lib/user-error.ts
+msgid "Email verification required"
+msgstr "Потрібне підтвердження електронної пошти"
+
+#. placeholder {0}: humanizeTool(toolName)
+#: src/pages/shell/bot-panel.tsx
+msgid "Enable {0}"
+msgstr "Увімкнути {0}"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Encrypted and never shown again"
+msgstr "Зашифровано й більше ніколи не буде показано"
+
+#: src/pages/BillingSettingsPanel.tsx
+msgid "Ends {day}"
+msgstr "Закінчується {day}"
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Engage when... Ignore..."
+msgstr "Взаємодіяти, коли... Ігнорувати..."
+
+#: src/lib/user-error.ts
+msgid "Enter a password"
+msgstr "Уведіть пароль"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Enter a username and password"
+msgstr "Уведіть ім’я користувача та пароль"
+
+#: src/lib/user-error.ts
+msgid "Enter a valid email"
+msgstr "Уведіть коректну електронну пошту"
+
+#: src/pages/model-settings/use-model-settings.ts
+#: src/pages/Onboarding.tsx
+msgid "Enter a whole number from 1 to {MAX_MODEL_CONTEXT_WINDOW} for the context limit."
+msgstr "Уведіть ціле число від 1 до {MAX_MODEL_CONTEXT_WINDOW} як ліміт контексту."
+
+#: src/pages/model-settings/use-model-settings.ts
+#: src/pages/Onboarding.tsx
+msgid "Enter a whole number from 1 to {MAX_MODEL_MAX_TOKENS} for maximum output tokens."
+msgstr "Уведіть ціле число від 1 до {MAX_MODEL_MAX_TOKENS} для максимальної кількості вихідних токенів."
+
+#: src/pages/model-settings/use-model-settings.ts
+#: src/pages/Onboarding.tsx
+msgid "Enter a whole number from 1 to 1000 for the image limit."
+msgstr "Уведіть ціле число від 1 до 1000 як ліміт зображень."
+
+#: src/lib/model-connection-preflight.ts
+msgid "Enter an API key before testing."
+msgstr "Уведіть API-ключ перед тестуванням."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Environment variables"
+msgstr "Змінні середовища"
+
+#: src/lib/roster-status.ts
+#: src/pages/shell/sidebar-roster.tsx
+msgid "Error"
+msgstr "Помилка"
+
+#: src/components/McpServerHealthLine.tsx
+msgid "Error details"
+msgstr "Подробиці помилки"
+
+#: src/pages/ExternalConversationSettings.tsx
+#: src/pages/RoutineSchedule.tsx
+msgid "Every"
+msgstr "Кожні"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "every {intervalAmountSelect} {intervalUnitSelect}"
+msgstr "кожні {intervalAmountSelect} {intervalUnitSelect}"
+
+#: src/pages/RoutineEditor.tsx
+#: src/pages/RoutineSchedule.tsx
+msgid "Every day"
+msgstr "Щодня"
+
+#: src/pages/RoutineEditor.tsx
+#: src/pages/RoutineSchedule.tsx
+msgid "Every hour"
+msgstr "Щогодини"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "Every Monday"
+msgstr "Кожного понеділка"
+
+#: src/pages/RoutineEditor.tsx
+#: src/pages/RoutineSchedule.tsx
+msgid "Every month"
+msgstr "Щомісяця"
+
+#: src/pages/RoutineEditor.tsx
+#: src/pages/RoutineSchedule.tsx
+msgid "Every week"
+msgstr "Щотижня"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Executor token"
+msgstr "Токен Executor"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Expand"
+msgstr "Розгорнути"
+
+#. placeholder {0}: group.title
+#: src/pages/shell/sidebar-roster.tsx
+msgid "Expand {0}"
+msgstr "Розгорнути {0}"
+
+#: src/pages/shell/message-view.tsx
+msgid "Expand {label}"
+msgstr "Розгорнути {label}"
+
+#: src/components/CloudAgentCard.tsx
+msgid "expired"
+msgstr "строк дії минув"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Export"
+msgstr "Експорт"
+
+#: src/components/teach/TeachComputerOverlay.tsx
+msgid "Export this week's list from the CRM and drop it in the shared folder"
+msgstr "Експортуйте список цього тижня з CRM і покладіть його в спільну папку"
+
+#: src/pages/ExternalConversationSettings.tsx
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "External conversation"
+msgstr "Зовнішня розмова"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Extra high"
+msgstr "Дуже високий"
+
+#. js-lingui-explicit-id
+#: src/lib/model-catalog.ts
+msgid "Extra high"
+msgstr "Дуже високий"
+
+#: src/components/CloudAgentCard.tsx
+msgid "failed"
+msgstr "помилка"
+
+#: src/components/SubagentCard.tsx
+#: src/pages/ActivityList.tsx
+msgid "Failed"
+msgstr "Помилка"
+
+#: src/pages/Shell.tsx
+msgid "Failed to send message"
+msgstr "Не вдалося надіслати повідомлення"
+
+#: src/pages/Shell.tsx
+msgid "Failed to stop"
+msgstr "Не вдалося зупинити"
+
+#. js-lingui-explicit-id
+#: src/lib/browser-notifications.ts
+msgid "Failed."
+msgstr "Не вдалося."
+
+#: src/components/teach/SkillDraftCard.tsx
+msgid "Failure handling"
+msgstr "Обробка збоїв"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Fields that mark a change"
+msgstr "Поля, що позначають зміну"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Fields to compare, e.g. id, modifiedTime (optional)"
+msgstr "Поля для порівняння, напр. id, modifiedTime (необов’язково)"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "File"
+msgstr "Файл"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Files or folders on the computer"
+msgstr "Файли або папки на комп’ютері"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Files or folders, one per line"
+msgstr "Файли або папки, по одному на рядок"
+
+#: src/pages/GroupPanel.tsx
+msgid "Filter bots"
+msgstr "Фільтр ботів"
+
+#: src/pages/Artifacts.tsx
+msgid "Filter by date"
+msgstr "Фільтр за датою"
+
+#: src/pages/Artifacts.tsx
+#: src/pages/Shell.tsx
+msgid "Filters"
+msgstr "Фільтри"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Find models"
+msgstr "Знайти моделі"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Finding…"
+msgstr "Пошук…"
+
+#. placeholder {0}: new URL(oauth.verificationUri).hostname
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Finish signing in at <0>{0}</0>. The final page may not load; paste its URL or code here."
+msgstr "Завершіть вхід на <0>{0}</0>. Остання сторінка може не завантажитися; вставте її URL або код тут."
+
+#: src/lib/model-connection-preflight.ts
+msgid "Finish subscription sign-in, then test again."
+msgstr "Завершіть вхід за підпискою, а потім повторіть тест."
+
+#: src/components/CloudAgentCard.tsx
+msgid "finished"
+msgstr "завершено"
+
+#. js-lingui-explicit-id
+#: src/lib/browser-notifications.ts
+msgid "Finished."
+msgstr "Завершено."
+
+#: src/pages/McpOAuthCallback.tsx
+msgid "Finishing MCP connection…"
+msgstr "Завершення підключення MCP…"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Flag unexpected actions"
+msgstr "Позначати неочікувані дії"
+
+#: src/pages/Auth.tsx
+msgid "Forgot password?"
+msgstr "Забули пароль?"
+
+#: src/components/ModelCredits.tsx
+#: src/pages/model-settings/model-picker.tsx
+msgid "Free"
+msgstr "Безкоштовно"
+
+#: src/pages/ActivityList.tsx
+msgid "From"
+msgstr "З"
+
+#. placeholder {0}: filters.dateRange.from
+#: src/pages/ActivityList.tsx
+msgid "From {0}"
+msgstr "Від {0}"
+
+#: src/pages/WindowChrome.tsx
+msgid "Fullscreen"
+msgstr "На весь екран"
+
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Gateway ID"
+msgstr "Ідентифікатор шлюзу"
+
+#: src/pages/SettingsOverlay.tsx
+msgid "General"
+msgstr "Загальні"
+
+#: src/components/SidebarFooter.tsx
+msgid "Get the mobile app"
+msgstr "Отримати мобільний застосунок"
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Getting ready"
+msgstr "Готуємося"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Git event"
+msgstr "Подія Git"
+
+#: src/lib/identity-display.ts
+#: src/pages/MessagingSettingsOverlay.tsx
+#: src/pages/Shell.tsx
+msgid "Group"
+msgstr "Група"
+
+#: src/pages/GroupPanel.tsx
+msgid "Group settings"
+msgstr "Налаштування групи"
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Group updates"
+msgstr "Оновлення групи"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Groups"
+msgstr "Групи"
+
+#: src/components/call/CallCard.tsx
+msgid "Hang up"
+msgstr "Завершити дзвінок"
+
+#: src/lib/call-session.ts
+msgid "Hang up first, then enter the code on screen."
+msgstr "Спочатку завершіть дзвінок, а потім уведіть код на екрані."
+
+#: src/lib/call-session.ts
+msgid "Hang up, then enter the code on screen."
+msgstr "Завершіть дзвінок, а потім уведіть код на екрані."
+
+#: src/pages/RoutineEditor.tsx
+msgid "header"
+msgstr "заголовок"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Header \"{header}\""
+msgstr "Заголовок «{header}»"
+
+#: src/components/ModelHeadersEditor.tsx
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/shell/bot-credentials.tsx
+msgid "Header name"
+msgstr "Назва заголовка"
+
+#: src/components/ModelHeadersEditor.tsx
+#: src/pages/McpServersOverlay.tsx
+msgid "Header value"
+msgstr "Значення заголовка"
+
+#: src/components/ModelHeadersEditor.tsx
+msgid "Headers"
+msgstr "Заголовки"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Hear a sample"
+msgstr "Прослухати зразок"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Hi, this is how I'll sound when I read replies out loud."
+msgstr "Привіт, саме так звучатиме мій голос, коли я читатиму відповіді вголос."
+
+#: src/components/I18nBootstrap.tsx
+msgid "Hide password"
+msgstr "Приховати пароль"
+
+#: src/components/call/VoiceChatCard.tsx
+msgid "Hide transcript"
+msgstr "Приховати транскрипцію"
+
+#: src/lib/ticket-priority.ts
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "High"
+msgstr "Високий"
+
+#. js-lingui-explicit-id
+#: src/lib/model-catalog.ts
+msgid "High"
+msgstr "Високий"
+
+#: src/components/composer/HoldToTalk.tsx
+msgid "Hold to talk"
+msgstr "Утримуйте, щоб говорити"
+
+#: src/components/composer/HoldToTalk.tsx
+msgid "Hold to talk, release to send"
+msgstr "Утримуйте, щоб говорити, відпустіть, щоб надіслати"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "hour"
+msgstr "година"
+
+#: src/pages/ExternalConversationSettings.tsx
+#: src/pages/RoutineSchedule.tsx
+msgid "hours"
+msgstr "годин"
+
+#: src/components/SignupSurvey.tsx
+msgid "How big is your team?"
+msgstr "Який розмір вашої команди?"
+
+#: src/components/SignupSurvey.tsx
+msgid "How did you hear about us?"
+msgstr "Звідки ви дізналися про нас?"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "How often"
+msgstr "Як часто"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "How other bots see it"
+msgstr "Як його бачать інші боти"
+
+#: src/components/teach/SkillDraftCard.tsx
+msgid "How to check"
+msgstr "Як перевіряти"
+
+#: src/components/SignupSurvey.tsx
+msgid "How will you use Rakazo?"
+msgstr "Як ви використовуватимете Rakazo?"
+
+#: src/pages/shell/computer-release-actions.tsx
+msgid "I’m done"
+msgstr "Готово"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "If you heard that, voice is ready."
+msgstr "Якщо ви це почули, голос готовий."
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Ignore"
+msgstr "Ігнорувати"
+
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Image upload area"
+msgstr "Зона завантаження зображень"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Import OpenAPI JSON"
+msgstr "Імпортувати OpenAPI JSON"
+
+#: src/lib/ticket-status.ts
+msgid "In progress"
+msgstr "Виконується"
+
+#: src/lib/ticket-status.ts
+msgid "In review"
+msgstr "На розгляді"
+
+#: src/pages/BillingSettingsPanel.tsx
+msgid "Inactive"
+msgstr "Неактивний"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Inbox & email"
+msgstr "Вхідні та електронна пошта"
+
+#: src/components/call/VoiceChatCard.tsx
+msgid "Incoming call"
+msgstr "Вхідний дзвінок"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Inherit default"
+msgstr "Успадкувати типове"
+
+#: src/components/teach/SkillDraftCard.tsx
+msgid "Inputs"
+msgstr "Вхідні дані"
+
+#: src/components/SidebarFooter.tsx
+msgid "Install update"
+msgstr "Встановити оновлення"
+
+#: src/components/McpServerHealthLine.tsx
+msgid "Installing…"
+msgstr "Встановлення…"
+
+#: src/pages/memory-providers/SupermemorySettingsForm.tsx
+msgid "Instance API key"
+msgstr "API-ключ інстансу"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Instruction"
+msgstr "Інструкція"
+
+#: src/components/InstructionSettings.tsx
+msgid "Instruction history"
+msgstr "Історія інструкцій"
+
+#: src/components/AskCard.tsx
+#: src/components/InstructionSettings.tsx
+msgid "Instructions"
+msgstr "Інструкції"
+
+#: src/components/AskCard.tsx
+msgid "Instructions updated"
+msgstr "Інструкції оновлено"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Integration domain"
+msgstr "Домен інтеграції"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Integrations"
+msgstr "Інтеграції"
+
+#: src/pages/RoutineEditor.tsx
+#: src/pages/RoutineSchedule.tsx
+msgid "Interval"
+msgstr "Інтервал"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "Interval amount"
+msgstr "Значення інтервалу"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "Interval unit"
+msgstr "Одиниця інтервалу"
+
+#: src/lib/user-error.ts
+msgid "Invalid code"
+msgstr "Неправильний код"
+
+#: src/pages/MemorySettingsOverlay.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Isolated"
+msgstr "Ізольовано"
+
+#: src/pages/Artifacts.tsx
+msgid "Isolated preview — no access to your account"
+msgstr "Ізольований перегляд — без доступу до вашого облікового запису"
+
+#: src/pages/Shell.tsx
+msgid "Its bots and groups are kept and leave the section."
+msgstr "Його боти та групи залишаться та покинуть цей розділ."
+
+#: src/pages/shell/dialogs.tsx
+msgid "Its conversation, files, and routines will be permanently deleted. Bots it created stay in your list."
+msgstr "Його розмова, файли та рутини буде остаточно видалено. Створені ним боти залишаться у вашому списку."
+
+#: src/pages/shell/transcript.tsx
+msgid "Jump to latest"
+msgstr "Перейти до останніх"
+
+#: src/pages/shell/chat-context.tsx
+msgid "Jump to replied message: {excerpt}"
+msgstr "Перейти до повідомлення з відповіддю: {excerpt}"
+
+#: src/lib/relative-time.ts
+msgid "just now"
+msgstr "щойно"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Keep memories"
+msgstr "Залишити спогади"
+
+#: src/pages/RoutineEditor.tsx
+msgid "key"
+msgstr "ключ"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Language"
+msgstr "Мова"
+
+#. placeholder {0}: new Date(state.checkedAt).toLocaleString()
+#: src/pages/RoutineEditor.tsx
+msgid "Last check {0}: changed"
+msgstr "Остання перевірка {0}: зміни є"
+
+#. placeholder {0}: new Date(state.checkedAt).toLocaleString()
+#: src/pages/RoutineEditor.tsx
+msgid "Last check {0}: no changes"
+msgstr "Остання перевірка {0}: без змін"
+
+#: src/components/DesktopUpdates.tsx
+msgid "Later"
+msgstr "Пізніше"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Leave"
+msgstr "Покинути"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Light"
+msgstr "Світла"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Linear issue"
+msgstr "Задача Linear"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Link a chat app"
+msgstr "Прив’язати застосунок чату"
+
+#: src/components/AccountAccess.tsx
+msgid "Link SSO"
+msgstr "Прив’язати SSO"
+
+#: src/pages/Artifacts.tsx
+msgid "List view"
+msgstr "Перегляд списком"
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Listen"
+msgstr "Слухати"
+
+#: src/components/call/CallCard.tsx
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Listening"
+msgstr "Слухаю"
+
+#: src/components/composer/HoldToTalk.tsx
+msgid "Listening…"
+msgstr "Слухаю…"
+
+#: src/pages/shell/transcript.tsx
+msgid "Load earlier messages"
+msgstr "Завантажити раніші повідомлення"
+
+#: src/pages/Artifacts.tsx
+msgid "Load more"
+msgstr "Завантажити більше"
+
+#: src/pages/RoutineRunHistory.tsx
+msgid "Load older runs"
+msgstr "Завантажити старіші запуски"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Load web images automatically"
+msgstr "Автоматично завантажувати зображення з вебу"
+
+#: src/pages/ActivityList.tsx
+msgid "Loading activity…"
+msgstr "Завантаження активності…"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Loading integrations…"
+msgstr "Завантаження інтеграцій…"
+
+#: src/pages/MemorySettingsOverlay.tsx
+msgid "Loading memory settings…"
+msgstr "Завантаження налаштувань пам’яті…"
+
+#: src/pages/ModelSettingsOverlay.tsx
+msgid "Loading model catalog…"
+msgstr "Завантаження каталогу моделей…"
+
+#: src/components/ArtifactFileCard.tsx
+msgid "Loading preview…"
+msgstr "Завантаження перегляду…"
+
+#: src/components/ApprovalRulesSettings.tsx
+msgid "Loading rules…"
+msgstr "Завантаження правил…"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Loading voice providers…"
+msgstr "Завантаження голосових провайдерів…"
+
+#: src/pages/Artifacts.tsx
+#: src/pages/IntegrationSetup.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/PeerMessagesOverlay.tsx
+#: src/pages/RoutineRunHistory.tsx
+#: src/pages/shell/transcript.tsx
+msgid "Loading…"
+msgstr "Завантаження…"
+
+#: src/pages/memory-providers/ConnectionModeFields.tsx
+msgid "Local"
+msgstr "Локальний"
+
+#: src/pages/HostComputerPrompt.tsx
+msgid "Local access lets bots run commands without asking. Avoid it on shared or public servers."
+msgstr "Локальний доступ дозволяє ботам виконувати команди без запиту. Уникайте його на спільних або публічних серверах."
+
+#: src/pages/HostComputerPrompt.tsx
+msgid "Local computer access requires the latest desktop app."
+msgstr "Локальний доступ до комп’ютера потребує найновішого настільного застосунку."
+
+#: src/components/ModelCredits.tsx
+#: src/components/SidebarFooter.tsx
+#: src/pages/Paywall.tsx
+msgid "Log out"
+msgstr "Вийти"
+
+#: src/lib/ticket-priority.ts
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Low"
+msgstr "Низький"
+
+#. js-lingui-explicit-id
+#: src/lib/model-catalog.ts
+msgid "Low"
+msgstr "Низький"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Lowercase letters, numbers, hyphens and underscores, starting with a letter."
+msgstr "Малі літери, цифри, дефіси та підкреслення, починаючи з літери."
+
+#: src/pages/BillingSettingsPanel.tsx
+msgid "Manage"
+msgstr "Керувати"
+
+#: src/components/ModelCredits.tsx
+#: src/pages/Paywall.tsx
+msgid "Manage billing"
+msgstr "Керувати платежами"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Manage MCP servers"
+msgstr "Керувати серверами MCP"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Manage messaging settings"
+msgstr "Керувати налаштуваннями обміну повідомленнями"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Manage the bots it creates"
+msgstr "Керувати ботами, яких він створює"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Manual"
+msgstr "Вручну"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Manual setup required"
+msgstr "Потрібне ручне налаштування"
+
+#: src/pages/BotContextMenu.tsx
+msgid "Mark as Read"
+msgstr "Позначити як прочитане"
+
+#: src/pages/shell/message-hover-actions.tsx
+msgid "Mark as unread"
+msgstr "Позначити як непрочитане"
+
+#: src/pages/BotContextMenu.tsx
+msgid "Mark as Unread"
+msgstr "Позначити як непрочитане"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Max"
+msgstr "Макс"
+
+#. js-lingui-explicit-id
+#: src/lib/model-catalog.ts
+msgid "Max"
+msgstr "Макс"
+
+#: src/pages/Artifacts.tsx
+msgid "Maximize"
+msgstr "Розгорнути"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Maximum images per request"
+msgstr "Максимум зображень на запит"
+
+#: src/pages/model-settings/catalog-model-fields.tsx
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Maximum output tokens"
+msgstr "Максимум вихідних токенів"
+
+#: src/pages/memory-providers/SerenitySettingsForm.tsx
+msgid "MCP endpoint"
+msgstr "Ендпоінт MCP"
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
+msgid "MCP servers"
+msgstr "Сервери MCP"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Medium"
+msgstr "Середній"
+
+#. js-lingui-explicit-id
+#: src/lib/model-catalog.ts
+msgid "Medium"
+msgstr "Середній"
+
+#: src/lib/identity-display.ts
+msgid "Member"
+msgstr "Учасник"
+
+#. placeholder {0}: selected.length
+#: src/pages/GroupPanel.tsx
+msgid "Members ({0})"
+msgstr "Учасники ({0})"
+
+#: src/pages/KnowledgeSection.tsx
+#: src/pages/MemorySettingsOverlay.tsx
+#: src/pages/SettingsOverlay.tsx
+msgid "Memory"
+msgstr "Пам’ять"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Memory scope"
+msgstr "Область пам’яті"
+
+#: src/pages/shell/composer.tsx
+msgid "Mentions"
+msgstr "Згадки"
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Mentions only"
+msgstr "Лише згадки"
+
+#: src/pages/shell/chat-shared.ts
+#: src/pages/shell/composer.tsx
+msgid "Message"
+msgstr "Повідомлення"
+
+#. js-lingui-explicit-id
+#: src/lib/browser-notifications.ts
+msgid "Message"
+msgstr "Повідомлення"
+
+#: src/pages/shell/composer.tsx
+msgid "Message {activeName}"
+msgstr "Написати {activeName}"
+
+#: src/pages/shell/composer.tsx
+msgid "Message composer"
+msgstr "Редактор повідомлень"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Message event"
+msgstr "Подія повідомлення"
+
+#: src/pages/shell/message-view.tsx
+msgid "Message from {peer}"
+msgstr "Повідомлення від {peer}"
+
+#: src/lib/activity-list-filters.ts
+msgid "Message from another agent"
+msgstr "Повідомлення від іншого агента"
+
+#: src/pages/shell/composer.tsx
+msgid "Message…"
+msgstr "Повідомлення…"
+
+#: src/pages/shell/message-view.tsx
+msgid "Messaged {peer}"
+msgstr "Надіслано повідомлення {peer}"
+
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Messaging"
+msgstr "Обмін повідомленнями"
+
+#: src/lib/call-session.ts
+msgid "Microphone failed"
+msgstr "Помилка мікрофона"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Minimal"
+msgstr "Мінімальний"
+
+#. js-lingui-explicit-id
+#: src/lib/model-catalog.ts
+msgid "Minimal"
+msgstr "Мінімальний"
+
+#: src/pages/WindowChrome.tsx
+msgid "Minimize"
+msgstr "Згорнути"
+
+#: src/pages/shell/sidebar-header.tsx
+msgid "Minimize bots"
+msgstr "Згорнути ботів"
+
+#: src/components/call/CallCard.tsx
+msgid "Minimize call"
+msgstr "Згорнути дзвінок"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "minute"
+msgstr "хвилина"
+
+#: src/pages/RoutineEditor.tsx
+#: src/pages/RoutineSchedule.tsx
+msgid "minutes"
+msgstr "хвилин"
+
+#: src/components/call/VoiceChatCard.tsx
+msgid "Missed call"
+msgstr "Пропущений дзвінок"
+
+#: src/pages/model-settings/catalog-model-fields.tsx
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/model-settings/model-picker.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/RoutineEditor.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Model"
+msgstr "Модель"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Model \"{modelId}\" was not listed."
+msgstr "Модель «{modelId}» відсутня в списку."
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Model connections"
+msgstr "Підключення моделей"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Model id"
+msgstr "Ідентифікатор моделі"
+
+#: src/pages/model-settings/model-picker.tsx
+msgid "Model options"
+msgstr "Параметри моделі"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Model spend uses your provider keys."
+msgstr "Витрати на моделі використовують ваші ключі провайдерів."
+
+#: src/pages/model-settings/use-model-settings.ts
+msgid "Model updated."
+msgstr "Модель оновлено."
+
+#: src/pages/ModelSettingsOverlay.tsx
+#: src/pages/SettingsOverlay.tsx
+msgid "Models"
+msgstr "Моделі"
+
+#: src/components/ModelCredits.tsx
+msgid "Models at provider cost"
+msgstr "Моделі за ціною провайдера"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Models from server"
+msgstr "Моделі з сервера"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Models list OK. {modelCount, plural, one {# model} other {# models}} available. Chat was not tested."
+msgstr "Список моделей у порядку. {modelCount, plural, one {Доступна # модель} few {Доступні # моделі} many {Доступно # моделей} other {Доступна # модель}}. Чат не перевірявся."
+
+#: src/lib/billing.ts
+msgid "month"
+msgstr "місяць"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "Monthly"
+msgstr "Щомісяця"
+
+#: src/components/ModelCredits.tsx
+msgid "Monthly credits"
+msgstr "Щомісячні кредити"
+
+#: src/components/ModelCredits.tsx
+msgid "Monthly credits expire at renewal. Top-ups do not expire."
+msgstr "Щомісячні кредити згорають після поновлення. Додаткові поповнення не згорають."
+
+#: src/pages/shell/message-hover-actions.tsx
+msgid "More"
+msgstr "Більше"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "More computer actions"
+msgstr "Інші дії з комп’ютером"
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Move {full} down"
+msgstr "Перемістити {full} вниз"
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Move {full} up"
+msgstr "Перемістити {full} вгору"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Move them to your shared memory."
+msgstr "Перемістіть їх до спільної пам’яті."
+
+#: src/pages/BotContextMenu.tsx
+msgid "Move to"
+msgstr "Перемістити до"
+
+#: src/components/call/CallCard.tsx
+msgid "Mute"
+msgstr "Вимкнути звук"
+
+#: src/components/call/CallCard.tsx
+msgid "Muted"
+msgstr "Без звуку"
+
+#: src/components/teach/SkillDraftCard.tsx
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/Auth.tsx
+#: src/pages/GroupPanel.tsx
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/RoutineEditor.tsx
+#: src/pages/shell/bot-credentials.tsx
+#: src/pages/shell/bot-panel.tsx
+#: src/pages/shell/create-bot-dialog.tsx
+#: src/pages/shell/dialogs.tsx
+msgid "Name"
+msgstr "Назва"
+
+#: src/pages/GroupPanel.tsx
+msgid "Name this group"
+msgstr "Назвіть цю групу"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Name this routine"
+msgstr "Назвіть цю рутину"
+
+#: src/pages/shell/create-bot-dialog.tsx
+msgid "Name your Bot"
+msgstr "Назвіть свого бота"
+
+#: src/lib/roster-status.ts
+msgid "Needs an answer"
+msgstr "Потребує відповіді"
+
+#: src/pages/ActivityList.tsx
+msgid "Needs input"
+msgstr "Потребує введення"
+
+#: src/pages/ActivityList.tsx
+msgid "Needs takeover"
+msgstr "Потребує втручання"
+
+#: src/lib/roster-status.ts
+#: src/pages/shell/computer-overlay.tsx
+msgid "Needs you"
+msgstr "Потребує вас"
+
+#: src/pages/shell/chat-context.tsx
+msgid "New"
+msgstr "Нове"
+
+#: src/pages/GroupPanel.tsx
+msgid "New group"
+msgstr "Нова група"
+
+#: src/pages/shell/chat-context.tsx
+msgid "New messages"
+msgstr "Нові повідомлення"
+
+#: src/pages/ScratchpadSection.tsx
+msgid "New open-work item"
+msgstr "Нове відкрите завдання"
+
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/Auth.tsx
+msgid "New password"
+msgstr "Новий пароль"
+
+#: src/pages/BotContextMenu.tsx
+#: src/pages/shell/dialogs.tsx
+msgid "New section"
+msgstr "Новий розділ"
+
+#: src/pages/KnowledgeSection.tsx
+msgid "New skill"
+msgstr "Нова навичка"
+
+#: src/pages/shell/dialogs.tsx
+msgid "New space"
+msgstr "Новий простір"
+
+#: src/pages/Board.tsx
+msgid "New ticket"
+msgstr "Новий квиток"
+
+#: src/pages/SettingsOverlay.tsx
+msgid "Next settings sections"
+msgstr "Наступні розділи налаштувань"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "No agent connections yet."
+msgstr "Підключень агентів ще немає."
+
+#: src/pages/PluginsOverlay.tsx
+msgid "No apps match your search."
+msgstr "Немає застосунків за вашим пошуком."
+
+#: src/pages/Artifacts.tsx
+msgid "No artifacts found."
+msgstr "Артефактів не знайдено."
+
+#: src/pages/PluginsOverlay.tsx
+msgid "No auth"
+msgstr "Без автентифікації"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "No authentication"
+msgstr "Без автентифікації"
+
+#: src/pages/shell/command-palette.tsx
+msgid "No bots"
+msgstr "Немає ботів"
+
+#: src/pages/GroupPanel.tsx
+#: src/pages/shell/bot-picker.tsx
+msgid "No bots match"
+msgstr "Немає відповідних ботів"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "No chat apps linked yet."
+msgstr "Застосунки чату ще не прив’язані."
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "No group chats yet."
+msgstr "Групових чатів ще немає."
+
+#: src/components/AskCard.tsx
+msgid "No longer active"
+msgstr "Більше не активний"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "No managed app catalog is configured on this deployment."
+msgstr "У цьому розгортанні не налаштовано керований каталог застосунків."
+
+#: src/pages/Artifacts.tsx
+msgid "No matching artifacts on this page."
+msgstr "На цій сторінці немає відповідних артефактів."
+
+#: src/pages/model-settings/model-picker.tsx
+#: src/pages/shell/chat-model-picker.tsx
+msgid "No matching models"
+msgstr "Немає відповідних моделей"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "No MCP or API tool sources installed yet."
+msgstr "Джерел інструментів MCP чи API ще не встановлено."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "No MCP servers yet."
+msgstr "Серверів MCP ще немає."
+
+#: src/pages/GroupPanel.tsx
+msgid "No members yet"
+msgstr "Учасників ще немає"
+
+#: src/pages/PeerMessagesOverlay.tsx
+msgid "No messages with {peerBotName} yet."
+msgstr "Повідомлень із {peerBotName} ще немає."
+
+#: src/pages/ModelSettingsOverlay.tsx
+msgid "No model catalog is available."
+msgstr "Каталог моделей недоступний."
+
+#: src/lib/model-connection-preflight.ts
+msgid "No models listed."
+msgstr "Моделей у списку немає."
+
+#: src/pages/model-settings/provider-list.tsx
+msgid "No providers found."
+msgstr "Провайдерів не знайдено."
+
+#: src/components/integrations/IntegrationSetup.tsx
+msgid "No remote MCP servers found"
+msgstr "Віддалених серверів MCP не знайдено"
+
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/SpaceSearch.tsx
+msgid "No results"
+msgstr "Немає результатів"
+
+#: src/pages/ActivityList.tsx
+msgid "No runs match these filters."
+msgstr "Цим фільтрам не відповідає жоден запуск."
+
+#: src/pages/RoutineRunHistory.tsx
+msgid "No runs yet"
+msgstr "Запусків ще немає"
+
+#: src/pages/KnowledgeSection.tsx
+msgid "No skills yet"
+msgstr "Навичок ще немає"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "No team conversations yet."
+msgstr "Командних розмов ще немає."
+
+#: src/pages/Board.tsx
+msgid "No tickets yet"
+msgstr "Квитків ще немає"
+
+#: src/pages/RoutineEditor.tsx
+msgid "No trigger"
+msgstr "Без тригера"
+
+#: src/lib/ticket-priority.ts
+msgid "Normal"
+msgstr "Звичайний"
+
+#: src/components/McpServerHealthLine.tsx
+msgid "Not checked yet"
+msgstr "Ще не перевірено"
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Not connected"
+msgstr "Не підключено"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Not in the plugin catalog"
+msgstr "Немає в каталозі плагінів"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Not now"
+msgstr "Не зараз"
+
+#: src/components/McpServerHealthLine.tsx
+msgid "Not working"
+msgstr "Не працює"
+
+#: src/pages/KnowledgeSection.tsx
+msgid "Nothing remembered yet"
+msgstr "Ще нічого не запам’ятано"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Notifications"
+msgstr "Сповіщення"
+
+#: src/pages/ActivityList.tsx
+msgid "Now"
+msgstr "Зараз"
+
+#. placeholder {0}: selected.label
+#: src/pages/model-settings/use-model-settings.ts
+msgid "Now using {0}."
+msgstr "Тепер використовується {0}."
+
+#: src/pages/McpOAuthCallback.tsx
+msgid "OAuth authorization was cancelled."
+msgstr "Авторизацію OAuth скасовано."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "OAuth client ID (optional)"
+msgstr "Ідентифікатор клієнта OAuth (необов’язково)"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "OAuth client secret (optional)"
+msgstr "Клієнтський секрет OAuth (необов’язково)"
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
+msgid "OAuth connected"
+msgstr "OAuth підключено"
+
+#: src/pages/McpOAuthCallback.tsx
+msgid "OAuth connection failed"
+msgstr "Не вдалося підключити OAuth"
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
+msgid "OAuth expired"
+msgstr "Строк дії OAuth минув"
+
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Ollama API key"
+msgstr "API-ключ Ollama"
+
+#: src/pages/model-settings/provider-list.tsx
+#: src/pages/Onboarding.tsx
+msgid "Ollama Cloud"
+msgstr "Ollama Cloud"
+
+#: src/pages/RoutineEditor.tsx
+msgid "On a schedule"
+msgstr "За розкладом"
+
+#. placeholder {0}: preset.time
+#: src/pages/RoutineSchedule.tsx
+msgid "on the 1st at {0}"
+msgstr "1-го числа о {0}"
+
+#: src/components/ModelCredits.tsx
+msgid "One-time purchase. Credits do not expire."
+msgstr "Одноразова покупка. Кредити не згорають."
+
+#: src/pages/Shell.tsx
+msgid "Only empty spaces can be deleted. Delete its bots and groups first."
+msgstr "Видалити можна лише порожні простори. Спочатку видаліть його ботів і групи."
+
+#: src/components/markdown-link-prompt.tsx
+#: src/pages/shell/computer-panel.tsx
+#: src/pages/shell/message-view.tsx
+msgid "Open"
+msgstr "Відкрити"
+
+#. placeholder {0}: group.title
+#: src/pages/shell/sidebar-roster.tsx
+msgid "Open {0}"
+msgstr "Відкрити {0}"
+
+#. placeholder {0}: oauth.verificationUri.replace(/^https:\/\//, "")
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Open <0>{0}</0> and enter this code:"
+msgstr "Відкрийте <0>{0}</0> і введіть цей код:"
+
+#. placeholder {0}: new URL(oauth.verificationUri).hostname
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Open <0>{0}</0> to finish signing in."
+msgstr "Відкрийте <0>{0}</0>, щоб завершити вхід."
+
+#: src/pages/Shell.tsx
+msgid "Open call"
+msgstr "Відкрити дзвінок"
+
+#. placeholder {0}: call.botName
+#: src/components/call/CallCard.tsx
+msgid "Open chat with {0}"
+msgstr "Відкрити чат із {0}"
+
+#: src/components/ComputersUnavailableHint.tsx
+msgid "Open computer settings"
+msgstr "Відкрити налаштування комп’ютера"
+
+#: src/components/markdown-link-prompt.tsx
+msgid "Open external link?"
+msgstr "Відкрити зовнішнє посилання?"
+
+#: src/pages/shell/computer-panel.tsx
+msgid "Open in full window"
+msgstr "Відкрити на все вікно"
+
+#: src/pages/Shell.tsx
+msgid "Open navigation"
+msgstr "Відкрити навігацію"
+
+#: src/pages/ScratchpadSection.tsx
+msgid "Open work"
+msgstr "Відкриті завдання"
+
+#: src/pages/Onboarding.tsx
+msgid "OpenAI API"
+msgstr "OpenAI API"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "OpenAI-compatible server URL"
+msgstr "URL сервера, сумісного з OpenAI"
+
+#: src/pages/shell/message-view.tsx
+msgid "Opened its thread."
+msgstr "Відкрито його гілку."
+
+#: src/pages/Onboarding.tsx
+msgid "Opening chat…"
+msgstr "Відкриття чату…"
+
+#: src/App.tsx
+msgid "Opening your Space…"
+msgstr "Відкриваємо ваш простір…"
+
+#: src/components/SignupSurvey.tsx
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Optional"
+msgstr "Необов’язково"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Optional header value"
+msgstr "Необов’язкове значення заголовка"
+
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Or paste an API key"
+msgstr "Або вставте API-ключ"
+
+#: src/pages/memory-providers/SupermemorySettingsForm.tsx
+msgid "Organization API key"
+msgstr "API-ключ організації"
+
+#: src/pages/shell/chat-context.tsx
+msgid "Original message unavailable"
+msgstr "Оригінальне повідомлення недоступне"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Other model…"
+msgstr "Інша модель…"
+
+#: src/lib/identity-display.ts
+#: src/pages/Board.tsx
+msgid "Owner"
+msgstr "Власник"
+
+#: src/pages/RoutineEditor.tsx
+msgid "PagerDuty incident"
+msgstr "Інцидент PagerDuty"
+
+#: src/components/PasskeySettings.tsx
+msgid "Passkey"
+msgstr "Ключ доступу"
+
+#: src/components/PasskeySettings.tsx
+msgid "Passkeys"
+msgstr "Ключі доступу"
+
+#: src/components/AskCard.tsx
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/Auth.tsx
+#: src/pages/shell/bot-credentials.tsx
+msgid "Password"
+msgstr "Пароль"
+
+#: src/pages/Auth.tsx
+msgid "Password recovery is not configured for this server"
+msgstr "Відновлення пароля не налаштовано на цьому сервері"
+
+#: src/lib/user-error.ts
+msgid "Password sign-in is turned off on this server"
+msgstr "Вхід за паролем вимкнено на цьому сервері"
+
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/Auth.tsx
+msgid "Password updated"
+msgstr "Пароль оновлено"
+
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/Auth.tsx
+msgid "Passwords do not match"
+msgstr "Паролі не збігаються"
+
+#: src/pages/BillingSettingsPanel.tsx
+msgid "Past due"
+msgstr "Прострочено"
+
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Paste a replacement key"
+msgstr "Вставте новий ключ"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+msgid "Paste the OpenAI-compatible address from your server. Rakazo adds /v1 if needed."
+msgstr "Вставте адресу вашого сервера, сумісного з OpenAI. Rakazo додасть /v1 за потреби."
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Paste your API key"
+msgstr "Вставте свій API-ключ"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Paste your API key, then test again."
+msgstr "Вставте свій API-ключ, а потім повторіть тест."
+
+#: src/pages/RoutineEditor.tsx
+msgid "Paused"
+msgstr "Призупинено"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Permissions"
+msgstr "Дозволи"
+
+#: src/components/SignupSurvey.tsx
+msgid "Personal"
+msgstr "Особистий"
+
+#: src/components/call/VoiceChatCard.tsx
+msgid "Phone call"
+msgstr "Телефонний дзвінок"
+
+#: src/pages/shell/chat-context.tsx
+#: src/pages/shell/chat-shared.ts
+msgid "Photo"
+msgstr "Фото"
+
+#: src/pages/GroupPanel.tsx
+msgid "Pick {GROUP_MEMBER_MIN}–{GROUP_MEMBER_MAX}"
+msgstr "Виберіть {GROUP_MEMBER_MIN}–{GROUP_MEMBER_MAX}"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Pick a model from the catalog."
+msgstr "Виберіть модель із каталогу."
+
+#: src/lib/model-connection-preflight.ts
+msgid "Pick a model from the list or enter a model id served by this endpoint."
+msgstr "Виберіть модель зі списку або введіть ідентифікатор моделі, яку подає цей ендпоінт."
+
+#: src/pages/RoutineEditor.tsx
+msgid "Pick a tool to check"
+msgstr "Виберіть інструмент для перевірки"
+
+#: src/pages/BotContextMenu.tsx
+msgid "Pin"
+msgstr "Закріпити"
+
+#: src/pages/Shell.tsx
+msgid "Pinned"
+msgstr "Закріплено"
+
+#: src/components/ArtifactFileCard.tsx
+msgid "Play {name}"
+msgstr "Відтворити {name}"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Playing…"
+msgstr "Відтворення…"
+
+#: src/pages/KnowledgeSection.tsx
+msgid "Plugin"
+msgstr "Плагін"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Post \"No changes\" in chat"
+msgstr "Написати «Без змін» у чаті"
+
+#: src/pages/RoutineEditor.tsx
+msgid "POST to"
+msgstr "POST на"
+
+#. placeholder {0}: props.name
+#: src/components/ArtifactFileCard.tsx
+msgid "Preview {0}"
+msgstr "Попередній перегляд {0}"
+
+#: src/pages/Artifacts.tsx
+msgid "Preview isn't available for this file type — download it to view it."
+msgstr "Попередній перегляд недоступний для цього типу файлу — завантажте його, щоб переглянути."
+
+#: src/pages/SettingsOverlay.tsx
+msgid "Previous settings sections"
+msgstr "Попередні розділи налаштувань"
+
+#: src/pages/Board.tsx
+msgid "Priority"
+msgstr "Пріоритет"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Private"
+msgstr "Приватний"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Private workspace with its own bots and groups."
+msgstr "Приватний робочий простір із власними ботами та групами."
+
+#: src/components/teach/TeachRecordingChrome.tsx
+msgid "Protected input"
+msgstr "Захищене введення"
+
+#: src/pages/MemorySettingsOverlay.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Provider"
+msgstr "Провайдер"
+
+#: src/pages/model-settings/provider-list.tsx
+msgid "Providers"
+msgstr "Провайдери"
+
+#: src/components/CloudAgentCard.tsx
+msgid "Pull request"
+msgstr "Pull request"
+
+#: src/pages/ActivityList.tsx
+msgid "Queued"
+msgstr "У черзі"
+
+#: src/pages/shell/quote-selection-button.tsx
+msgid "Quote"
+msgstr "Цитувати"
+
+#: src/components/ModelCredits.tsx
+msgid "Rakazo credits"
+msgstr "Кредити Rakazo"
+
+#: src/pages/memory-providers/HonchoSettingsForm.tsx
+msgid "rakazo-shared and IDs starting with bot- are reserved for Rakazo."
+msgstr "rakazo-shared та ідентифікатори, що починаються з bot-, зарезервовані для Rakazo."
+
+#: src/pages/shell/message-hover-actions.tsx
+msgid "React"
+msgstr "Реагувати"
+
+#: src/pages/shell/message-hover-actions.tsx
+msgid "Reactions"
+msgstr "Реакції"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Read replies aloud"
+msgstr "Читати відповіді вголос"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Reasoning effort"
+msgstr "Рівень міркувань"
+
+#: src/pages/memory-providers/SerenitySettingsForm.tsx
+msgid "Recall and write"
+msgstr "Згадувати й записувати"
+
+#: src/pages/memory-providers/SerenitySettingsForm.tsx
+msgid "Recall only"
+msgstr "Лише згадувати"
+
+#: src/pages/ActivityList.tsx
+msgid "Recent"
+msgstr "Нещодавні"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Reconnect"
+msgstr "Перепідключити"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Reconnect OAuth"
+msgstr "Перепідключити OAuth"
+
+#: src/App.tsx
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Reconnecting"
+msgstr "Перепідключення"
+
+#: src/components/teach/TeachComputerOverlay.tsx
+msgid "Recording may have started, but the view could not refresh"
+msgstr "Запис міг розпочатися, але подання не вдалося оновити"
+
+#: src/components/teach/TeachComputerOverlay.tsx
+msgid "Recording started. Refresh the view to continue."
+msgstr "Запис розпочато. Оновіть подання, щоб продовжити."
+
+#. placeholder {0}: recording.goal
+#: src/components/teach/TeachRecordingChrome.tsx
+msgid "Recording: {0}"
+msgstr "Запис: {0}"
+
+#: src/components/ComputerMaintenanceActions.tsx
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Recover computer"
+msgstr "Відновити комп’ютер"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Recover computer?"
+msgstr "Відновити комп’ютер?"
+
+#. placeholder {0}: update.name
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Recovering {0}’s Computer"
+msgstr "Відновлення комп’ютера {0}"
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Recovering Team Computer"
+msgstr "Відновлення командного комп’ютера"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Recovering…"
+msgstr "Відновлення…"
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Recovery failed"
+msgstr "Не вдалося відновити"
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Recovery is unavailable until the previous operation has stopped."
+msgstr "Відновлення недоступне, доки не зупинено попередню операцію."
+
+#: src/components/ComputerMaintenanceActions.tsx
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Recovery restores the last saved workspace. Unsaved work may be lost."
+msgstr "Відновлення повертає останній збережений робочий простір. Незбережена робота може бути втрачена."
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Recreate a computer that is not working."
+msgstr "Створіть комп’ютер заново, якщо він не працює."
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Recreating the computer"
+msgstr "Повторне створення комп’ютера"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Redirect URI"
+msgstr "URI перенаправлення"
+
+#: src/App.tsx
+#: src/components/ErrorBoundary.tsx
+#: src/components/ModelCredits.tsx
+#: src/pages/RoutineRunHistory.tsx
+msgid "Refresh"
+msgstr "Оновити"
+
+#: src/components/ModelCredits.tsx
+msgid "Refresh credits"
+msgstr "Оновити кредити"
+
+#: src/components/teach/TeachComputerOverlay.tsx
+msgid "Refresh view"
+msgstr "Оновити подання"
+
+#: src/components/teach/TeachComputerOverlay.tsx
+msgid "Refreshing…"
+msgstr "Оновлення…"
+
+#: src/lib/user-error.ts
+msgid "Registration is closed"
+msgstr "Реєстрацію закрито"
+
+#: src/pages/shell/computer-release-actions.tsx
+msgid "Release control"
+msgstr "Віддати керування"
+
+#: src/components/InstructionSettings.tsx
+msgid "Reload"
+msgstr "Перезавантажити"
+
+#: src/components/ApprovalRulesSettings.tsx
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/ScratchpadSection.tsx
+#: src/pages/shell/bot-credentials.tsx
+msgid "Remove"
+msgstr "Вилучити"
+
+#. placeholder {0}: attachment.file.name
+#: src/pages/shell/composer.tsx
+msgid "Remove {0}"
+msgstr "Вилучити {0}"
+
+#. placeholder {0}: bot.name
+#: src/pages/GroupPanel.tsx
+msgid "Remove {0} from the group"
+msgstr "Вилучити {0} з групи"
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Remove {full}"
+msgstr "Вилучити {full}"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Remove {secretName}? This bot will no longer be able to use it."
+msgstr "Вилучити {secretName}? Цей бот більше не зможе ним користуватися."
+
+#: src/pages/RoutineEditor.tsx
+msgid "Remove change trigger"
+msgstr "Вилучити тригер зміни"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Remove Git event"
+msgstr "Вилучити подію Git"
+
+#: src/components/ModelHeadersEditor.tsx
+msgid "Remove header"
+msgstr "Вилучити заголовок"
+
+#. placeholder {0}: mention.name
+#: src/pages/shell/composer.tsx
+msgid "Remove mention {0}"
+msgstr "Вилучити згадку {0}"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Remove message trigger"
+msgstr "Вилучити тригер повідомлення"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Remove schedule"
+msgstr "Вилучити розклад"
+
+#. placeholder {0}: selectedSkill.name
+#: src/pages/shell/composer.tsx
+msgid "Remove skill {0}"
+msgstr "Вилучити навичку {0}"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Remove webhook"
+msgstr "Вилучити вебгук"
+
+#: src/pages/shell/message-view.tsx
+msgid "Removed with chat, computer, and memory."
+msgstr "Вилучено разом із чатом, комп’ютером і пам’яттю."
+
+#: src/pages/ScratchpadSection.tsx
+msgid "Removed, but list refresh failed"
+msgstr "Вилучено, але не вдалося оновити список"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Removing…"
+msgstr "Вилучення…"
+
+#: src/components/PasskeySettings.tsx
+msgid "Rename"
+msgstr "Перейменувати"
+
+#: src/pages/BotContextMenu.tsx
+#: src/pages/shell/dialogs.tsx
+#: src/pages/shell/sidebar-roster.tsx
+msgid "Rename section"
+msgstr "Перейменувати розділ"
+
+#: src/pages/Shell.tsx
+#: src/pages/shell/dialogs.tsx
+msgid "Rename space"
+msgstr "Перейменувати простір"
+
+#: src/pages/BillingSettingsPanel.tsx
+msgid "Renews {day}"
+msgstr "Поновлюється {day}"
+
+#: src/pages/ScratchpadSection.tsx
+msgid "Reopen"
+msgstr "Відкрити знову"
+
+#: src/pages/model-settings/connection-controls.tsx
+msgid "Replace API key"
+msgstr "Замінити API-ключ"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Replace key"
+msgstr "Замінити ключ"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Replace value"
+msgstr "Замінити значення"
+
+#: src/pages/shell/message-hover-actions.tsx
+msgid "Reply"
+msgstr "Відповісти"
+
+#: src/pages/shell/composer.tsx
+msgid "Reply cancelled"
+msgstr "Відповідь скасовано"
+
+#. placeholder {0}: replyNameRef.current
+#: src/pages/shell/composer.tsx
+msgid "Replying to {0}"
+msgstr "Відповідь для {0}"
+
+#: src/lib/user-error.ts
+msgid "Request a new code"
+msgstr "Надіслати новий код"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Research & writing"
+msgstr "Дослідження та написання текстів"
+
+#: src/components/ComputerMaintenanceActions.tsx
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Reset"
+msgstr "Скинути"
+
+#: src/pages/ActivityList.tsx
+msgid "Reset all"
+msgstr "Скинути все"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Reset computer"
+msgstr "Скинути комп’ютер"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Reset computer?"
+msgstr "Скинути комп’ютер?"
+
+#: src/pages/Auth.tsx
+msgid "Reset password"
+msgstr "Скинути пароль"
+
+#: src/pages/Auth.tsx
+msgid "Reset your password"
+msgstr "Скиньте свій пароль"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Resetting…"
+msgstr "Скидання…"
+
+#: src/pages/shell/sidebar-layout.tsx
+msgid "Resize bots sidebar"
+msgstr "Змінити розмір бічної панелі ботів"
+
+#: src/pages/ResizableSidePanel.tsx
+msgid "Resize panel"
+msgstr "Змінити розмір панелі"
+
+#: src/components/DesktopUpdates.tsx
+msgid "Restart to update"
+msgstr "Перезапустіть для оновлення"
+
+#: src/components/InstructionSettings.tsx
+#: src/pages/shell/archived-chats.tsx
+msgid "Restore"
+msgstr "Відновити"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Restore the last saved workspace."
+msgstr "Відновити останній збережений робочий простір."
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Restore the last saved workspace. Unsaved work on the computer is lost."
+msgstr "Відновлює останній збережений робочий простір. Незбережена робота на комп’ютері буде втрачена."
+
+#: src/components/AskCard.tsx
+msgid "Restored"
+msgstr "Відновлено"
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Restoring your workspace"
+msgstr "Відновлюємо ваш робочий простір"
+
+#: src/components/AccountAccess.tsx
+#: src/components/PasskeySettings.tsx
+#: src/pages/Auth.tsx
+#: src/pages/ModelBackupsSettings.tsx
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/SettingsOverlay.tsx
+msgid "Retry"
+msgstr "Повторити"
+
+#: src/App.tsx
+#: src/pages/PeerMessagesOverlay.tsx
+msgid "Retry now"
+msgstr "Повторити зараз"
+
+#: src/pages/Shell.tsx
+msgid "Retry screen"
+msgstr "Повторити екран"
+
+#. placeholder {0}: call.botName
+#: src/components/call/CallCard.tsx
+msgid "Return to call with {0}"
+msgstr "Повернутися до дзвінка з {0}"
+
+#: src/pages/McpOAuthCallback.tsx
+msgid "Return to Rakazo"
+msgstr "Повернутися до Rakazo"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Review provider settings and test again."
+msgstr "Перевірте налаштування провайдера та повторіть тест."
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Revoke"
+msgstr "Відкликати"
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Room guidance"
+msgstr "Настанови для кімнати"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Rotate key"
+msgstr "Перегенерувати ключ"
+
+#: src/lib/identity-display.ts
+#: src/pages/RoutineEditor.tsx
+#: src/pages/shell/use-routine-editor.ts
+msgid "Routine"
+msgstr "Рутина"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Routines"
+msgstr "Рутини"
+
+#: src/pages/Paywall.tsx
+msgid "Routines that run while you're away"
+msgstr "Рутини, що виконуються під час вашої відсутності"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Run at"
+msgstr "Запуск о"
+
+#: src/pages/RoutineRunHistory.tsx
+msgid "Run history"
+msgstr "Історія запусків"
+
+#: src/pages/shell/use-routine-editor.ts
+msgid "Run time must be in the future."
+msgstr "Час запуску має бути в майбутньому."
+
+#: src/components/CloudAgentCard.tsx
+msgid "running"
+msgstr "виконується"
+
+#: src/components/McpServerHealthLine.tsx
+#: src/components/SubagentCard.tsx
+#: src/pages/ActivityList.tsx
+msgid "Running"
+msgstr "Виконується"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Running · Stop"
+msgstr "Виконується · Зупинити"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Running…"
+msgstr "Виконується…"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Runs when this bot receives a verified message from this provider."
+msgstr "Запускається, коли цей бот отримує перевірене повідомлення від цього провайдера."
+
+#: src/components/AskCard.tsx
+#: src/components/PasskeySettings.tsx
+#: src/components/teach/SkillDraftCard.tsx
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/Board.tsx
+#: src/pages/ExternalConversationSettings.tsx
+#: src/pages/GroupPanel.tsx
+#: src/pages/KnowledgeSection.tsx
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/RoutineEditor.tsx
+#: src/pages/shell/bot-panel.tsx
+#: src/pages/shell/dialogs.tsx
+msgid "Save"
+msgstr "Зберегти"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Save credential"
+msgstr "Зберегти облікові дані"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Save new value"
+msgstr "Зберегти нове значення"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Save the workspace and install current software."
+msgstr "Зберегти робочий простір і встановити поточне програмне забезпечення."
+
+#: src/components/AskCard.tsx
+#: src/components/teach/SkillDraftCard.tsx
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Saved"
+msgstr "Збережено"
+
+#: src/pages/ScratchpadSection.tsx
+msgid "Saved, but list refresh failed"
+msgstr "Збережено, але не вдалося оновити список"
+
+#: src/pages/model-settings/use-model-settings.ts
+msgid "Saved."
+msgstr "Збережено."
+
+#: src/pages/RoutineEditor.tsx
+msgid "Saved. Rotate to reveal."
+msgstr "Збережено. Перегенеруйте, щоб показати."
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Saving your workspace"
+msgstr "Зберігаємо ваш робочий простір"
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Saving..."
+msgstr "Збереження..."
+
+#: src/components/AskCard.tsx
+#: src/components/teach/SkillDraftCard.tsx
+#: src/pages/GroupPanel.tsx
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/RoutineEditor.tsx
+#: src/pages/shell/bot-credentials.tsx
+#: src/pages/shell/dialogs.tsx
+msgid "Saving…"
+msgstr "Збереження…"
+
+#: src/lib/call-session.ts
+msgid "Say yes or no, or answer in a sentence."
+msgstr "Скажіть «так» чи «ні» або дайте відповідь одним реченням."
+
+#: src/components/ModelCredits.tsx
+msgid "Scheduled routines"
+msgstr "Рутини за розкладом"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Scopes (optional)"
+msgstr "Області дії (необов’язково)"
+
+#: src/pages/model-settings/model-picker.tsx
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/Shell.tsx
+#: src/pages/shell/bot-picker.tsx
+#: src/pages/shell/chat-model-picker.tsx
+#: src/pages/shell/command-palette.tsx
+msgid "Search"
+msgstr "Пошук"
+
+#: src/components/integrations/IntegrationSetup.tsx
+#: src/pages/PluginsOverlay.tsx
+msgid "Search apps"
+msgstr "Шукати застосунки"
+
+#: src/pages/Artifacts.tsx
+msgid "Search artifacts…"
+msgstr "Шукати артефакти…"
+
+#: src/pages/shell/command-palette.tsx
+msgid "Search bots and switch conversations"
+msgstr "Шукати ботів і перемикати розмови"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Search by domain"
+msgstr "Шукати за доменом"
+
+#: src/components/integrations/IntegrationSetup.tsx
+msgid "Search integrations.sh"
+msgstr "Шукати на integrations.sh"
+
+#: src/pages/model-settings/model-picker.tsx
+#: src/pages/shell/chat-model-picker.tsx
+msgid "Search models"
+msgstr "Шукати моделі"
+
+#: src/pages/model-settings/provider-list.tsx
+msgid "Search providers"
+msgstr "Шукати провайдери"
+
+#: src/pages/Shell.tsx
+msgid "Search runs"
+msgstr "Шукати запуски"
+
+#. placeholder {0}: filters.query.trim()
+#: src/pages/ActivityList.tsx
+msgid "Search: {0}"
+msgstr "Пошук: {0}"
+
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/SpaceSearch.tsx
+msgid "Searching…"
+msgstr "Пошук…"
+
+#: src/pages/Shell.tsx
+msgid "Select a bot"
+msgstr "Виберіть бота"
+
+#: src/pages/shell/composer.tsx
+msgid "Send"
+msgstr "Надіслати"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Send <0>{linkCode}</0> to the line from your chat app within 10 minutes. You'll get a confirmation reply once linked."
+msgstr "Надішліть <0>{linkCode}</0> у рядок із вашого чат-застосунку протягом 10 хвилин. Після прив’язування ви отримаєте підтверджувальну відповідь."
+
+#: src/components/AskCard.tsx
+msgid "Send answer"
+msgstr "Надіслати відповідь"
+
+#: src/components/AccountAccess.tsx
+msgid "Send deletion code"
+msgstr "Надіслати код видалення"
+
+#: src/components/AskCard.tsx
+msgid "Send it"
+msgstr "Надіслати"
+
+#: src/components/composer/HoldToTalk.tsx
+msgid "Send recording"
+msgstr "Надіслати запис"
+
+#: src/pages/Auth.tsx
+msgid "Send reset link"
+msgstr "Надіслати посилання для скидання"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Send with Enter"
+msgstr "Надсилати клавішею Enter"
+
+#: src/components/AskCard.tsx
+msgid "Sending…"
+msgstr "Надсилання…"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Sentry alert"
+msgstr "Сповіщення Sentry"
+
+#: src/pages/memory-providers/SerenitySettingsForm.tsx
+msgid "Serenity endpoint is required."
+msgstr "Потрібен ендпоінт Serenity."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Server name"
+msgstr "Назва сервера"
+
+#: src/components/integrations/IntegrationSetup.tsx
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Server URL"
+msgstr "URL сервера"
+
+#: src/components/call/CallCard.tsx
+#: src/components/SidebarFooter.tsx
+#: src/pages/MessagingSettingsOverlay.tsx
+#: src/pages/SettingsOverlay.tsx
+#: src/pages/Shell.tsx
+msgid "Settings"
+msgstr "Налаштування"
+
+#: src/pages/shell/composer-mentions.tsx
+msgid "Settings: General"
+msgstr "Налаштування: Загальні"
+
+#: src/pages/shell/composer-mentions.tsx
+msgid "Settings: Usage"
+msgstr "Налаштування: Використання"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+msgid "Setup help"
+msgstr "Допомога з налаштуванням"
+
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Shape"
+msgstr "Форма"
+
+#. placeholder {0}: index + 1
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Shape {0}"
+msgstr "Форма {0}"
+
+#: src/pages/MemorySettingsOverlay.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Shared"
+msgstr "Спільний"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Shared chat with {GROUP_MEMBER_MIN}-{GROUP_MEMBER_MAX} bots. They all reply in the same thread."
+msgstr "Спільний чат із {GROUP_MEMBER_MIN}-{GROUP_MEMBER_MAX} ботами. Усі вони відповідають в одній гілці."
+
+#: src/pages/KnowledgeSection.tsx
+msgid "Shared documents"
+msgstr "Спільні документи"
+
+#: src/pages/GroupPanel.tsx
+msgid "Show all"
+msgstr "Показати всі"
+
+#: src/pages/shell/sidebar-header.tsx
+msgid "Show bots"
+msgstr "Показати ботів"
+
+#: src/pages/Shell.tsx
+msgid "Show computer"
+msgstr "Показати комп’ютер"
+
+#: src/pages/Artifacts.tsx
+msgid "Show list"
+msgstr "Показати список"
+
+#: src/pages/KnowledgeSection.tsx
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/ScratchpadSection.tsx
+msgid "Show more"
+msgstr "Показати більше"
+
+#: src/components/I18nBootstrap.tsx
+msgid "Show password"
+msgstr "Показати пароль"
+
+#: src/pages/GroupPanel.tsx
+msgid "Show selected"
+msgstr "Показати вибране"
+
+#: src/pages/Shell.tsx
+msgid "Show settings"
+msgstr "Показати налаштування"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Show tool activity"
+msgstr "Показати активність інструментів"
+
+#: src/components/call/VoiceChatCard.tsx
+msgid "Show transcript"
+msgstr "Показати транскрипцію"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Sidebar density"
+msgstr "Щільність бічної панелі"
+
+#: src/lib/localized-provider-hint.ts
+#: src/pages/Auth.tsx
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+#: src/pages/Welcome.tsx
+msgid "Sign in"
+msgstr "Увійти"
+
+#: src/components/AccountAccess.tsx
+#: src/lib/passkeys.ts
+#: src/lib/user-error.ts
+#: src/pages/model-settings/connection-controls.tsx
+msgid "Sign in again"
+msgstr "Увійти знову"
+
+#: src/pages/Auth.tsx
+msgid "Sign in to Rakazo"
+msgstr "Увійдіть до Rakazo"
+
+#: src/lib/user-error.ts
+msgid "Sign in to your existing account to link SSO"
+msgstr "Увійдіть до наявного облікового запису, щоб прив’язати SSO"
+
+#: src/components/PasskeySignIn.tsx
+msgid "Sign in with passkey"
+msgstr "Увійти за ключом доступу"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Sign in with the subscription, or test the API key instead."
+msgstr "Увійдіть за підпискою або натомість перевірте API-ключ."
+
+#: src/pages/Auth.tsx
+#: src/pages/Welcome.tsx
+msgid "Sign up"
+msgstr "Зареєструватися"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Site"
+msgstr "Сайт"
+
+#. placeholder {0}: skill.name
+#: src/pages/shell/composer.tsx
+msgid "Skill {0}"
+msgstr "Навичка {0}"
+
+#: src/pages/KnowledgeSection.tsx
+msgid "Skills"
+msgstr "Навички"
+
+#: src/pages/shell/computer-release-actions.tsx
+msgid "Skip"
+msgstr "Пропустити"
+
+#: src/lib/localized-provider-hint.ts
+msgid "Skip or deploy key"
+msgstr "Пропустити або ключ розгортання"
+
+#. placeholder {0}: skipped.join(", ")
+#: src/pages/Shell.tsx
+msgid "Skipped {0}"
+msgstr "Пропущено {0}"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Slack message"
+msgstr "Повідомлення Slack"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Slack not enabled"
+msgstr "Slack не увімкнено"
+
+#: src/components/composer/HoldToTalk.tsx
+msgid "Slide up to lock"
+msgstr "Проведіть угору, щоб заблокувати"
+
+#: src/App.tsx
+#: src/lib/user-error.ts
+msgid "Something went wrong. Try again."
+msgstr "Щось пішло не так. Спробуйте ще раз."
+
+#: src/lib/identity-display.ts
+#: src/pages/SettingsOverlay.tsx
+msgid "Space"
+msgstr "Простір"
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Space changed. Reopen Models to load its backup list."
+msgstr "Простір змінився. Відкрийте «Моделі» знову, щоб завантажити його резервний список."
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Space changed. Reopen Models to save its backup list."
+msgstr "Простір змінився. Відкрийте «Моделі» знову, щоб зберегти його резервний список."
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Space default"
+msgstr "Типова для простору"
+
+#: src/pages/shell/dialogs.tsx
+msgid "Spaces"
+msgstr "Простори"
+
+#: src/pages/shell/message-view.tsx
+msgid "Speak"
+msgstr "Говорити"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Speak only"
+msgstr "Лише говорити"
+
+#: src/pages/shell/message-view.tsx
+msgid "Speak this reply"
+msgstr "Озвучити цю відповідь"
+
+#: src/components/call/CallCard.tsx
+msgid "Speaking"
+msgstr "Говорить"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Speech model"
+msgstr "Модель мовлення"
+
+#: src/lib/user-error.ts
+msgid "SSO is temporarily unavailable. Try again."
+msgstr "SSO тимчасово недоступний. Спробуйте ще раз."
+
+#: src/pages/Paywall.tsx
+msgid "Start {trialDays}-day free trial"
+msgstr "Почати {trialDays}-денний безкоштовний пробний період"
+
+#: src/components/teach/TeachComputerOverlay.tsx
+msgid "Start recording"
+msgstr "Почати запис"
+
+#: src/pages/ActivityList.tsx
+msgid "Starting"
+msgstr "Запуск"
+
+#: src/components/teach/TeachComputerOverlay.tsx
+#: src/lib/roster-status.ts
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Starting…"
+msgstr "Запуск…"
+
+#: src/pages/ActivityList.tsx
+#: src/pages/Board.tsx
+msgid "Status"
+msgstr "Статус"
+
+#: src/components/teach/SkillDraftCard.tsx
+msgid "Steps"
+msgstr "Кроки"
+
+#: src/pages/shell/composer.tsx
+#: src/pages/shell/computer-overlay.tsx
+#: src/pages/shell/message-view.tsx
+msgid "Stop"
+msgstr "Зупинити"
+
+#: src/pages/shell/message-view.tsx
+msgid "Stop speaking"
+msgstr "Зупинити озвучення"
+
+#: src/components/teach/TeachRecordingChrome.tsx
+msgid "Stop teaching"
+msgstr "Зупинити навчання"
+
+#. js-lingui-explicit-id
+#: src/lib/browser-notifications.ts
+msgid "Stopped."
+msgstr "Зупинено."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Stored encrypted"
+msgstr "Зберігається зашифрованим"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Stream replies"
+msgstr "Потокове передавання відповідей"
+
+#: src/lib/identity-display.ts
+msgid "subagent"
+msgstr "субагент"
+
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/Onboarding.tsx
+msgid "Submit"
+msgstr "Надіслати"
+
+#: src/components/ModelCredits.tsx
+#: src/pages/Paywall.tsx
+msgid "Subscribe"
+msgstr "Підписатися"
+
+#: src/pages/Paywall.tsx
+msgid "Subscription required"
+msgstr "Потрібна підписка"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Supports images"
+msgstr "Підтримує зображення"
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Supports thinking"
+msgstr "Підтримує міркування"
+
+#: src/pages/model-settings/space-bots-model.tsx
+msgid "Switch"
+msgstr "Переключити"
+
+#: src/pages/shell/command-palette.tsx
+msgid "Switch bot"
+msgstr "Переключити бота"
+
+#: src/pages/model-settings/connection-controls.tsx
+#: src/pages/model-settings/space-bots-model.tsx
+msgid "Switching…"
+msgstr "Переключення…"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "System"
+msgstr "Система"
+
+#: src/pages/shell/computer-overlay.tsx
+msgid "Take control"
+msgstr "Взяти керування"
+
+#: src/components/teach/TeachComputerOverlay.tsx
+msgid "Teach a task"
+msgstr "Навчити завдання"
+
+#: src/pages/Shell.tsx
+msgid "Teaching in progress. Stop teaching before sending a new message."
+msgstr "Триває навчання. Зупиніть навчання перед надсиланням нового повідомлення."
+
+#: src/pages/shell/bot-panel.tsx
+msgid "Team"
+msgstr "Команда"
+
+#: src/pages/shell/computer-view.tsx
+msgid "Team Computer"
+msgstr "Командний комп’ютер"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Team conversations"
+msgstr "Командні розмови"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Teams message"
+msgstr "Повідомлення Teams"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Teams not enabled"
+msgstr "Teams не увімкнено"
+
+#: src/components/teach/SkillDraftCard.tsx
+msgid "Test"
+msgstr "Тест"
+
+#: src/components/ModelConnectionPreflightNotice.tsx
+msgid "Test API key"
+msgstr "Перевірити API-ключ"
+
+#: src/components/ModelConnectionPreflightNotice.tsx
+#: src/pages/McpServersOverlay.tsx
+msgid "Test connection"
+msgstr "Перевірити підключення"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Test run"
+msgstr "Тестовий запуск"
+
+#: src/components/ModelConnectionPreflightNotice.tsx
+#: src/pages/McpServersOverlay.tsx
+msgid "Testing…"
+msgstr "Тестування…"
+
+#: src/lib/model-connection-preflight.ts
+msgid "The connection timed out."
+msgstr "Час очікування підключення минув."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "The model provider returned an error."
+msgstr "Провайдер моделей повернув помилку."
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "The model returned an unusable response. Try again."
+msgstr "Модель повернула непридатну відповідь. Спробуйте ще раз."
+
+#: src/lib/model-connection-preflight.ts
+msgid "The provider is rate-limiting requests."
+msgstr "Провайдер обмежує частоту запитів."
+
+#: src/pages/MemorySettingsOverlay.tsx
+msgid "The selected memory provider is not available in this build."
+msgstr "Вибраного провайдера пам’яті немає в цій збірці."
+
+#: src/pages/model-settings/space-bots-model.tsx
+msgid "Their own model is cleared. You can pick one again in each bot."
+msgstr "Їхні власні моделі очищено. Ви зможете вибрати модель знову в кожного бота."
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "These saved settings can't be read. Remove it and add it again."
+msgstr "Ці збережені налаштування неможливо прочитати. Вилучіть їх і додайте знову."
+
+#: src/components/call/CallCard.tsx
+#: src/pages/model-settings/catalog-model-fields.tsx
+#: src/pages/RoutineEditor.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Thinking"
+msgstr "Міркує"
+
+#: src/pages/ModelSettingsOverlay.tsx
+msgid "Thinking: {activeThinkingLabel}"
+msgstr "Міркує: {activeThinkingLabel}"
+
+#: src/pages/shell/computer-view.tsx
+msgid "This bot runs on this computer, not a Linux desktop. Shell and files use your home folder."
+msgstr "Цей бот працює на цьому комп’ютері, а не на робочому столі Linux. Оболонка та файли використовують вашу домашню папку."
+
+#: src/components/call/IncomingCall.tsx
+msgid "This call is no longer ringing."
+msgstr "Цей дзвінок більше не надходить."
+
+#: src/components/PasskeySettings.tsx
+#: src/pages/Artifacts.tsx
+msgid "This can't be undone."
+msgstr "Це не можна буде скасувати."
+
+#: src/pages/shell/dialogs.tsx
+msgid "This cannot be undone."
+msgstr "Цю дію неможливо скасувати."
+
+#: src/pages/PeerMessagesOverlay.tsx
+msgid "This chat is view-only"
+msgstr "Цей чат доступний лише для перегляду"
+
+#: src/pages/HostComputerPrompt.tsx
+msgid "this computer"
+msgstr "цей комп’ютер"
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "This conversation is too long for the model. Retrying won't help. Start a new chat or shorten your message."
+msgstr "Ця розмова завдовжка для моделі. Повторна спроба не допоможе. Почніть новий чат або скоротіть повідомлення."
+
+#. placeholder {0}: pendingDelete.versionCount
+#: src/pages/Artifacts.tsx
+msgid "This deletes all {0} versions of this artifact. This can't be undone."
+msgstr "Це видалить усі {0} версій цього артефакту. Це не можна буде скасувати."
+
+#: src/components/ArtifactFileCard.tsx
+msgid "This file is not valid UTF-8 text."
+msgstr "Цей файл не є коректним текстом UTF-8."
+
+#: src/pages/HostComputerPrompt.tsx
+msgid "this Mac"
+msgstr "цей Mac"
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "This model's context window is too small. Choose another model."
+msgstr "Контекстне вікно цієї моделі замале. Виберіть іншу модель."
+
+#: src/pages/Artifacts.tsx
+msgid "This month"
+msgstr "Цього місяця"
+
+#: src/components/AccountAccess.tsx
+msgid "This permanently deletes your account and data."
+msgstr "Це остаточно видаляє ваш обліковий запис і дані."
+
+#: src/pages/shell/dialogs.tsx
+msgid "This permanently removes every message and stops current work. The chat remains available."
+msgstr "Це остаточно вилучає всі повідомлення та зупиняє поточну роботу. Чат залишається доступним."
+
+#: src/lib/model-connection-preflight.ts
+msgid "This provider cannot be tested without saving."
+msgstr "Цей провайдер неможливо перевірити без збереження."
+
+#: src/lib/model-connection-preflight.ts
+msgid "This provider is not connected yet."
+msgstr "Цей провайдер ще не підключено."
+
+#: src/pages/ModelSettingsOverlay.tsx
+msgid "This removes the connection from every space."
+msgstr "Це вилучає підключення з усіх просторів."
+
+#: src/pages/Auth.tsx
+msgid "This reset link is invalid or expired"
+msgstr "Це посилання для скидання недійсне або його строк дії минув"
+
+#: src/pages/shell/message-cards.tsx
+msgid "This server cannot be assigned without a bot."
+msgstr "Цей сервер неможливо призначити без бота."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "This server did not request browser authorization."
+msgstr "Цей сервер не запитував авторизацію браузера."
+
+#: src/pages/McpServersOverlay.tsx
+msgid "This server is already connected. Disconnect it first to authorize again."
+msgstr "Цей сервер уже підключено. Спочатку відключіть його, щоб авторизувати знову."
+
+#: src/pages/model-settings/connection-controls.tsx
+msgid "This subscription sign-in is not available in Rakazo yet. Use a deployment credential or choose another provider."
+msgstr "Такий вхід за підпискою поки недоступний у Rakazo. Використайте облікові дані розгортання або виберіть іншого провайдера."
+
+#: src/pages/Artifacts.tsx
+msgid "This week"
+msgstr "Цього тижня"
+
+#: src/pages/RoutineSchedule.tsx
+msgid "Time of day"
+msgstr "Час доби"
+
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Timezone"
+msgstr "Часовий пояс"
+
+#: src/pages/Board.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Title"
+msgstr "Назва"
+
+#: src/pages/ActivityList.tsx
+msgid "To"
+msgstr "До"
+
+#. placeholder {0}: filters.dateRange.to
+#: src/pages/ActivityList.tsx
+msgid "To {0}"
+msgstr "До {0}"
+
+#: src/lib/ticket-status.ts
+msgid "To do"
+msgstr "До виконання"
+
+#: src/pages/shell/bot-picker.tsx
+msgid "To:"
+msgstr "До:"
+
+#: src/pages/Artifacts.tsx
+#: src/pages/shell/chat-context.tsx
+msgid "Today"
+msgstr "Сьогодні"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Tool arguments (JSON)"
+msgstr "Аргументи інструмента (JSON)"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Tool arguments must be a JSON object"
+msgstr "Аргументи інструмента мають бути об’єктом JSON"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Tool arguments must be JSON"
+msgstr "Аргументи інструмента мають бути JSON"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Tool name"
+msgstr "Назва інструмента"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Tool sources"
+msgstr "Джерела інструментів"
+
+#: src/pages/PluginsOverlay.tsx
+#: src/pages/shell/bot-panel.tsx
+msgid "Tools"
+msgstr "Інструменти"
+
+#: src/components/ModelCredits.tsx
+msgid "Top up anytime"
+msgstr "Поповнюйте будь-коли"
+
+#: src/components/composer/HoldToTalk.tsx
+msgid "Transcribing…"
+msgstr "Транскрибування…"
+
+#: src/components/call/CallCard.tsx
+msgid "Transcript"
+msgstr "Транскрипція"
+
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Transcription model"
+msgstr "Модель транскрибування"
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Treat like a person"
+msgstr "Сприймати як людину"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Treg token"
+msgstr "Токен Treg"
+
+#: src/pages/BillingSettingsPanel.tsx
+msgid "Trial"
+msgstr "Пробний період"
+
+#: src/pages/BillingSettingsPanel.tsx
+msgid "Trial ends {day}"
+msgstr "Пробний період закінчується {day}"
+
+#: src/pages/ModelBackupsSettings.tsx
+msgid "Tried in order if the active model fails."
+msgstr "Використовуються по черзі, якщо активна модель не спрацює."
+
+#: src/pages/ActivityList.tsx
+#: src/pages/Onboarding.tsx
+msgid "Try again"
+msgstr "Спробувати ще раз"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Try the test again."
+msgstr "Повторіть тест."
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Type"
+msgstr "Тип"
+
+#: src/components/teach/TeachRecordingChrome.tsx
+msgid "Type without recording"
+msgstr "Вводьте без запису"
+
+#: src/components/AskCard.tsx
+msgid "Type your answer"
+msgstr "Уведіть свою відповідь"
+
+#: src/pages/BotContextMenu.tsx
+#: src/pages/Shell.tsx
+msgid "Unassigned"
+msgstr "Не призначено"
+
+#: src/components/AskCard.tsx
+msgid "Undo"
+msgstr "Скасувати"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Uninstall"
+msgstr "Видалити"
+
+#: src/pages/MessagingSettingsOverlay.tsx
+msgid "Unlink"
+msgstr "Відв’язати"
+
+#: src/components/call/CallCard.tsx
+msgid "Unmute"
+msgstr "Увімкнути звук"
+
+#: src/pages/BotContextMenu.tsx
+msgid "Unpin"
+msgstr "Відкріпити"
+
+#. placeholder {0}: pending.file.name
+#: src/pages/Shell.tsx
+msgid "Unsupported file type: {0}"
+msgstr "Непідтримуваний тип файлу: {0}"
+
+#: src/components/DesktopUpdates.tsx
+msgid "Up to date"
+msgstr "Актуальна версія"
+
+#: src/components/ModelCredits.tsx
+msgid "Update"
+msgstr "Оновити"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Update computer"
+msgstr "Оновити комп’ютер"
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Update failed"
+msgstr "Не вдалося оновити"
+
+#: src/lib/activity-list-filters.ts
+msgid "Update from {name}"
+msgstr "Оновлення від {name}"
+
+#: src/lib/activity-list-filters.ts
+msgid "Update from {name}: {text}"
+msgstr "Оновлення від {name}: {text}"
+
+#: src/components/AskCard.tsx
+msgid "Update instructions?"
+msgstr "Оновити інструкції?"
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Update progress"
+msgstr "Перебіг оновлення"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Updated {updated}"
+msgstr "Оновлено {updated}"
+
+#: src/pages/SettingsOverlay.tsx
+msgid "Updates"
+msgstr "Оновлення"
+
+#. placeholder {0}: update.name
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Updating {0}’s Computer"
+msgstr "Оновлення комп’ютера {0}"
+
+#: src/components/ComputerUpdateProgress.tsx
+msgid "Updating Team Computer"
+msgstr "Оновлення командного комп’ютера"
+
+#: src/components/ComputerMaintenanceActions.tsx
+msgid "Updating…"
+msgstr "Оновлення…"
+
+#: src/components/ModelCredits.tsx
+msgid "Upgrade now"
+msgstr "Підвищити тариф зараз"
+
+#: src/pages/shell/avatar-studio-popover.tsx
+msgid "Upload"
+msgstr "Завантажити"
+
+#: src/lib/ticket-priority.ts
+msgid "Urgent"
+msgstr "Терміново"
+
+#: src/components/SidebarFooter.tsx
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/SettingsOverlay.tsx
+msgid "Usage"
+msgstr "Використання"
+
+#. Switches the saved timezone to this device's, e.g. 'Use Pacific/Auckland'
+#. placeholder {0}: deviceTimezone.replaceAll("_", " ")
+#: src/pages/AccountSettingsOverlay.tsx
+msgid "Use {0}"
+msgstr "Використати {0}"
+
+#: src/pages/HostComputerPrompt.tsx
+msgid "Use {hostLabel}"
+msgstr "Використати {hostLabel}"
+
+#: src/pages/McpServersOverlay.tsx
+msgid "Use {oauthEnvReference} for the access token."
+msgstr "Використайте {oauthEnvReference} як токен доступу."
+
+#: src/pages/model-settings/compatible-model-fields.tsx
+#: src/pages/Onboarding.tsx
+msgid "Use a found model"
+msgstr "Використати знайдену модель"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Use Connect to verify the key."
+msgstr "Використайте «Підключити», щоб перевірити ключ."
+
+#: src/pages/ExternalConversationSettings.tsx
+msgid "Use default guidance"
+msgstr "Використати типові настанови"
+
+#: src/pages/Auth.tsx
+msgid "Use email code"
+msgstr "Використати код з електронної пошти"
+
+#: src/components/ModelCredits.tsx
+msgid "Use my subscription or API key"
+msgstr "Використати мою підписку або API-ключ"
+
+#: src/pages/Auth.tsx
+msgid "Use password"
+msgstr "Використати пароль"
+
+#: src/components/teach/TeachRecordingChrome.tsx
+msgid "Use Protected input for passwords."
+msgstr "Використовуйте захищене введення для паролів."
+
+#: src/components/ModelCredits.tsx
+#: src/pages/Onboarding.tsx
+msgid "Use Rakazo credits"
+msgstr "Використати кредити Rakazo"
+
+#: src/pages/model-settings/space-bots-model.tsx
+msgid "Use space default"
+msgstr "Використати типову модель простору"
+
+#: src/pages/model-settings/connection-controls.tsx
+msgid "Use this model"
+msgstr "Використати цю модель"
+
+#: src/pages/memory-providers/HonchoSettingsForm.tsx
+msgid "Use up to 512 letters, digits, _ or -."
+msgstr "Використайте до 512 літер, цифр, _ або -."
+
+#: src/pages/ModelSettingsOverlay.tsx
+msgid "Use your own key"
+msgstr "Використати свій ключ"
+
+#: src/pages/memory-providers/HonchoSettingsForm.tsx
+msgid "User peer"
+msgstr "Вузол користувача"
+
+#: src/components/AskCard.tsx
+#: src/pages/shell/bot-credentials.tsx
+msgid "Username"
+msgstr "Ім’я користувача"
+
+#: src/pages/ModelSettingsOverlay.tsx
+msgid "Uses this server's own {hostCredentialSource} credentials to access {selectedProviderName}."
+msgstr "Використовує власні облікові дані {hostCredentialSource} цього сервера для доступу до {selectedProviderName}."
+
+#: src/components/ModelCredits.tsx
+msgid "Using your API key"
+msgstr "Із використанням вашого API-ключа"
+
+#: src/pages/McpServersOverlay.tsx
+#: src/pages/shell/bot-credentials.tsx
+msgid "Value"
+msgstr "Значення"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Verify and add"
+msgstr "Перевірити та додати"
+
+#: src/pages/PluginsOverlay.tsx
+msgid "Verifying…"
+msgstr "Перевірка…"
+
+#: src/pages/Artifacts.tsx
+msgid "Version"
+msgstr "Версія"
+
+#: src/pages/RoutineRunHistory.tsx
+msgid "View chat"
+msgstr "Переглянути чат"
+
+#: src/pages/SettingsOverlay.tsx
+#: src/pages/shell/bot-panel.tsx
+#: src/pages/VoiceSettingsOverlay.tsx
+msgid "Voice"
+msgstr "Голос"
+
+#: src/lib/model-connection-preflight.ts
+msgid "Wait a moment and test again."
+msgstr "Зачекайте мить і повторіть тест."
+
+#: src/lib/roster-status.ts
+msgid "Waiting in line…"
+msgstr "Очікування в черзі…"
+
+#: src/pages/shell/message-cards.tsx
+msgid "Waiting…"
+msgstr "Очікування…"
+
+#: src/components/ModelCredits.tsx
+msgid "Web, desktop and mobile"
+msgstr "Веб, настільна версія та мобільна"
+
+#: src/pages/Paywall.tsx
+msgid "Web, desktop and mobile apps"
+msgstr "Веб-, настільний і мобільний застосунки"
+
+#: src/pages/RoutineEditor.tsx
+msgid "Webhook"
+msgstr "Вебгук"
+
+#: src/pages/shell/bot-credentials.tsx
+msgid "Website login"
+msgstr "Вхід на вебсайт"
+
+#: src/lib/billing.ts
+msgid "week"
+msgstr "тиждень"
+
+#: src/pages/RoutineEditor.tsx
+#: src/pages/RoutineSchedule.tsx
+msgid "Weekdays"
+msgstr "Будні"
+
+#: src/components/SignupSurvey.tsx
+msgid "Welcome to Rakazo"
+msgstr "Вітаємо в Rakazo"
+
+#: src/pages/shell/dialogs.tsx
+msgid "What about its memories?"
+msgstr "А що з його спогадами?"
+
+#: src/components/SignupSurvey.tsx
+msgid "What do you most want Rakazo to help with?"
+msgstr "З чим ви найбільше хочете, щоб Rakazo допомагав?"
+
+#: src/pages/shell/message-cards.tsx
+msgid "What do you want me on first?"
+msgstr "Що мені виконати насамперед?"
+
+#: src/components/teach/TeachComputerOverlay.tsx
+msgid "What result will you demonstrate?"
+msgstr "Який результат ви покажете?"
+
+#: src/pages/RoutineEditor.tsx
+msgid "What should this routine do each time it runs?"
+msgstr "Що ця рутина має робити щоразу під час запуску?"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "What this bot is for"
+msgstr "Для чого цей бот"
+
+#: src/components/teach/SkillDraftCard.tsx
+msgid "What to return"
+msgstr "Що повертати"
+
+#: src/pages/RoutineEditor.tsx
+msgid "What to watch"
+msgstr "За чим спостерігати"
+
+#: src/pages/RoutineEditor.tsx
+msgid "When a webhook fires"
+msgstr "Коли спрацьовує вебгук"
+
+#: src/pages/shell/bot-panel.tsx
+msgid "When it finishes or needs input"
+msgstr "Коли він завершує або потребує введення"
+
+#: src/pages/RoutineEditor.tsx
+msgid "When something changes"
+msgstr "Коли щось змінюється"
+
+#: src/pages/RoutineEditor.tsx
+msgid "When to run"
+msgstr "Коли запускати"
+
+#: src/components/teach/SkillDraftCard.tsx
+msgid "When to use"
+msgstr "Коли використовувати"
+
+#: src/pages/HostComputerPrompt.tsx
+msgid "Where should bots run?"
+msgstr "Де мають працювати боти?"
+
+#: src/lib/ticket-status.ts
+msgid "Won't do"
+msgstr "Не буде виконано"
+
+#: src/components/SignupSurvey.tsx
+msgid "Work"
+msgstr "Робота"
+
+#: src/lib/roster-status.ts
+#: src/pages/Auth.tsx
+#: src/pages/shell/transcript.tsx
+msgid "Working…"
+msgstr "Працюємо…"
+
+#: src/pages/memory-providers/HonchoSettingsForm.tsx
+msgid "Workspace"
+msgstr "Робочий простір"
+
+#: src/lib/billing.ts
+msgid "year"
+msgstr "рік"
+
+#: src/pages/shell/chat-context.tsx
+#: src/pages/shell/sidebar-roster.tsx
+msgid "Yesterday"
+msgstr "Учора"
+
+#: src/pages/AccountSettingsOverlay.tsx
+#: src/pages/Shell.tsx
+#: src/pages/shell/message-view.tsx
+msgid "You"
+msgstr "Ви"
+
+#: src/pages/McpOAuthCallback.tsx
+msgid "You can close this tab if it does not redirect automatically."
+msgstr "Можна закрити цю вкладку, якщо вона не перенаправиться автоматично."
+
+#: src/pages/IntegrationCallback.tsx
+#: src/pages/McpOAuthCallback.tsx
+msgid "You can close this window."
+msgstr "Можна закрити це вікно."
+
+#: src/components/call/VoiceChatCard.tsx
+msgid "You declined"
+msgstr "Ви відмовили"
+
+#: src/pages/shell/computer-overlay.tsx
+msgid "You have control"
+msgstr "Керування у вас"
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "Your Anthropic"
+msgstr "Ваш Anthropic"
+
+#: src/pages/Auth.tsx
+msgid "Your email address"
+msgstr "Ваша електронна пошта"
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "Your model provider"
+msgstr "Ваш провайдер моделей"
+
+#: src/pages/Auth.tsx
+msgid "Your name"
+msgstr "Ваше ім’я"
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "Your OpenAI"
+msgstr "Ваш OpenAI"
+
+#. js-lingui-explicit-id
+#: src/lib/run-error.ts
+msgid "Your OpenRouter"
+msgstr "Ваш OpenRouter"
+
+#: src/components/ModelCredits.tsx
+msgid "Your subscription or API key"
+msgstr "Ваша підписка або API-ключ"
+
+#: src/pages/Welcome.tsx
+msgid "Your team of always-on agents<0/>that you can give real work to."
+msgstr "Ваша команда агентів<0/>завжди на зв’язку й готова до справжньої роботи."
+
+#: src/lib/user-error.ts
+msgid "Your voice provider is out of credit."
+msgstr "У вашого голосового провайдера закінчилися кредити."
+
+#: src/lib/user-error.ts
+msgid "Your voice provider key was rejected."
+msgstr "Ключ голосового провайдера відхилено."

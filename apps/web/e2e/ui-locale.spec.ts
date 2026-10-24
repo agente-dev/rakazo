@@ -14,6 +14,8 @@ test("account settings language picker includes Hebrew and mirrors the UI right-
   await picker.click();
   await expect(page.getByRole("option", { name: "עברית", exact: true })).toBeVisible();
   await expect(page.getByRole("option", { name: "日本語", exact: true })).toBeVisible();
+  await expect(page.getByRole("option", { name: "Polski", exact: true })).toBeVisible();
+  await expect(page.getByRole("option", { name: "Українська", exact: true })).toBeVisible();
   await captureScreenshot(page, testInfo, "ui-locale-picker-he");
 
   await page.getByRole("option", { name: "עברית", exact: true }).click();

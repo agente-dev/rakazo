@@ -9,10 +9,12 @@ const SPEECH_LOCALE_TAGS = {
   ja: "ja-JP",
   ko: "ko-KR",
   nl: "nl-NL",
+  pl: "pl-PL",
   "pt-BR": "pt-BR",
   ru: "ru-RU",
   tr: "tr-TR",
   "zh-CN": "zh-CN",
+  uk: "uk-UA",
 } as const;
 
 export type SpeechLocale = keyof typeof SPEECH_LOCALE_TAGS;

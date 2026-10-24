@@ -95,6 +95,11 @@ function fixture(authConfigs: Record<string, string> = { gmail: "approved-auth" 
     route?: ConnectorCall["route"],
   ) => {
     const events = [];
+    // Ordinary callers use an actual discovered binding; raw legacy calls are tested separately.
+    if (!route && (tool.startsWith("GMAIL_") || tool === "COMPOSIO_MULTI_EXECUTE_TOOL")) {
+      const [discovered] = await connector.discoverTools(context);
+      if (discovered?.route) route = { ...discovered.route, toolName: tool };
+    }
     for await (const e of connector.execute({ tool, args, route, executionId: "fixture" }, context))
       events.push(e);
     return events;
@@ -301,4 +306,52 @@ describe("Gmail exact operator auth configuration", () => {
     ).toMatchObject([{ type: "result" }]);
     expect(f.execute).toHaveBeenCalledOnce();
   });
+  it.each([7, true, [], null, "invalid-json", "", "[]", "null"].map((value) => ({ value })))(
+    "refuses malformed child %j at the actual connector before transport",
+    async ({ value: argumentsValue }) => {
+      const f = fixture();
+      const [tool] = await f.connector.discoverTools(f.context);
+      const args = { tools: [{ tool_slug: "GMAIL_GET_MESSAGE", arguments: argumentsValue }] };
+      expect(
+        await f.run("COMPOSIO_MULTI_EXECUTE_TOOL", args, {
+          ...tool!.route!,
+          toolName: "COMPOSIO_MULTI_EXECUTE_TOOL",
+        }),
+      ).toMatchObject([{ type: "error" }]);
+      expect(f.execute).not.toHaveBeenCalled();
+    },
+  );
+  it("refuses raw legacy Gmail execution without account/config resource binding", async () => {
+    const f = fixture();
+    const events = [];
+    for await (const event of f.connector.execute(
+      { tool: "GMAIL_GET_MESSAGE", args: { id: "legacy-approved" }, executionId: "legacy" },
+      f.context,
+    ))
+      events.push(event);
+    expect(events).toMatchObject([{ type: "error" }]);
+    expect(f.execute).not.toHaveBeenCalled();
+    expect(f.list).not.toHaveBeenCalled();
+    expect(f.created).toHaveLength(0);
+  });
+  it.each([{}, '{"id":"valid-object"}', undefined].map((value) => ({ value })))(
+    "preserves supported child-object form %j at actual transport",
+    async ({ value }) => {
+      const f = fixture();
+      const [tool] = await f.connector.discoverTools(f.context);
+      const args = {
+        tools: [
+          { tool_slug: "GMAIL_GET_MESSAGE", ...(value === undefined ? {} : { arguments: value }) },
+        ],
+      };
+      expect(
+        await f.run("COMPOSIO_MULTI_EXECUTE_TOOL", args, {
+          ...tool!.route!,
+          toolName: "COMPOSIO_MULTI_EXECUTE_TOOL",
+        }),
+      ).toMatchObject([{ type: "result" }]);
+      expect(f.execute).toHaveBeenCalledOnce();
+      expect(f.execute.mock.calls[0]![1]).toEqual(args);
+    },
+  );
 });

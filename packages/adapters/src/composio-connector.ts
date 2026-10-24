@@ -254,7 +254,7 @@ function dropboxFolderListCall(item: unknown): ComposioExecutionCall | undefined
 function objectArguments(value: unknown): Record<string, unknown> | undefined {
   if (typeof value === "string") {
     const trimmed = value.trim();
-    if (!trimmed) return {};
+    if (!trimmed) return undefined;
     try {
       const parsed = JSON.parse(trimmed) as unknown;
       if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
@@ -268,7 +268,7 @@ function objectArguments(value: unknown): Record<string, unknown> | undefined {
   if (value && typeof value === "object" && !Array.isArray(value)) {
     return { ...(value as Record<string, unknown>) };
   }
-  return {};
+  return value === undefined ? {} : undefined;
 }
 
 function nonEmptyPath(value: unknown): string | undefined {
@@ -631,6 +631,15 @@ export class ComposioConnector implements ComposioProvider {
   async *execute(call: ConnectorCall, context: AdapterContext): AsyncIterable<ConnectorEvent> {
     const executed = [];
     try {
+      // Validate even legacy/internal replays before metadata or operation transport.
+      const gmailCall = composioGmailApprovalRequired({
+        ...call,
+        route: { ...call.route, connectorId: "composio", toolName: call.tool },
+      });
+      if (gmailCall && (!call.route?.resourceId || !call.route.resourceRevision)) {
+        yield { type: "error", message: "Gmail execution requires an account-bound tool route." };
+        return;
+      }
       const { session, reconnect, gmailPins } = await this.sessionForExecute(
         context.userId,
         connectedComposioConnections(context),
@@ -650,9 +659,8 @@ export class ComposioConnector implements ComposioProvider {
       if (callUsesToolkit(call, "gmail")) {
         const route = this.gmailRoute(context);
         if (
-          call.route?.resourceId &&
-          (call.route.resourceId !== route.resourceId ||
-            call.route.resourceRevision !== route.resourceRevision)
+          call.route?.resourceId !== route.resourceId ||
+          call.route?.resourceRevision !== route.resourceRevision
         ) {
           yield { type: "error", message: "Gmail connection changed; request approval again." };
           return;

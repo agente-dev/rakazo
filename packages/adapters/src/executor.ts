@@ -5048,6 +5048,26 @@ export function createRunExecutor(deps: ExecutorDeps) {
           } catch (error) {
             return { error: sanitizeConnectorError(error) };
           }
+          // A hidden name is not a proof of the account/auth namespace being approved.
+          if (
+            gmailApprovalRequired &&
+            (!connectorCall.route?.resourceId || !connectorCall.route.resourceRevision)
+          ) {
+            return { error: "Gmail execution requires an account-bound tool route." };
+          }
+          // A current descriptor cannot retroactively bind an older raw approval.
+          const approvedGmailRoute =
+            nextApprovedTool && gmailApprovalRequired
+              ? (boundDirectApprovalDetails(nextApprovedRequest, CATALOG_APPROVAL_TOOL)?.route ??
+                catalogApprovalDetails(nextApprovedRequest, CATALOG_APPROVAL_TOOL)?.route)
+              : undefined;
+          if (
+            nextApprovedTool &&
+            gmailApprovalRequired &&
+            (!approvedGmailRoute?.resourceId || !approvedGmailRoute.resourceRevision)
+          ) {
+            return { error: "Gmail execution requires an account-bound tool route." };
+          }
           const requiresMandatoryApproval =
             gmailApprovalRequired ||
             commandWatch ||

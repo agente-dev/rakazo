@@ -707,11 +707,18 @@ describe("composio tool mapping", () => {
         tools: [{ tool_slug: "DROPBOX_LIST_FILES_IN_FOLDER", arguments: "{not-json" }],
       }),
     ).toThrow("Dropbox folder listing arguments must be a JSON object.");
-    expect(
+    expect(() =>
       expandComposioMultiExecute("COMPOSIO_MULTI_EXECUTE_TOOL", {
         tools: [{ tool_slug: "DROPBOX_LIST_FOLDERS", arguments: "" }],
       }),
-    ).toEqual([{ tool: "DROPBOX_LIST_FOLDERS", args: {} }]);
+    ).toThrow("Dropbox folder listing arguments must be a JSON object.");
+    for (const args of [{}, undefined]) {
+      expect(
+        expandComposioMultiExecute("COMPOSIO_MULTI_EXECUTE_TOOL", {
+          tools: [{ tool_slug: "DROPBOX_LIST_FOLDERS", arguments: args }],
+        }),
+      ).toEqual([{ tool: "DROPBOX_LIST_FOLDERS", args: {} }]);
+    }
   });
 
   it("keeps every execution log id when a batch is split", async () => {
@@ -861,7 +868,11 @@ describe("composio tool mapping", () => {
     const events: ConnectorEvent[] = [];
     try {
       for await (const event of connector.execute(
-        { tool: "COMPOSIO_MULTI_EXECUTE_TOOL", args: {}, executionId: "composio-batch-failure" },
+        {
+          tool: "COMPOSIO_MULTI_EXECUTE_TOOL",
+          args: { tools: [{ tool_slug: "GITHUB_GET_REPOS", arguments: {} }] },
+          executionId: "composio-batch-failure",
+        },
         context,
       )) {
         events.push(event);

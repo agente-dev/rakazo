@@ -46,7 +46,9 @@ fields, history, names or directory. An arbitrary echoed native space is not pro
 
 A real human-origin native run is required. Native stores the exact source,
 marker, run, executor-issued lease fence, execution and history fence in a transaction; background-only runs
-remain in Activity. A failed native receipt write preserves the already successful
+remain in Activity. The existing `thread.message.created` payload carries optional
+`officeRequest` receipt metadata; no new event kind is required by older clients.
+A failed native receipt write preserves the already successful
 Office pending response and must not repeat the protected mutation.
 
 ## Delivery and retry

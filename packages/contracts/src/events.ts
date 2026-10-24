@@ -5,7 +5,6 @@ import { McpTransportSchema } from "./mcp.js";
 
 export const ProductEventType = z.enum([
   "thread.message.created",
-  "office.request.recorded",
   "thread.cleared",
   "thread.message.updated",
   "thread.message.reaction",

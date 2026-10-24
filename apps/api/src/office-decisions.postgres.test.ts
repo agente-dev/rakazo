@@ -33,6 +33,7 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
 import { deliverOfficeRejection } from "./office-decisions.js";
 import type { RouterDeps } from "./router.js";
 import { createRouter } from "./router.js";
+import { resolveThreadTarget, sendThreadMessage } from "./thread-target.js";
 
 const enabled = process.env.VERIFY_DATABASE === "1" && Boolean(process.env.DATABASE_URL);
 
@@ -456,10 +457,8 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
     const events = await f.mutate(() =>
       f.prisma.event.findMany({ where: { threadId: f.thread.id } }),
     );
-    expect(events.map((e) => e.type)).toEqual([
-      "thread.message.created",
-      "office.request.recorded",
-    ]);
+    expect(events.map((e) => e.type)).toEqual(["thread.message.created"]);
+    expect(events[0]!.payload).toMatchObject({ officeRequest: r });
     expect(JSON.stringify([r, events])).not.toContain("sensitive-fixture");
     await f.execute();
     expect(
@@ -1012,6 +1011,8 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
     });
     const dataDir = await mkdtemp(join(tmpdir(), "office-report-only-"));
     const observed: unknown[] = [];
+    let claimedHuman: unknown;
+    let humanMessageId: string | undefined;
     const runtime = {
       describe: () => ({
         id: "hostile-offline-fixture",
@@ -1021,6 +1022,22 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
       }),
       async *run(request: AgentRunRequest): AsyncIterable<AgentRuntimeEvent> {
         observed.push(request.tools);
+        await sendThreadMessage(
+          { prisma: f.prisma, events: createThreadEvents(f.prisma, realtime), jobs: f.deps.jobs },
+          f.owner,
+          await resolveThreadTarget(f.prisma, f.owner, { botId: f.bot.id }),
+          {
+            text: "A new explicit synthetic human instruction",
+            clientNonce: "new-human-during-report",
+          },
+        );
+        humanMessageId = (
+          await f.prisma.message.findFirstOrThrow({
+            where: { threadId: f.thread.id, clientNonce: "new-human-during-report" },
+            select: { id: true },
+          })
+        ).id;
+        claimedHuman = await request.claimSteering!([]);
         yield {
           type: "tool",
           name: "mcp__office__office_client_update",
@@ -1066,6 +1083,12 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
         { name: "shell", outcome: "error" },
       ]);
       expect(shell).not.toHaveBeenCalled();
+      expect(claimedHuman).toEqual([]);
+      expect(
+        await f.mutate(() =>
+          f.prisma.run.count({ where: { sourceMessageId: humanMessageId, status: "queued" } }),
+        ),
+      ).toBe(1);
       expect(f.calls.filter((name) => name === "office_client_update")).toHaveLength(1);
     } finally {
       await realtime.close();
@@ -1178,5 +1201,58 @@ describe.skipIf(!enabled)("trusted Office native decision delivery (offline Post
         f.prisma.message.count({ where: { threadId: f.thread.id, role: "bot" } }),
       ),
     ).toBe(1);
+  });
+  it("locks the exact source and marker against individual deletion through native insertion", async () => {
+    const f = await fixture();
+    await f.execute();
+    await f.settle();
+    f.decide();
+    const receipt = (await f.receipt())!;
+    let reached!: () => void, release!: () => void;
+    const atInsertion = new Promise<void>((resolve) => {
+      reached = resolve;
+    });
+    const proceed = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    // Real Prisma transaction, with a barrier only: no persistence/lock primitive is replaced.
+    const gated = f.prisma.$extends({
+      query: {
+        message: {
+          async create({ args, query }) {
+            if (args.data.role === "system") {
+              reached();
+              await proceed;
+            }
+            return query(args);
+          },
+        },
+      },
+    });
+    const delivery = deliverOfficeRejection(
+      { ...f.deps, prisma: gated as typeof f.prisma },
+      f.employee,
+      f.input,
+      f.context.signal,
+    );
+    try {
+      await Promise.race([
+        atInsertion,
+        delivery.then(() => {
+          throw new Error("Delivery bypassed insertion barrier");
+        }),
+      ]);
+      for (const id of [receipt.humanMessageId, receipt.messageId]) {
+        await expect(
+          f.mutate(
+            () => f.prisma.$queryRaw`SELECT id FROM messages WHERE id = ${id} FOR UPDATE NOWAIT`,
+          ),
+        ).rejects.toThrow();
+      }
+    } finally {
+      release();
+    }
+    expect(await delivery).toMatchObject({ state: "native-send-accepted" });
+    expect(await f.messages()).toHaveLength(1);
   });
 });

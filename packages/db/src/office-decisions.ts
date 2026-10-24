@@ -26,12 +26,14 @@ export async function recordOfficeRequest(prisma: PrismaClient, source: OfficeRe
       userId: source.userId,
       botId: source.botId,
     },
-    select: { threadId: true },
+    select: { threadId: true, sourceMessageId: true },
   });
-  if (!hint) return null;
+  if (!hint?.sourceMessageId) return null;
   return withTransactionRetry(() =>
     prisma.$transaction(async (tx) => {
       await tx.$queryRaw`SELECT id FROM threads WHERE id = ${hint.threadId} FOR UPDATE`;
+      await tx.$queryRaw`SELECT id FROM messages WHERE id = ${hint.sourceMessageId}
+        AND "threadId" = ${hint.threadId} FOR SHARE`;
       await tx.$queryRaw`SELECT id FROM runs WHERE id = ${source.runId}
         AND "spaceId" = ${source.spaceId} AND "userId" = ${source.userId} FOR SHARE`;
       const run = await tx.run.findFirst({
@@ -45,7 +47,20 @@ export async function recordOfficeRequest(prisma: PrismaClient, source: OfficeRe
           leaseFence: source.runLeaseFence,
           trigger: { in: ["user", "follow_up", "reaction"] },
         },
-        include: { sourceMessage: true, thread: true },
+        select: {
+          id: true,
+          threadId: true,
+          sourceMessage: { select: { id: true, role: true, threadId: true } },
+          thread: {
+            select: {
+              groupId: true,
+              userId: true,
+              spaceId: true,
+              externalConversationId: true,
+              historyCompactionGeneration: true,
+            },
+          },
+        },
       });
       const human = run?.sourceMessage;
       if (
@@ -134,15 +149,8 @@ export async function recordOfficeRequest(prisma: PrismaClient, source: OfficeRe
         botId: source.botId,
         runId: source.runId,
         type: "thread.message.created",
-        payload: { messageId: message.id, role: "bot", blocks },
-      });
-      await appendEventInTransaction(tx, {
-        spaceId: source.spaceId,
-        threadId: run.threadId,
-        botId: source.botId,
-        runId: source.runId,
-        type: "office.request.recorded",
-        payload: receipt,
+        // Existing event envelope keeps older web/desktop/mobile clients compatible.
+        payload: { messageId: message.id, role: "bot", blocks, officeRequest: receipt },
       });
       return receipt;
     }),
@@ -211,6 +219,7 @@ async function validateOrigin(
       historyCompactionGeneration: r.historyGeneration,
       externalConversationId: null,
     },
+    select: { botId: true, groupId: true },
   });
   if (
     !thread ||
@@ -218,6 +227,11 @@ async function validateOrigin(
     (r.groupId ? thread.botId !== null : thread.botId !== r.botId)
   )
     return false;
+  // Individual message deletion need not take the history-clear thread lock.
+  await tx.$queryRaw`SELECT id FROM messages WHERE "threadId" = ${r.threadId}
+    AND id IN (${r.humanMessageId}, ${r.messageId}) ORDER BY id FOR SHARE`;
+  await tx.$queryRaw`SELECT id FROM runs WHERE id = ${r.runId}
+    AND "threadId" = ${r.threadId} AND "spaceId" = ${r.spaceId} FOR SHARE`;
   const members = await tx.$queryRaw<Array<{ spaceId: string; userId: string }>>`
     SELECT "spaceId", "userId" FROM space_members WHERE
       ("spaceId" = ${r.spaceId} AND "userId" = ${r.userId}) OR

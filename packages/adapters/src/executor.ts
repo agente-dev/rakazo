@@ -7868,6 +7868,8 @@ export function createRunExecutor(deps: ExecutorDeps) {
                 );
               },
               claimSteering: async (seenIds) => {
+                // New human instructions wait for their own turn, not this tool-free report.
+                if (officeDecisionReportOnly) return [];
                 const steering = await deps.events.claimSteering({
                   threadId: thread.id,
                   botId: bot.id,

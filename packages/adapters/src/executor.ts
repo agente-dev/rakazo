@@ -127,6 +127,7 @@ import {
   isTooManyDatabaseConnections,
   loadRunHistoryMessages,
   loadRunTurnCheckpoint,
+  officeDecisionRunReportOnly,
   Prisma,
   parseComputerMode,
   RUN_TURN_CHECKPOINT_KIND,
@@ -3888,6 +3889,7 @@ export function createRunExecutor(deps: ExecutorDeps) {
           userId: run.userId,
           botId: bot.id,
           runId,
+          runLeaseFence: fence,
           screenLeaseId: screenLeaseIdForRun(computerLease, runId, fence),
           signal: runAbortController.signal,
           ...connectedContext(connectedPlugins),
@@ -4253,6 +4255,11 @@ export function createRunExecutor(deps: ExecutorDeps) {
         const sourceClientNonce = sourceMessage?.clientNonce ?? null;
         // A follow-up can be queued by a bot (group handoffs); only the user's own counts.
         const ownerStartedRun = isOwnerStartedRun(run.trigger, sourceMessage?.role === "user");
+        // Unrelated system follow-ups do not opt into this optional integration.
+        const officeDecisionReportOnly =
+          sourceMessage?.role === "system" &&
+          sourceMessage.clientNonce?.startsWith("office-decision:v1:") &&
+          (await officeDecisionRunReportOnly(deps.prisma, run));
         // A hang-up run has no source message: its own nonce carries the call it closes.
         const callEndRun = run.trigger === "call_end";
         const callClientNonceForRun = callEndRun ? run.clientNonce : sourceClientNonce;
@@ -4433,7 +4440,10 @@ export function createRunExecutor(deps: ExecutorDeps) {
         // The intro turn confirms how a bot read its own role before anyone hands it
         // real work — it must not be able to act on that reading (shell, computer,
         // scheduling, spawning another bot, ...) before the user has assigned any task.
-        const tools = run.trigger === "created" ? [] : [...builtins, ...exposedConnectorTools];
+        const tools =
+          run.trigger === "created" || officeDecisionReportOnly
+            ? []
+            : [...builtins, ...exposedConnectorTools];
         const taskCatalogInstruction = tools.some((tool) => tool.name === "task_catalog")
           ? TASK_CATALOG_GUIDANCE
           : undefined;
@@ -4720,6 +4730,11 @@ export function createRunExecutor(deps: ExecutorDeps) {
           }
           if (name === "propose_instructions_update" && approvalPausePending)
             return pauseForApproval();
+          if (officeDecisionReportOnly) {
+            return {
+              error: "Office decision reporting is tool-free; a new human instruction is required.",
+            };
+          }
           if (disabledBuiltinTools.has(name)) {
             return { error: "This tool is disabled for this bot." };
           }
@@ -7853,6 +7868,8 @@ export function createRunExecutor(deps: ExecutorDeps) {
                 );
               },
               claimSteering: async (seenIds) => {
+                // New human instructions wait for their own turn, not this tool-free report.
+                if (officeDecisionReportOnly) return [];
                 const steering = await deps.events.claimSteering({
                   threadId: thread.id,
                   botId: bot.id,

@@ -21,6 +21,7 @@ export * from "./markdown-text.js";
 export * from "./mcp.js";
 export * from "./model-backups.js";
 export * from "./model-provider.js";
+export * from "./office-decisions.js";
 export * from "./openai-compatible-ui.js";
 export * from "./reactions.js";
 export * from "./routine-watch.js";

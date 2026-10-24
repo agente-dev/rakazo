@@ -12,14 +12,20 @@ import type {
   SecretStore,
 } from "@rakazo/adapter-kit";
 import { SecretStoreUnavailableError } from "@rakazo/adapter-kit";
-import type { McpOAuthEnvField } from "@rakazo/contracts";
+import type {
+  Actor,
+  McpOAuthEnvField,
+  OfficeDecisionRead as OfficeDecision,
+} from "@rakazo/contracts";
 import {
   isLocalMcpHost,
   mcpOAuthEnvReferences,
+  OfficeDecisionRead,
   resolveMcpOAuthEnv,
   resolveMcpOAuthFileTemplate,
 } from "@rakazo/contracts";
 import type { McpServer, PrismaClient, ThreadEvents } from "@rakazo/db";
+import { officeProtectedCallBlocked, recordOfficeRequest } from "@rakazo/db";
 import { getLogger } from "@rakazo/logging";
 import { sanitizedError } from "@rakazo/logging/monitoring";
 import { catalogToolPrefix } from "./approval-effect.js";
@@ -58,6 +64,8 @@ import type { McpServerHealthUpdate } from "./mcp-server-health.js";
 import { recordMcpServerHealth } from "./mcp-server-health.js";
 import { isAllowedStdioCommand, McpSession } from "./mcp-transport.js";
 import type { RemoteTransportDependencies } from "./remote-mcp.js";
+import type { TrustedOfficeBinding } from "./trusted-mcp-bindings.js";
+import { matchingOfficeBinding, trustedMcpBindingsFromEnv } from "./trusted-mcp-bindings.js";
 
 type SessionEntry = {
   session: McpSession;
@@ -173,6 +181,9 @@ const UNAVAILABLE_TOOL = "__rakazo_unavailable";
 const HEALTH_REWRITE_MS = 60_000;
 
 export type McpConnectorOptions = {
+  /** Deployment-owned trust, never inferred from a user-editable MCP server. */
+  trustedBindings?: readonly TrustedOfficeBinding[];
+  trustedNativeAuthority?: string;
   stdioEnabled?: boolean;
   allowedCommands?: string[];
   network?: RemoteTransportDependencies;
@@ -204,9 +215,17 @@ export function mcpStdioOptionsFromEnv(
   env: NodeJS.ProcessEnv = process.env,
 ): Pick<
   McpConnectorOptions,
-  "packagesDir" | "installTimeoutMs" | "startupTimeoutMs" | "idleMs" | "discoveryTimeoutMs"
+  | "packagesDir"
+  | "installTimeoutMs"
+  | "startupTimeoutMs"
+  | "idleMs"
+  | "discoveryTimeoutMs"
+  | "trustedBindings"
+  | "trustedNativeAuthority"
 > {
   return {
+    trustedBindings: trustedMcpBindingsFromEnv(env),
+    trustedNativeAuthority: env.BETTER_AUTH_URL ?? env.WEB_ORIGIN,
     packagesDir: defaultMcpPackagesRoot(env),
     installTimeoutMs:
       positiveInteger(env.MCP_STDIO_INSTALL_TIMEOUT_MS) ?? DEFAULT_MCP_INSTALL_TIMEOUT_MS,
@@ -616,6 +635,25 @@ export class McpConnector implements ConnectorProvider {
       yield { type: "error", message: "MCP tool is not assigned to this bot" };
       return;
     }
+    const officeBinding = matchingOfficeBinding(
+      this.options.trustedBindings ?? [],
+      assignment.server,
+      context,
+      this.options.trustedNativeAuthority,
+    );
+    if (
+      officeBinding?.protectedTools.includes(call.route.toolName) &&
+      context.runId &&
+      (await officeProtectedCallBlocked(
+        this.prisma,
+        context.runId,
+        context.botId,
+        officeBinding.officeId,
+      ))
+    ) {
+      yield { type: "error", message: "A rejected Office change requires a new human instruction" };
+      return;
+    }
     // Capture material before callTool so a concurrent eviction/replace cannot
     // drop this call's OAuth secrets from model-visible redaction. Recompute via
     // oauthMaterialSecrets(material) so in-place token refresh stays covered.
@@ -629,6 +667,46 @@ export class McpConnector implements ConnectorProvider {
         launchSecrets = this.sessions.get(sessionKey)?.launchSecrets ?? [];
         return session.callTool(toolName, call.args, { signal: context.signal });
       });
+      // Only this real authenticated assigned-server result can create provenance.
+      // Persistence/read failure must not repeat a tool that may already have committed.
+      if (
+        officeBinding?.protectedTools.includes(toolName) &&
+        context.runId &&
+        context.runLeaseFence !== undefined
+      ) {
+        const pending = officeMcpJson(result);
+        if (
+          pending?.pending === true &&
+          pending.status === "pending" &&
+          typeof pending.request_id === "string"
+        ) {
+          try {
+            const decision = await this.readOfficeDecision(
+              officeBinding,
+              pending.request_id,
+              context,
+              context.signal,
+            );
+            if (decision?.status === "pending") {
+              await recordOfficeRequest(this.prisma, {
+                officeId: officeBinding.officeId,
+                requestId: decision.request_id,
+                spaceId: context.spaceId,
+                userId: context.userId,
+                botId: context.botId,
+                serverId: assignment.server.id,
+                serverRevision: assignment.server.revision,
+                runId: context.runId,
+                runLeaseFence: context.runLeaseFence,
+                toolExecutionId: call.executionId,
+                toolName,
+              });
+            }
+          } catch {
+            getLogger().warn("Office request kept in Activity: native receipt unavailable");
+          }
+        }
+      }
       const secrets = [...(material ? oauthMaterialSecrets(material) : []), ...launchSecrets];
       yield { type: "result", data: redactConnectorPayload(result, secrets) };
     } catch (error) {
@@ -751,6 +829,108 @@ export class McpConnector implements ConnectorProvider {
   private packagesRoot(): string {
     this.resolvedPackagesRoot ??= this.options.packagesDir ?? defaultMcpPackagesRoot();
     return this.resolvedPackagesRoot;
+  }
+
+  officeBindingFor(source: {
+    officeId: string;
+    spaceId: string;
+    userId: string;
+    botId: string;
+    serverId: string;
+    serverRevision: number;
+  }): TrustedOfficeBinding | undefined {
+    const candidates = (this.options.trustedBindings ?? []).filter(
+      (b) =>
+        b.officeId === source.officeId &&
+        b.spaceId === source.spaceId &&
+        b.userId === source.userId &&
+        b.botId === source.botId &&
+        b.serverId === source.serverId &&
+        b.serverRevision === source.serverRevision,
+    );
+    return candidates.length === 1 ? candidates[0] : undefined;
+  }
+
+  officeBindingsForActor(
+    officeId: string,
+    actor: Pick<Actor, "spaceId" | "userId">,
+  ): readonly TrustedOfficeBinding[] {
+    return (this.options.trustedBindings ?? []).filter(
+      (binding) =>
+        binding.officeId === officeId &&
+        binding.nativeAuthority === this.options.trustedNativeAuthority &&
+        binding.members.filter(
+          (member) =>
+            member.nativeUserId === actor.userId && member.nativeSpaceId === actor.spaceId,
+        ).length === 1,
+    );
+  }
+
+  /** Narrow integration read: credential/session stay with the recorded requester bot.
+   * Native supplies the authenticated deciding employee id; no origin history leaves here.
+   */
+  async readOfficeDecision(
+    binding: TrustedOfficeBinding,
+    requestId: string,
+    actor: Pick<Actor, "spaceId" | "userId">,
+    signal: AbortSignal,
+  ): Promise<OfficeDecision | null> {
+    if (
+      this.officeBindingFor(binding) !== binding ||
+      binding.nativeAuthority !== this.options.trustedNativeAuthority
+    )
+      return null;
+    const subjects = binding.members.filter(
+      (m) => m.nativeUserId === actor.userId && m.nativeSpaceId === actor.spaceId,
+    );
+    if (subjects.length !== 1) return null;
+    const officeMemberId = subjects[0]!.officeMemberId;
+    const assignment = await this.prisma.botMcpServer.findFirst({
+      where: {
+        botId: binding.botId,
+        serverId: binding.serverId,
+        spaceId: binding.spaceId,
+        userId: binding.userId,
+        server: { enabled: true },
+      },
+      include: { server: true },
+    });
+    if (
+      !assignment ||
+      matchingOfficeBinding(
+        this.options.trustedBindings ?? [],
+        assignment.server,
+        { spaceId: binding.spaceId, userId: binding.userId, botId: binding.botId },
+        this.options.trustedNativeAuthority,
+      ) !== binding ||
+      (!assignment.allowAllTools &&
+        !(assignment.allowedTools as unknown[]).includes("office_decision_read"))
+    )
+      return null;
+    const context: AdapterContext = {
+      operationId: "office-decision-read",
+      traceId: "office-decision-read",
+      spaceId: binding.spaceId,
+      userId: binding.userId,
+      botId: binding.botId,
+      signal,
+    };
+    const result = await this.withSession(assignment.server, context, (session) =>
+      session.callTool(
+        "office_decision_read",
+        { request_id: requestId, office_member_id: officeMemberId },
+        { signal },
+      ),
+    );
+    const parsed = OfficeDecisionRead.safeParse(officeMcpJson(result));
+    if (!parsed.success) return null;
+    const decision = parsed.data;
+    return decision.office_id === binding.officeId &&
+      decision.request_id === requestId &&
+      decision.requester_bot_id === binding.botId &&
+      decision.office_member_id === officeMemberId
+      ? decision
+      : null;
   }
 
   private sessionKey(server: McpServer, context: AdapterContext): string {
@@ -1169,4 +1349,33 @@ export class McpConnector implements ConnectorProvider {
       );
     }
   }
+}
+
+/** Protocol JSON only, not model prose, links, or an arbitrary nested request id. */
+function officeMcpJson(value: unknown): Record<string, unknown> | null {
+  if (!value || typeof value !== "object") return null;
+  const result = value as { isError?: boolean; structuredContent?: unknown; content?: unknown };
+  if (result.isError) return null;
+  const candidates: unknown[] = [];
+  if (result.structuredContent !== undefined) candidates.push(result.structuredContent);
+  if (Array.isArray(result.content)) {
+    for (const part of result.content) {
+      if (part?.type !== "text" || typeof part.text !== "string") continue;
+      try {
+        candidates.push(JSON.parse(part.text));
+      } catch {
+        /* Text is not authority. */
+      }
+    }
+  }
+  if (!candidates.length) return null;
+  const first = candidates[0];
+  if (
+    !first ||
+    typeof first !== "object" ||
+    Array.isArray(first) ||
+    candidates.some((c) => JSON.stringify(c) !== JSON.stringify(first))
+  )
+    return null;
+  return first as Record<string, unknown>;
 }

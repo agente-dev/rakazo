@@ -109,6 +109,7 @@ import {
   IntegrationProviderConfigSchema,
   IntegrationSetupStateSchema,
 } from "./integration-settings.js";
+import { OfficeDecisionDelivery, OfficeDecisionInput } from "./office-decisions.js";
 import { MessageReactionSchema } from "./reactions.js";
 import { RoutineWatchSchema } from "./routine-watch.js";
 import { RoutineHistorySchema, RoutineRunCursorSchema, RunsListOutputSchema } from "./runs.js";
@@ -375,6 +376,9 @@ export const appContract = {
         releasedGroups: z.number().int().nonnegative(),
       }),
     ),
+  },
+  officeDecisions: {
+    deliverRejected: oc.input(OfficeDecisionInput).output(OfficeDecisionDelivery),
   },
   threads: {
     head: oc.input(threadTarget).output(

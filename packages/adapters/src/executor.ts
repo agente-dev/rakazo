@@ -4851,7 +4851,7 @@ export function createRunExecutor(deps: ExecutorDeps) {
               error: `Approved request ${nextApprovedTool} must be replayed before ${name}.`,
             };
           }
-          // Drain FIFO only when the pending approval matches this path (catalog vs direct).
+          // Restore only when the pending approval matches this path (catalog vs direct).
           const replayEffectToolName = approvalReplayEffectToolName(
             name,
             nextApprovedTool,
@@ -4877,7 +4877,7 @@ export function createRunExecutor(deps: ExecutorDeps) {
               CATALOG_APPROVAL_TOOL,
             );
             if (resourceError) return { error: resourceError };
-            const approvedRequest = approvedEffectReplays.take(nextApprovedTool)!;
+            const approvedRequest = nextApprovedRequest;
             const approvedCatalog = catalogApprovalDetails(approvedRequest, CATALOG_APPROVAL_TOOL);
             if (approvedCatalog && !catalogRemapped) {
               // Shrink-to-direct: restore approved inner arguments, not the wrapper envelope.
@@ -4909,6 +4909,38 @@ export function createRunExecutor(deps: ExecutorDeps) {
               }
             }
           }
+          let gmailApprovalRequired: boolean;
+          try {
+            gmailApprovalRequired = composioGmailApprovalRequired(
+              { ...connectorCall, args },
+              deps.connector,
+            );
+          } catch (error) {
+            return { error: sanitizeConnectorError(error) };
+          }
+          // A hidden name is not a proof of the account/auth namespace being approved.
+          if (
+            gmailApprovalRequired &&
+            (!connectorCall.route?.resourceId || !connectorCall.route.resourceRevision)
+          ) {
+            return { error: "Gmail execution requires an account-bound tool route." };
+          }
+          // A current descriptor cannot retroactively bind an older raw approval.
+          const approvedGmailRoute =
+            nextApprovedTool && gmailApprovalRequired
+              ? (boundDirectApprovalDetails(nextApprovedRequest, CATALOG_APPROVAL_TOOL)?.route ??
+                catalogApprovalDetails(nextApprovedRequest, CATALOG_APPROVAL_TOOL)?.route)
+              : undefined;
+          if (
+            nextApprovedTool &&
+            gmailApprovalRequired &&
+            (!approvedGmailRoute?.resourceId || !approvedGmailRoute.resourceRevision)
+          ) {
+            return { error: "Gmail execution requires an account-bound tool route." };
+          }
+          // Commit the FIFO replay only after restoration, schema and binding validation.
+          // No await separates the pending snapshot above from this consumption.
+          if (nextApprovedTool) approvedEffectReplays.take(nextApprovedTool);
           const fleetWrite =
             FLEET_WRITE_TOOL_NAMES_SET.has(name) ||
             (name === "update_bot" && argumentGiven(args.bot_id));
@@ -5039,35 +5071,6 @@ export function createRunExecutor(deps: ExecutorDeps) {
             siteGate === "new" ||
             connectorReadGated ||
             toolRequiresApproval(name, viaConnector, declaredReadOnly);
-          let gmailApprovalRequired: boolean;
-          try {
-            gmailApprovalRequired = composioGmailApprovalRequired(
-              { ...connectorCall, args },
-              deps.connector,
-            );
-          } catch (error) {
-            return { error: sanitizeConnectorError(error) };
-          }
-          // A hidden name is not a proof of the account/auth namespace being approved.
-          if (
-            gmailApprovalRequired &&
-            (!connectorCall.route?.resourceId || !connectorCall.route.resourceRevision)
-          ) {
-            return { error: "Gmail execution requires an account-bound tool route." };
-          }
-          // A current descriptor cannot retroactively bind an older raw approval.
-          const approvedGmailRoute =
-            nextApprovedTool && gmailApprovalRequired
-              ? (boundDirectApprovalDetails(nextApprovedRequest, CATALOG_APPROVAL_TOOL)?.route ??
-                catalogApprovalDetails(nextApprovedRequest, CATALOG_APPROVAL_TOOL)?.route)
-              : undefined;
-          if (
-            nextApprovedTool &&
-            gmailApprovalRequired &&
-            (!approvedGmailRoute?.resourceId || !approvedGmailRoute.resourceRevision)
-          ) {
-            return { error: "Gmail execution requires an account-bound tool route." };
-          }
           const requiresMandatoryApproval =
             gmailApprovalRequired ||
             commandWatch ||

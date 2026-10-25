@@ -444,6 +444,7 @@ function fixture({
   } as unknown as Parameters<typeof createRunExecutor>[0]);
   return {
     effects,
+    externalEffect,
     tool,
     web,
     fetchedUrls,
@@ -2225,4 +2226,82 @@ describe("Gmail SPEC approval persistence and real-connector replay", () => {
       expect(f.execute.mock.calls[0]![0].args).toEqual(args);
     },
   );
+});
+
+describe("Gmail replay FIFO authorization order", () => {
+  it.each([
+    { label: "account", auth: "auth-old", account: "account-new", parallel: false },
+    { label: "auth config", auth: "auth-new", account: "account-old", parallel: false },
+    { label: "both", auth: "auth-new", account: "account-new", parallel: false },
+    { label: "concurrent account", auth: "auth-old", account: "account-new", parallel: true },
+    { label: "concurrent auth config", auth: "auth-new", account: "account-old", parallel: true },
+    { label: "concurrent both", auth: "auth-new", account: "account-new", parallel: true },
+  ])(
+    "keeps refused legacy approval pending across repeated $label calls in one attempt",
+    async ({ auth, account, parallel }) => {
+      const changed = gmailNamespace(auth, account, true),
+        dispatch = gmailDispatch(changed);
+      const f = fixture({
+        name: "GMAIL_GET_MESSAGE",
+        connectorOverride: dispatch.registry,
+        parallelCalls: parallel,
+      });
+      const args = { id: "legacy-approved-message" };
+      const legacy: Effect = {
+        id: "legacy-order",
+        userId: "user-1",
+        spaceId: "space-1",
+        kind: "GMAIL_GET_MESSAGE",
+        idempotencyKey: approvalEffectKey("run-1", "GMAIL_GET_MESSAGE", args),
+        status: "approved",
+        request: args,
+        runId: "run-1",
+      };
+      f.effects.push(legacy);
+      f.setCalls(
+        ["first", "second", "third"].map((executionId) => ({
+          name: "GMAIL_GET_MESSAGE",
+          args: { ...args },
+          executionId,
+        })),
+      );
+      await f.run(true);
+      expect(changed.executions).toEqual([]);
+      expect(f.results).toHaveLength(3);
+      for (const result of f.results)
+        expect(result).toMatchObject({
+          error: "Gmail execution requires an account-bound tool route.",
+        });
+      expect(f.effects).toEqual([legacy]);
+      expect(legacy.status).toBe("approved");
+      expect(legacy.request).toEqual(args);
+      expect(legacy.idempotencyKey).toBe(approvalEffectKey("run-1", "GMAIL_GET_MESSAGE", args));
+      expect(f.externalEffect.updateMany).not.toHaveBeenCalled();
+      expect(f.pauseRunForInput).not.toHaveBeenCalled();
+    },
+  );
+  it("preserves a legitimate bound replay and human-gates the next consequential occurrence", async () => {
+    const original = gmailNamespace("auth-original", "account-original", true),
+      dispatch = gmailDispatch(original);
+    const f = fixture({ name: "GMAIL_GET_MESSAGE", connectorOverride: dispatch.registry });
+    const args = { id: "exact-approved-message" };
+    f.setCalls([{ name: "GMAIL_GET_MESSAGE", args, executionId: "request" }]);
+    await f.run();
+    expect(f.effects).toHaveLength(1);
+    f.effects[0]!.status = "approved";
+    f.setCalls(
+      ["approved", "next-occurrence"].map((executionId) => ({
+        name: "GMAIL_GET_MESSAGE",
+        args: { ...args },
+        executionId,
+      })),
+    );
+    await f.run();
+    expect(original.executions).toHaveLength(1);
+    expect(original.executions[0]!.args).toEqual(args);
+    expect(f.effects).toHaveLength(2);
+    expect(f.effects[0]!.status).toBe("completed");
+    expect(f.effects[1]!.status).toBe("intended");
+    expect(f.pauseRunForInput).toHaveBeenCalled();
+  });
 });

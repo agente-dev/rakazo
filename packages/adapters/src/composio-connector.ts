@@ -10,6 +10,7 @@ import type {
   ConnectorTool,
   ManagedConnectorProvider,
 } from "@rakazo/adapter-kit";
+import { IntegrationAuthConfigsSchema } from "@rakazo/contracts";
 import { getLogger } from "@rakazo/logging";
 import {
   composioToolkitDirectory,
@@ -17,6 +18,7 @@ import {
   mergeCatalogWithConnected,
   type ToolkitDirectoryEntry,
 } from "./composio-catalog-cache.js";
+import { credentialDigest } from "./credential-digest.js";
 import { isVitestRuntime } from "./test-runtime.js";
 
 type SdkSession = Awaited<ReturnType<Composio["create"]>>;
@@ -203,6 +205,37 @@ function callUsesToolkit(call: ConnectorCall, toolkit: string): boolean {
   return slugs.some((slug) => typeof slug === "string" && composioSlugKey(slug).startsWith(prefix));
 }
 
+/** Mandatory native policy floor; registry fallback is the actual Composio dispatch path. */
+export function composioGmailApprovalRequired(
+  call: ConnectorCall,
+  provider?: ConnectorProvider,
+): boolean {
+  const connectorId =
+    call.route?.connectorId ??
+    (provider instanceof ConnectorRegistry ? "composio" : provider?.describe?.().id);
+  if (connectorId !== "composio") return false;
+  const tool = call.route?.toolName ?? call.tool;
+  if (/^GMAIL_/i.test(tool)) return true;
+  if (tool !== COMPOSIO_MULTI_EXECUTE_TOOL) return false;
+  if (!Array.isArray(call.args.tools) || !call.args.tools.length || call.args.tools.length > 100)
+    throw new Error("Composio execution requires explicit tool targets.");
+  let gmail = false;
+  for (const item of call.args.tools) {
+    if (
+      !item ||
+      typeof item !== "object" ||
+      Array.isArray(item) ||
+      typeof item.tool_slug !== "string" ||
+      !/^[A-Z][A-Z0-9_]+$/i.test(item.tool_slug) ||
+      /^COMPOSIO_/i.test(item.tool_slug) ||
+      !objectArguments(item.arguments)
+    )
+      throw new Error("Composio execution requires explicit tool targets.");
+    gmail ||= /^GMAIL_/i.test(item.tool_slug);
+  }
+  return gmail;
+}
+
 function dropboxFolderListCall(item: unknown): ComposioExecutionCall | undefined {
   if (!item || typeof item !== "object" || Array.isArray(item)) return undefined;
   const record = item as Record<string, unknown>;
@@ -221,7 +254,7 @@ function dropboxFolderListCall(item: unknown): ComposioExecutionCall | undefined
 function objectArguments(value: unknown): Record<string, unknown> | undefined {
   if (typeof value === "string") {
     const trimmed = value.trim();
-    if (!trimmed) return {};
+    if (!trimmed) return undefined;
     try {
       const parsed = JSON.parse(trimmed) as unknown;
       if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) {
@@ -235,7 +268,7 @@ function objectArguments(value: unknown): Record<string, unknown> | undefined {
   if (value && typeof value === "object" && !Array.isArray(value)) {
     return { ...(value as Record<string, unknown>) };
   }
-  return {};
+  return value === undefined ? {} : undefined;
 }
 
 function nonEmptyPath(value: unknown): string | undefined {
@@ -336,10 +369,23 @@ export function planLiveConnectionSync(
 export class ComposioConnector implements ComposioProvider {
   private client: ComposioClient | undefined;
   private readonly apiKey: string | undefined;
+  private readonly authConfigs: Readonly<Record<string, string>>;
   /** An injected client has its own catalog, so it must not share the process-wide cache. */
   private readonly directoryCache: typeof composioToolkitDirectory;
 
-  constructor(options: { apiKey?: string; client?: ComposioClient } = {}) {
+  constructor(
+    options: {
+      apiKey?: string;
+      client?: ComposioClient;
+      authConfigs?: Record<string, string>;
+    } = {},
+  ) {
+    const bindings = IntegrationAuthConfigsSchema.parse(options.authConfigs ?? {});
+    this.authConfigs = Object.freeze(
+      Object.fromEntries(
+        Object.entries(bindings).map(([toolkit, id]) => [composioSlugKey(toolkit), id]),
+      ),
+    );
     this.apiKey = options.apiKey;
     this.client = options.client;
     this.directoryCache = options.client ? createToolkitDirectoryCache() : composioToolkitDirectory;
@@ -367,6 +413,7 @@ export class ComposioConnector implements ComposioProvider {
       }
     }
     const session = await composio.create(userId, {
+      ...(Object.keys(this.authConfigs).length ? { authConfigs: { ...this.authConfigs } } : {}),
       manageConnections: false,
       sandbox: { enable: false },
     });
@@ -382,13 +429,23 @@ export class ComposioConnector implements ComposioProvider {
   private async sessionForExecute(
     userId: string,
     connections: ConnectedConnector[],
-  ): Promise<{ session?: ComposioSession; reconnect: string[] }> {
+  ): Promise<{ session?: ComposioSession; reconnect: string[]; gmailPins?: Set<string> }> {
     const requested = await this.canonicalizeToolkits(
       connections.map((connection) => connection.externalId),
     );
     const canonicalByKey = new Map(requested.map((toolkit) => [composioSlugKey(toolkit), toolkit]));
-    const liveAccountIds = await this.listActiveAccountIds(userId, requested);
-    const pinnedToolkits = new Set<string>();
+    const gmail = requested.find((toolkit) => composioSlugKey(toolkit) === "gmail");
+    let gmailAccounts = new Set<string>();
+    if (gmail) {
+      try {
+        gmailAccounts = new Set(await this.gmailActiveAccountIds(userId));
+      } catch {
+        /* Gmail stays unavailable; other apps keep their existing behavior. */
+      }
+    }
+    const others = requested.filter((toolkit) => composioSlugKey(toolkit) !== "gmail");
+    const liveAccountIds = others.length ? await this.listActiveAccountIds(userId, others) : null;
+    const pinnedToolkits = new Set<string>(gmail ? [gmail] : []);
     const accountIdsByToolkit = new Map<string, Set<string>>();
     for (const connection of connections) {
       const accountId = connection.providerRef?.trim();
@@ -401,7 +458,9 @@ export class ComposioConnector implements ComposioProvider {
       pinnedToolkits.add(toolkit);
       // Drop refs the provider no longer lists as ACTIVE so a revoked sibling
       // with a deleted account cannot fail the whole tool-router session.
-      if (liveAccountIds && !liveAccountIds.has(accountId)) continue;
+      if (composioSlugKey(toolkit) === "gmail") {
+        if (!gmailAccounts.has(accountId)) continue;
+      } else if (liveAccountIds && !liveAccountIds.has(accountId)) continue;
       const ids = accountIdsByToolkit.get(toolkit) ?? new Set<string>();
       ids.add(accountId);
       accountIdsByToolkit.set(toolkit, ids);
@@ -423,7 +482,11 @@ export class ComposioConnector implements ComposioProvider {
     const existing = this.executeSessions.get(userId);
     if (existing?.key === key) {
       try {
-        return { session: await composio.sessions.use(existing.sessionId), reconnect };
+        return {
+          session: await composio.sessions.use(existing.sessionId),
+          reconnect,
+          gmailPins: accountIdsByToolkit.get(gmail ?? ""),
+        };
       } catch {
         this.executeSessions.delete(userId);
       }
@@ -433,6 +496,7 @@ export class ComposioConnector implements ComposioProvider {
     // execute paths that do not pass an account parameter.
     const needsMultiAccount = Object.values(connectedAccounts).some((ids) => ids.length >= 2);
     const session = await composio.create(userId, {
+      ...(Object.keys(this.authConfigs).length ? { authConfigs: { ...this.authConfigs } } : {}),
       manageConnections: false,
       sandbox: { enable: false },
       toolkits,
@@ -448,7 +512,7 @@ export class ComposioConnector implements ComposioProvider {
         : {}),
     });
     this.executeSessions.set(userId, { sessionId: session.sessionId, key });
-    return { session, reconnect };
+    return { session, reconnect, gmailPins: accountIdsByToolkit.get(gmail ?? "") };
   }
 
   async catalog(context: AdapterContext, query?: string): Promise<ConnectorCatalogItem[]> {
@@ -456,9 +520,15 @@ export class ComposioConnector implements ComposioProvider {
       this.directory(),
       this.listConnectedSlugs(context.userId),
     ]);
-    return filterCatalog(mergeCatalogWithConnected(directory, connected), query ?? "").map(
-      (item) => ({ ...item, connectorId: "composio" }),
-    );
+    return filterCatalog(
+      mergeCatalogWithConnected(
+        directory.filter(
+          (item) => composioSlugKey(item.slug) !== "gmail" || Boolean(this.authConfigs.gmail),
+        ),
+        connected,
+      ),
+      query ?? "",
+    ).map((item) => ({ ...item, connectorId: "composio" }));
   }
 
   async warmDirectory(): Promise<void> {
@@ -499,9 +569,25 @@ export class ComposioConnector implements ComposioProvider {
     const connected = await collectPages((cursor) =>
       session.toolkits({ isConnected: true, limit: 50, cursor }),
     );
-    return connected
-      .filter((toolkit) => toolkit.connection?.isActive || toolkit.isNoAuth)
+    const slugs = connected
+      .filter(
+        (toolkit) =>
+          composioSlugKey(toolkit.slug) !== "gmail" &&
+          (toolkit.connection?.isActive || toolkit.isNoAuth),
+      )
       .map((toolkit) => toolkit.slug);
+    if (
+      connected.some((toolkit) => composioSlugKey(toolkit.slug) === "gmail") &&
+      this.authConfigs.gmail
+    ) {
+      try {
+        if ((await this.gmailActiveAccountIds(userId)).length)
+          slugs.push(connected.find((toolkit) => composioSlugKey(toolkit.slug) === "gmail")!.slug);
+      } catch {
+        /* No unverified Gmail readiness. */
+      }
+    }
+    return slugs;
   }
 
   async listConnectedExternalIds(context: AdapterContext): Promise<string[]> {
@@ -512,18 +598,49 @@ export class ComposioConnector implements ComposioProvider {
     return this.accountIds(context.userId, [], RECONNECT_STATUSES, { signal: context.signal });
   }
 
+  private gmailRoute(context: AdapterContext) {
+    const pins = connectedComposioConnections(context)
+      .filter((connection) => composioSlugKey(connection.externalId) === "gmail")
+      .map((connection) => [connection.id, connection.providerRef ?? ""])
+      .sort(([a], [b]) => String(a).localeCompare(String(b)));
+    return {
+      resourceId: `gmail-${credentialDigest(JSON.stringify(pins))}`,
+      resourceRevision: credentialDigest(
+        JSON.stringify([this.apiKey ?? null, this.requireGmailBinding()]),
+      ),
+    };
+  }
+
   async discoverTools(context: AdapterContext): Promise<ConnectorTool[]> {
     const connections = connectedComposioConnections(context);
     if (connections.length === 0) return [];
     const { session } = await this.sessionForExecute(context.userId, connections);
     if (!session) return [];
-    return asConnectorTools(await session.tools());
+    const tools = asConnectorTools(await session.tools());
+    return tools.map((tool) => {
+      if (
+        this.authConfigs.gmail &&
+        connections.some((connection) => composioSlugKey(connection.externalId) === "gmail") &&
+        (/^GMAIL_/i.test(tool.name) || tool.name === COMPOSIO_MULTI_EXECUTE_TOOL)
+      )
+        return { ...tool, route: { ...tool.route!, ...this.gmailRoute(context) } };
+      return tool;
+    });
   }
 
   async *execute(call: ConnectorCall, context: AdapterContext): AsyncIterable<ConnectorEvent> {
     const executed = [];
     try {
-      const { session, reconnect } = await this.sessionForExecute(
+      // Validate even legacy/internal replays before metadata or operation transport.
+      const gmailCall = composioGmailApprovalRequired({
+        ...call,
+        route: { ...call.route, connectorId: "composio", toolName: call.tool },
+      });
+      if (gmailCall && (!call.route?.resourceId || !call.route.resourceRevision)) {
+        yield { type: "error", message: "Gmail execution requires an account-bound tool route." };
+        return;
+      }
+      const { session, reconnect, gmailPins } = await this.sessionForExecute(
         context.userId,
         connectedComposioConnections(context),
       );
@@ -539,12 +656,52 @@ export class ComposioConnector implements ComposioProvider {
         yield { type: "error", message: "No active Composio connection for this tool." };
         return;
       }
+      if (callUsesToolkit(call, "gmail")) {
+        const route = this.gmailRoute(context);
+        if (
+          call.route?.resourceId !== route.resourceId ||
+          call.route?.resourceRevision !== route.resourceRevision
+        ) {
+          yield { type: "error", message: "Gmail connection changed; request approval again." };
+          return;
+        }
+        const selectors = [
+          call.args.account,
+          ...(Array.isArray(call.args.tools)
+            ? call.args.tools
+                .filter(
+                  (item) =>
+                    item &&
+                    typeof item === "object" &&
+                    typeof item.tool_slug === "string" &&
+                    item.tool_slug.toUpperCase().startsWith("GMAIL_"),
+                )
+                .map((item) => item.account)
+            : []),
+        ];
+        if (
+          selectors.some(
+            (account) =>
+              account !== undefined && (typeof account !== "string" || !gmailPins?.has(account)),
+          )
+        ) {
+          yield {
+            type: "error",
+            message: "Gmail account does not match an active configured connection.",
+          };
+          return;
+        }
+      }
       const planned = expandComposioMultiExecute(call.tool, call.args ?? {});
       for (const item of planned) {
         const result = await session.execute(
           item.tool,
           item.args,
-          item.account ? { account: item.account } : undefined,
+          item.account
+            ? { account: item.account }
+            : /^GMAIL_/i.test(item.tool) && typeof item.args.account === "string"
+              ? { account: item.args.account }
+              : undefined,
         );
         if (result.error) {
           const logIds = collectLogIds(executed);
@@ -585,6 +742,7 @@ export class ComposioConnector implements ComposioProvider {
     request: { provider: string; redirectUrl: string },
     context: AdapterContext,
   ): Promise<{ authorizationUrl: string | null; state: string }> {
+    if (composioSlugKey(request.provider) === "gmail") this.requireGmailBinding();
     const session = await this.sessionFor(context.userId);
     try {
       const connectionRequest = await session.authorize(request.provider, {
@@ -610,6 +768,8 @@ export class ComposioConnector implements ComposioProvider {
   }
 
   async connectionReady(context: AdapterContext, slug: string): Promise<boolean> {
+    if (composioSlugKey(slug) === "gmail")
+      return (await this.gmailActiveAccountIds(context.userId)).length > 0;
     const session = await this.sessionFor(context.userId);
     const page = await session.toolkits({ search: slug, limit: 50 });
     const match = page.items.find((item) => composioSlugKey(item.slug) === composioSlugKey(slug));
@@ -681,11 +841,55 @@ export class ComposioConnector implements ComposioProvider {
     }
   }
 
+  private requireGmailBinding() {
+    const id = this.authConfigs.gmail;
+    if (!id) throw new Error("Gmail requires an operator-configured authentication binding.");
+    return id;
+  }
+
+  private async gmailActiveAccountIds(
+    userId: string,
+    requestOptions?: { signal?: AbortSignal },
+  ): Promise<string[]> {
+    const authConfigId = this.requireGmailBinding();
+    const accounts = await collectPages(async (cursor) => {
+      const page = await this.sdk().connectedAccounts.list(
+        {
+          userIds: [userId],
+          toolkitSlugs: ["gmail"],
+          authConfigIds: [authConfigId],
+          statuses: ["ACTIVE"],
+          ...(cursor ? { cursor } : {}),
+        },
+        requestOptions,
+      );
+      return { items: page.items ?? [], cursor: page.nextCursor ?? undefined };
+    }, MAX_ACCOUNT_PAGES);
+    if (
+      accounts.some(
+        (account) =>
+          !account.id ||
+          account.status !== "ACTIVE" ||
+          account.isDisabled !== false ||
+          account.authConfig?.id !== authConfigId ||
+          account.authConfig.isDisabled !== false ||
+          composioSlugKey(account.toolkit?.slug ?? "") !== "gmail",
+      )
+    ) {
+      throw new Error(
+        "Gmail account metadata does not match the configured authentication binding.",
+      );
+    }
+    return accounts.map((account) => account.id);
+  }
+
   async listConnectedAccountIds(
     userId: string,
     slug: string,
     requestOptions?: { signal?: AbortSignal },
   ): Promise<string[]> {
+    if (composioSlugKey(slug) === "gmail")
+      return this.gmailActiveAccountIds(userId, requestOptions);
     try {
       const ids = await this.accountIds(userId, [slug], ["ACTIVE"], requestOptions);
       if (ids.length > 0) return ids;
@@ -768,7 +972,14 @@ export class ComposioConnector implements ComposioProvider {
     if (current && composioSlugKey(current) !== slugKey) {
       try {
         const account = await this.sdk().connectedAccounts.waitForConnection(current, 20_000);
-        if (account?.id && !excluded.has(account.id)) return account.id;
+        if (account?.id && !excluded.has(account.id)) {
+          if (
+            slugKey === "gmail" &&
+            !(await this.gmailActiveAccountIds(userId)).includes(account.id)
+          )
+            return undefined;
+          return account.id;
+        }
       } catch {
         // Request id could not be resolved. Do not fall back to another connected
         // account — that can attach a sibling's remote identity to this row.

@@ -2,6 +2,7 @@ import type {
   AgentRunRequest,
   AutoReviewProvider,
   ConnectorCall,
+  ConnectorProvider,
   ConnectorTool,
 } from "@rakazo/adapter-kit";
 import { MEMORY_REVISION_CONFLICT_ERROR } from "@rakazo/adapter-kit";
@@ -13,6 +14,8 @@ import { createPendingSteeringRun, sendUserMessage } from "@rakazo/db";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { isApprovalPausedResult } from "./approval-effect.js";
 import { MAX_SHARED_MEMORY_CHARS } from "./builtin-tools.js";
+import type { ComposioClient } from "./composio-connector.js";
+import { ComposioConnector, ConnectorRegistry } from "./composio-connector.js";
 import type * as ComputerLifecycleModule from "./computer-lifecycle.js";
 import { createRunExecutor } from "./executor.js";
 import { FakeWebProvider } from "./fake-web.js";
@@ -56,11 +59,15 @@ type Effect = {
   result?: unknown;
   reviewDecision?: string;
   runId?: string;
+  userId?: string;
+  spaceId?: string;
 };
 
 function fixture({
   name = "demo_get_item",
   catalog = false,
+  connectorId = "demo",
+  connectorOverride,
   readOnly = true,
   rules = [] as ActionApprovalRule[],
   autoReview = false,
@@ -105,6 +112,8 @@ function fixture({
   advanceRevisionAfterRead?: boolean;
   name?: string;
   catalog?: boolean;
+  connectorId?: string;
+  connectorOverride?: ConnectorProvider;
   readOnly?: boolean;
   rules?: ActionApprovalRule[];
   autoReview?: boolean;
@@ -124,7 +133,12 @@ function fixture({
       properties: { id: { type: "string" } },
       required: ["id"],
     },
-    route: { connectorId: "demo", resourceId: "resource-1", toolName: name },
+    route: {
+      connectorId,
+      resourceId: "resource-1",
+      toolName: name,
+      ...(connectorId === "composio" ? { resourceRevision: "synthetic-gmail-binding" } : {}),
+    },
   };
   const effects: Effect[] = [];
   const results: unknown[] = [];
@@ -337,7 +351,7 @@ function fixture({
       const result = call.name
         ? await request.executeTool!(call.name, call.args, call.executionId)
         : await request.executeTool!(
-            catalog ? "demo_execute_tool" : name,
+            catalog ? `${connectorId}_execute_tool` : name,
             catalog ? { id: `resource-1:${name}`, arguments: call.args } : call.args,
             call.executionId,
           );
@@ -359,17 +373,17 @@ function fixture({
     deploymentModelKey: "fixture-model-key",
     prisma: transactionalPrisma,
     runtime: { describe: () => ({ capabilities: { scripted: false } }), run: runtimeRun },
-    connector: {
+    connector: connectorOverride ?? {
       discoverTools: async () =>
         builtin
           ? []
           : catalog
             ? [
                 {
-                  name: "demo_execute_tool",
+                  name: `${connectorId}_execute_tool`,
                   description: "Execute a catalog tool",
                   inputSchema: { type: "object" },
-                  route: { connectorId: "demo", toolName: "__catalog_execute" },
+                  route: { connectorId, toolName: "__catalog_execute" },
                 },
               ]
             : secondResource
@@ -430,6 +444,8 @@ function fixture({
   } as unknown as Parameters<typeof createRunExecutor>[0]);
   return {
     effects,
+    externalEffect,
+    tool,
     web,
     fetchedUrls,
     fleetBots,
@@ -1820,5 +1836,472 @@ describe("Auto Review of new sites", () => {
         error: "Fetching attacker.test needs approval, and a webhook run cannot ask.",
       });
     });
+  });
+});
+
+describe("Composio Gmail mandatory approval floor", () => {
+  beforeEach(() => {
+    reviewMock.mockReset();
+    reviewMock.mockResolvedValue({ decision: "pass", reason: "synthetic pass" });
+  });
+  for (const catalog of [false, true]) {
+    for (const name of ["GMAIL_GET_MESSAGE", "COMPOSIO_MULTI_EXECUTE_TOOL"]) {
+      it(`requires human Gmail approval before ${catalog ? "lazy" : "direct"} ${name} with empty cached rules and confirm`, async () => {
+        const f = fixture({ name, connectorId: "composio", catalog, autoReview: true });
+        const args =
+          name === "GMAIL_GET_MESSAGE"
+            ? { id: "original", confirm: true }
+            : {
+                id: "original",
+                tools: [
+                  {
+                    tool_slug: "GMAIL_SEND_EMAIL",
+                    arguments: { to: "synthetic@example.test", confirm: true },
+                  },
+                  { tool_slug: "GITHUB_GET_REPOS", arguments: {} },
+                ],
+              };
+        f.setCalls([{ args, executionId: "gmail-1" }]);
+        await f.run();
+        expect(f.execute).not.toHaveBeenCalled();
+        expect(f.pauseRunForInput).toHaveBeenCalledOnce();
+        expect(reviewMock).not.toHaveBeenCalled();
+        expect(f.effects).toHaveLength(1);
+        f.effects[0]!.status = "approved";
+        f.setCalls([
+          {
+            args: {
+              id: "substituted",
+              tools: [{ tool_slug: "GMAIL_SEND_EMAIL", arguments: { to: "other@example.test" } }],
+            },
+            executionId: "gmail-2",
+          },
+        ]);
+        await f.run();
+        expect(f.execute).toHaveBeenCalledOnce();
+        expect(f.execute.mock.calls[0]![0].args).toEqual(args);
+        f.setCalls([{ args, executionId: "gmail-3" }]);
+        await f.run();
+        expect(f.execute).toHaveBeenCalledOnce();
+        expect(f.results.at(-1)).toEqual({ item: "original" });
+      });
+    }
+    it(`preserves Gmail denial on ${catalog ? "lazy" : "direct"} dispatch`, async () => {
+      const f = fixture({
+        name: "GMAIL_GET_MESSAGE",
+        connectorId: "composio",
+        catalog,
+        autoReview: true,
+      });
+      f.setCalls([{ args: { id: "item-1", confirm: true }, executionId: "deny-first" }]);
+      await f.run();
+      expect(f.effects).toHaveLength(1);
+      f.effects[0]!.status = "denied";
+      f.setCalls([{ args: { id: "item-1", confirm: true }, executionId: "denied-retry" }]);
+      await f.run();
+      expect(f.execute).not.toHaveBeenCalled();
+      expect(f.results.at(-1)).toMatchObject({ error: expect.stringContaining("denied") });
+    });
+  }
+  it("leaves unrelated Composio reads and namespace collisions ordinary", async () => {
+    for (const [connectorId, name] of [
+      ["composio", "GITHUB_GET_REPOS"],
+      ["demo", "GMAIL_GET_MESSAGE"],
+    ]) {
+      const f = fixture({ connectorId, name, autoReview: true });
+      await f.run();
+      expect(f.execute).toHaveBeenCalledOnce();
+      expect(f.pauseRunForInput).not.toHaveBeenCalled();
+    }
+  });
+  it.each([
+    {},
+    { tools: "opaque-gmail-target" },
+    {
+      tools: [
+        {
+          tool_slug: "COMPOSIO_MULTI_EXECUTE_TOOL",
+          arguments: { tools: [{ tool_slug: "GMAIL_SEND_EMAIL", arguments: {} }] },
+        },
+      ],
+    },
+  ])("refuses opaque nested execution before effects or transport: %j", async (args) => {
+    const f = fixture({
+      connectorId: "composio",
+      name: "COMPOSIO_MULTI_EXECUTE_TOOL",
+      autoReview: true,
+    });
+    f.setCalls([{ args: { id: "original", ...args }, executionId: "opaque" }]);
+    await f.run();
+    expect(f.execute).not.toHaveBeenCalled();
+    expect(f.effects).toHaveLength(0);
+    expect(f.results.at(-1)).toMatchObject({
+      error: expect.stringContaining("explicit tool targets"),
+    });
+  });
+  it("does not broaden Gmail approval to metadata discovery or unrelated multi-execute", async () => {
+    for (const name of ["COMPOSIO_SEARCH_TOOLS", "COMPOSIO_MULTI_EXECUTE_TOOL"]) {
+      const f = fixture({ connectorId: "composio", name, autoReview: true });
+      f.setCalls([
+        {
+          args: { id: "metadata", tools: [{ tool_slug: "GITHUB_GET_REPOS", arguments: {} }] },
+          executionId: "other-app",
+        },
+      ]);
+      await f.run();
+      expect(f.execute).toHaveBeenCalledOnce();
+      expect(f.pauseRunForInput).not.toHaveBeenCalled();
+    }
+  });
+  it("ignores an always-allow rule and mutable read-only hint for Gmail", async () => {
+    const f = fixture({
+      connectorId: "composio",
+      name: "GMAIL_GET_MESSAGE",
+      readOnly: true,
+      autoReview: true,
+      rules: [{ effect: "always_allow", matchKind: "tool", matchValue: "GMAIL_GET_MESSAGE" }],
+    });
+    await f.run();
+    expect(f.execute).not.toHaveBeenCalled();
+    expect(f.pauseRunForInput).toHaveBeenCalledOnce();
+    expect(reviewMock).not.toHaveBeenCalled();
+  });
+  it("enforces Gmail in an already-running attempt after rules were cached empty", async () => {
+    const rules: ActionApprovalRule[] = [];
+    const f = fixture({
+      connectorId: "composio",
+      name: "GMAIL_GET_MESSAGE",
+      secondResource: true,
+      autoReview: true,
+      rules,
+    });
+    f.setCalls([
+      { name: "demo_get_other", args: { id: "warm-rules" }, executionId: "warm" },
+      { args: { id: "gmail", confirm: true }, executionId: "gmail" },
+    ]);
+    await f.run();
+    expect(f.execute.mock.calls.map(([call]) => call.tool)).toEqual(["demo_get_other"]);
+    expect(f.pauseRunForInput).toHaveBeenCalledOnce();
+    expect(reviewMock).not.toHaveBeenCalled();
+  });
+  it("refuses native target substitution before dispatching an approved Gmail effect", async () => {
+    const f = fixture({ connectorId: "composio", name: "GMAIL_GET_MESSAGE" });
+    await f.run();
+    f.effects[0]!.status = "approved";
+    f.tool.route!.resourceRevision = "changed-native-account";
+    f.setCalls([{ args: { id: "item-1" }, executionId: "cancelled-lease-replay" }]);
+    await f.run(true);
+    expect(f.execute).not.toHaveBeenCalled();
+    expect(f.results.at(-1)).toMatchObject({
+      error: expect.stringContaining("different connector resource"),
+    });
+  });
+  it("cancels Gmail before an approved replay can dispatch", async () => {
+    const stop = new AbortController();
+    const f = fixture({
+      connectorId: "composio",
+      name: "GMAIL_GET_MESSAGE",
+      shutdownSignal: stop.signal,
+    });
+    await f.run();
+    f.effects[0]!.status = "approved";
+    stop.abort();
+    f.setCalls([{ args: { id: "item-1" }, executionId: "cancelled-replay" }]);
+    await f.run(true);
+    expect(f.execute).not.toHaveBeenCalled();
+  });
+});
+
+/** Real connector + registry with only the remote SDK peer synthetic. */
+function gmailNamespace(auth: string, account: string, direct = false) {
+  const executions: Array<{
+    tool: string;
+    args: Record<string, unknown>;
+    config: Record<string, unknown>;
+  }> = [];
+  const sessions = new Map();
+  const context = {
+    operationId: "offline",
+    traceId: "offline",
+    userId: "user-1",
+    spaceId: "space-1",
+    signal: new AbortController().signal,
+    connectedConnections: [
+      {
+        id: `native-${account}`,
+        connectorId: "composio",
+        externalId: "gmail",
+        providerRef: account,
+        displayName: "Synthetic",
+      },
+    ],
+  };
+  const client = {
+    create: async (_user: string, config: Record<string, unknown>) => {
+      const sessionId = String(sessions.size + 1);
+      const session = {
+        sessionId,
+        toolkits: async () => ({ items: [{ slug: "gmail", name: "Gmail" }] }),
+        tools: async () => [
+          {
+            name: direct ? "GMAIL_GET_MESSAGE" : "COMPOSIO_MULTI_EXECUTE_TOOL",
+            parameters: {
+              type: "object",
+              properties: { id: { type: "string" } },
+              required: ["id"],
+            },
+          },
+        ],
+        execute: async (tool: string, args: Record<string, unknown>) => {
+          executions.push({ tool, args, config });
+          return { data: { result: "synthetic" }, error: null };
+        },
+        authorize: async () => ({ id: account }),
+      };
+      sessions.set(sessionId, session);
+      return session;
+    },
+    sessions: { use: async (id: string) => sessions.get(id) },
+    connectedAccounts: {
+      list: async () => ({
+        items: [
+          {
+            id: account,
+            status: "ACTIVE",
+            isDisabled: false,
+            toolkit: { slug: "gmail" },
+            authConfig: { id: auth, isDisabled: false },
+          },
+        ],
+      }),
+      waitForConnection: async () => ({ id: account }),
+      delete: async () => undefined,
+    },
+  } as unknown as ComposioClient;
+  const connector = new ComposioConnector({ client, authConfigs: { gmail: auth } });
+  return { connector, context, executions };
+}
+
+function gmailDispatch(initial: ReturnType<typeof gmailNamespace>) {
+  let active = initial;
+  const registry = new ConnectorRegistry([initial.connector]);
+  vi.spyOn(registry, "discoverTools").mockImplementation(() =>
+    active.connector.discoverTools(active.context),
+  );
+  vi.spyOn(registry, "execute").mockImplementation((call) =>
+    active.connector.execute(call, active.context),
+  );
+  return {
+    registry,
+    replace(next: typeof initial) {
+      active = next;
+    },
+  };
+}
+
+describe("Gmail SPEC approval persistence and real-connector replay", () => {
+  it.each([
+    { label: "account", auth: "auth-old", account: "account-new" },
+    { label: "auth config", auth: "auth-new", account: "account-old" },
+    { label: "account and auth config", auth: "auth-new", account: "account-new" },
+  ])(
+    "never persists or retargets hidden unbound Gmail approval after $label replacement",
+    async ({ auth, account }) => {
+      const original = gmailNamespace("auth-old", "account-old"),
+        changed = gmailNamespace(auth, account);
+      const dispatch = gmailDispatch(original);
+      const f = fixture({ name: "GMAIL_GET_MESSAGE", connectorOverride: dispatch.registry });
+      const args = { id: "exact-approved-message" };
+      f.setCalls([{ name: "GMAIL_GET_MESSAGE", args, executionId: "hidden-1" }]);
+      await f.run();
+      const persisted = f.effects[0];
+      if (persisted) {
+        persisted.status = "approved";
+        dispatch.replace(changed);
+        f.setCalls([
+          {
+            name: "GMAIL_GET_MESSAGE",
+            args: { id: "model-reconstruction" },
+            executionId: "hidden-replay",
+          },
+        ]);
+        await f.run(true);
+      }
+      expect(changed.executions).toEqual([]);
+      expect(original.executions).toEqual([]);
+      expect(f.effects).toHaveLength(0);
+    },
+  );
+  it.each([false, true])(
+    "refuses legacy raw hidden approvals even when current discovery is bound: %s",
+    async (direct) => {
+      const changed = gmailNamespace("auth-new", "account-new", direct),
+        dispatch = gmailDispatch(changed);
+      const f = fixture({ name: "GMAIL_GET_MESSAGE", connectorOverride: dispatch.registry });
+      const args = { id: "legacy-approved-message" };
+      f.effects.push({
+        id: "legacy",
+        userId: "user-1",
+        spaceId: "space-1",
+        kind: "GMAIL_GET_MESSAGE",
+        idempotencyKey: approvalEffectKey("run-1", "GMAIL_GET_MESSAGE", args),
+        status: "approved",
+        request: args,
+        runId: "run-1",
+      });
+      f.setCalls([{ name: "GMAIL_GET_MESSAGE", args, executionId: "legacy-replay" }]);
+      await f.run(true);
+      expect(changed.executions).toEqual([]);
+    },
+  );
+  it.each([false, true])(
+    "preserves real bound %s direct/mixed approved arguments and completed-result retry",
+    async (direct) => {
+      const original = gmailNamespace("auth-original", "account-original", direct),
+        dispatch = gmailDispatch(original);
+      const name = direct ? "GMAIL_GET_MESSAGE" : "COMPOSIO_MULTI_EXECUTE_TOOL";
+      const f = fixture({ name, connectorOverride: dispatch.registry });
+      const args = direct
+        ? { id: "original" }
+        : {
+            id: "original",
+            tools: [
+              { tool_slug: "GMAIL_GET_MESSAGE", arguments: { id: "original" } },
+              { tool_slug: "GITHUB_GET_REPOS", arguments: {} },
+            ],
+          };
+      f.setCalls([{ name, args, executionId: "bound-1" }]);
+      await f.run();
+      expect(f.effects).toHaveLength(1);
+      expect(Array.isArray(f.effects[0]!.request)).toBe(true);
+      f.effects[0]!.status = "approved";
+      f.setCalls([{ name, args: { ...args, id: "substituted" }, executionId: "bound-2" }]);
+      await f.run();
+      expect(original.executions).toHaveLength(1);
+      expect(original.executions[0]!.args).toEqual(args);
+      f.setCalls([{ name, args, executionId: "bound-3" }]);
+      await f.run();
+      expect(original.executions).toHaveLength(1);
+    },
+  );
+  it.each([7, true, [], null, "invalid-json", "", "[]", "null"].map((value) => ({ value })))(
+    "refuses malformed executable child %j before native approval/effects",
+    async ({ value: argumentsValue }) => {
+      const f = fixture({ connectorId: "composio", name: "COMPOSIO_MULTI_EXECUTE_TOOL" });
+      f.setCalls([
+        {
+          args: {
+            id: "shape",
+            tools: [{ tool_slug: "GMAIL_GET_MESSAGE", arguments: argumentsValue }],
+          },
+          executionId: "shape",
+        },
+      ]);
+      await f.run();
+      expect(f.effects).toHaveLength(0);
+      expect(f.execute).not.toHaveBeenCalled();
+      expect(f.results.at(-1)).toMatchObject({
+        error: expect.stringContaining("explicit tool targets"),
+      });
+    },
+  );
+  it.each([{}, '{"id":"valid-object"}', undefined].map((value) => ({ value })))(
+    "preserves supported child-object form %j through approval and replay",
+    async ({ value }) => {
+      const f = fixture({ connectorId: "composio", name: "COMPOSIO_MULTI_EXECUTE_TOOL" });
+      const args = {
+        id: "valid",
+        tools: [
+          { tool_slug: "GMAIL_GET_MESSAGE", ...(value === undefined ? {} : { arguments: value }) },
+        ],
+      };
+      f.setCalls([{ args, executionId: "valid-1" }]);
+      await f.run();
+      expect(f.execute).not.toHaveBeenCalled();
+      expect(f.effects).toHaveLength(1);
+      f.effects[0]!.status = "approved";
+      f.setCalls([{ args, executionId: "valid-2" }]);
+      await f.run();
+      expect(f.execute).toHaveBeenCalledOnce();
+      expect(f.execute.mock.calls[0]![0].args).toEqual(args);
+    },
+  );
+});
+
+describe("Gmail replay FIFO authorization order", () => {
+  it.each([
+    { label: "account", auth: "auth-old", account: "account-new", parallel: false },
+    { label: "auth config", auth: "auth-new", account: "account-old", parallel: false },
+    { label: "both", auth: "auth-new", account: "account-new", parallel: false },
+    { label: "concurrent account", auth: "auth-old", account: "account-new", parallel: true },
+    { label: "concurrent auth config", auth: "auth-new", account: "account-old", parallel: true },
+    { label: "concurrent both", auth: "auth-new", account: "account-new", parallel: true },
+  ])(
+    "keeps refused legacy approval pending across repeated $label calls in one attempt",
+    async ({ auth, account, parallel }) => {
+      const changed = gmailNamespace(auth, account, true),
+        dispatch = gmailDispatch(changed);
+      const f = fixture({
+        name: "GMAIL_GET_MESSAGE",
+        connectorOverride: dispatch.registry,
+        parallelCalls: parallel,
+      });
+      const args = { id: "legacy-approved-message" };
+      const legacy: Effect = {
+        id: "legacy-order",
+        userId: "user-1",
+        spaceId: "space-1",
+        kind: "GMAIL_GET_MESSAGE",
+        idempotencyKey: approvalEffectKey("run-1", "GMAIL_GET_MESSAGE", args),
+        status: "approved",
+        request: args,
+        runId: "run-1",
+      };
+      f.effects.push(legacy);
+      f.setCalls(
+        ["first", "second", "third"].map((executionId) => ({
+          name: "GMAIL_GET_MESSAGE",
+          args: { ...args },
+          executionId,
+        })),
+      );
+      await f.run(true);
+      expect(changed.executions).toEqual([]);
+      expect(f.results).toHaveLength(3);
+      for (const result of f.results)
+        expect(result).toMatchObject({
+          error: "Gmail execution requires an account-bound tool route.",
+        });
+      expect(f.effects).toEqual([legacy]);
+      expect(legacy.status).toBe("approved");
+      expect(legacy.request).toEqual(args);
+      expect(legacy.idempotencyKey).toBe(approvalEffectKey("run-1", "GMAIL_GET_MESSAGE", args));
+      expect(f.externalEffect.updateMany).not.toHaveBeenCalled();
+      expect(f.pauseRunForInput).not.toHaveBeenCalled();
+    },
+  );
+  it("preserves a legitimate bound replay and human-gates the next consequential occurrence", async () => {
+    const original = gmailNamespace("auth-original", "account-original", true),
+      dispatch = gmailDispatch(original);
+    const f = fixture({ name: "GMAIL_GET_MESSAGE", connectorOverride: dispatch.registry });
+    const args = { id: "exact-approved-message" };
+    f.setCalls([{ name: "GMAIL_GET_MESSAGE", args, executionId: "request" }]);
+    await f.run();
+    expect(f.effects).toHaveLength(1);
+    f.effects[0]!.status = "approved";
+    f.setCalls(
+      ["approved", "next-occurrence"].map((executionId) => ({
+        name: "GMAIL_GET_MESSAGE",
+        args: { ...args },
+        executionId,
+      })),
+    );
+    await f.run();
+    expect(original.executions).toHaveLength(1);
+    expect(original.executions[0]!.args).toEqual(args);
+    expect(f.effects).toHaveLength(2);
+    expect(f.effects[0]!.status).toBe("completed");
+    expect(f.effects[1]!.status).toBe("intended");
+    expect(f.pauseRunForInput).toHaveBeenCalled();
   });
 });

@@ -462,9 +462,20 @@ describe("composio tool mapping", () => {
     composioSdkState.sessions.clear();
     composioToolkitDirectory.invalidate();
     const restore = stubActiveAccounts(["ca-work"]);
+    composioSdkState.connectedAccounts.list = async () => ({
+      items: [
+        {
+          id: "ca-work",
+          status: "ACTIVE",
+          isDisabled: false,
+          toolkit: { slug: "gmail" },
+          authConfig: { id: "approved-auth", isDisabled: false },
+        },
+      ],
+    });
 
     try {
-      const connector = new ComposioConnector();
+      const connector = new ComposioConnector({ authConfigs: { gmail: "approved-auth" } });
       await connector.discoverTools({
         operationId: "composio-single-account",
         traceId: "composio-single-account",
@@ -485,6 +496,7 @@ describe("composio tool mapping", () => {
       expect(composioSdkState.created.at(-1)).toEqual({
         userId: "user-1",
         config: {
+          authConfigs: { gmail: "approved-auth" },
           manageConnections: false,
           sandbox: { enable: false },
           toolkits: ["GMAIL"],
@@ -695,11 +707,18 @@ describe("composio tool mapping", () => {
         tools: [{ tool_slug: "DROPBOX_LIST_FILES_IN_FOLDER", arguments: "{not-json" }],
       }),
     ).toThrow("Dropbox folder listing arguments must be a JSON object.");
-    expect(
+    expect(() =>
       expandComposioMultiExecute("COMPOSIO_MULTI_EXECUTE_TOOL", {
         tools: [{ tool_slug: "DROPBOX_LIST_FOLDERS", arguments: "" }],
       }),
-    ).toEqual([{ tool: "DROPBOX_LIST_FOLDERS", args: {} }]);
+    ).toThrow("Dropbox folder listing arguments must be a JSON object.");
+    for (const args of [{}, undefined]) {
+      expect(
+        expandComposioMultiExecute("COMPOSIO_MULTI_EXECUTE_TOOL", {
+          tools: [{ tool_slug: "DROPBOX_LIST_FOLDERS", arguments: args }],
+        }),
+      ).toEqual([{ tool: "DROPBOX_LIST_FOLDERS", args: {} }]);
+    }
   });
 
   it("keeps every execution log id when a batch is split", async () => {
@@ -849,7 +868,11 @@ describe("composio tool mapping", () => {
     const events: ConnectorEvent[] = [];
     try {
       for await (const event of connector.execute(
-        { tool: "COMPOSIO_MULTI_EXECUTE_TOOL", args: {}, executionId: "composio-batch-failure" },
+        {
+          tool: "COMPOSIO_MULTI_EXECUTE_TOOL",
+          args: { tools: [{ tool_slug: "GITHUB_GET_REPOS", arguments: {} }] },
+          executionId: "composio-batch-failure",
+        },
         context,
       )) {
         events.push(event);
@@ -947,7 +970,13 @@ describe("composio tool mapping", () => {
     composioSdkState.sessions.clear();
     composioToolkitDirectory.invalidate();
     composioSdkState.connectedAccounts.list = async () => ({
-      items: [{ id: "ca-personal" }, { id: "ca-work" }],
+      items: ["ca-personal", "ca-work"].map((id) => ({
+        id,
+        status: "ACTIVE",
+        isDisabled: false,
+        toolkit: { slug: "gmail" },
+        authConfig: { id: "approved-auth", isDisabled: false },
+      })),
     });
     composioSdkState.connectedAccounts.waitForConnection = async (id: string) => {
       if (id === "req-work") return { id: "ca-work" };
@@ -955,7 +984,7 @@ describe("composio tool mapping", () => {
       return { id: `resolved-${id}` };
     };
 
-    const connector = new ComposioConnector();
+    const connector = new ComposioConnector({ authConfigs: { gmail: "approved-auth" } });
     await expect(
       connector.resolveConnectedAccountId("user-1", "gmail", "req-work", ["ca-personal"]),
     ).resolves.toBe("ca-work");

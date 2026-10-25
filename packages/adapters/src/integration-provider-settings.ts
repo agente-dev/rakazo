@@ -40,7 +40,7 @@ export class IntegrationProviderSettings {
   private create(config: IntegrationProviderConfig): ManagedConnectorProvider {
     if (this.factory) return this.factory(config);
     return config.provider === "composio"
-      ? new ComposioConnector({ apiKey: config.apiKey })
+      ? new ComposioConnector({ apiKey: config.apiKey, authConfigs: config.authConfigs })
       : new PipedreamConnector({ ...config, identitySecret: this.identitySecret });
   }
 

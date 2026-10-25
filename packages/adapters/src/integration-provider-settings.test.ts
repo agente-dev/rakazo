@@ -62,6 +62,33 @@ describe("integration provider settings", () => {
       apiKey: "fake-replacement-key",
     });
   });
+  it("encrypts the auth map and invalidates worker settings when only the binding changes", async () => {
+    const f = fixture();
+    const worker = new IntegrationProviderSettings(
+      f.prisma as unknown as PrismaClient,
+      f.secrets,
+      "test-identity",
+      {},
+      f.factory,
+    );
+    await f.settings.save(
+      { provider: "composio", apiKey: "synthetic-key", authConfigs: { gmail: "auth-one" } },
+      context,
+    );
+    await worker.resolve("composio");
+    expect(f.factory).toHaveBeenLastCalledWith(
+      expect.objectContaining({ authConfigs: { gmail: "auth-one" } }),
+    );
+    expect(JSON.stringify([...f.rows.values()])).not.toContain("auth-one");
+    await f.settings.save(
+      { provider: "composio", apiKey: "synthetic-key", authConfigs: { gmail: "auth-two" } },
+      context,
+    );
+    await worker.resolve("composio");
+    expect(f.factory).toHaveBeenLastCalledWith(
+      expect.objectContaining({ authConfigs: { gmail: "auth-two" } }),
+    );
+  });
   it("preserves working settings and hides provider error details on failed verification", async () => {
     const f = fixture();
     await f.settings.save({ provider: "composio", apiKey: "fake-working-key" }, context);
